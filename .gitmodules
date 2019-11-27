@@ -1,0 +1,12 @@
+[submodule "src/view/pages/finance"]
+	path = src/view/pages/finance
+	url = http://47.96.177.138:8084/gitblit/r/finance-public.git
+[submodule "src/view/pages/aircraft"]
+	path = src/view/pages/aircraft
+	url = http://47.96.177.138:8084/gitblit/r/aircraft-public.git
+[submodule "src/view/www"]
+	path = src/view/www
+	url = http://47.96.177.138:8084/gitblit/r/www-public.git
+[submodule "src/view/pages/iExport"]
+	path = src/view/pages/iExport
+	url = http://47.96.177.138:8084/gitblit/r/iexport-public.git

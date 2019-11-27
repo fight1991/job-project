@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!--告诉浏览器网页的关键字-->
+    <meta name="keywords"content="我们是智慧关务软件  CCBA">
+    <!--告诉浏览器网页的内容-->
+    <meta name="description"content="我们是智慧关务软件  CCBA">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>CCBA • 智慧通关服务平台</title>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=qFHHVG13nGc25bOu8bOw6mIyWsQo78q8&s=1"></script>
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+    <script src="https://gallery.echartsjs.com/dep/echarts/map/js/china.js"></script>
+    <script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/extension/bmap.js"></script>
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/vuex/3.1.0/vuex.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue-router/3.0.2/vue-router.min.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+    (function() {
+        var getQueryString = function(name) {
+          var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+          var r = window.location.search.substr(1).match(reg)
+          if (r != null) {
+            return unescape(r[2])
+          }
+          return null
+        }
+        var src = getQueryString('src') || window.localStorage.getItem('originSrc')
+        if (src && src === 'hegs') {
+          var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+          link.type = 'image/x-icon';
+          link.rel = 'shortcut icon';
+          link.href = 'https://www.5itrade.cn/files/favicon/hegs_favicon.ico';
+          document.getElementsByTagName('head')[0].appendChild(link);
+        }
+    })();
+    </script>
+  </body>
+</html>

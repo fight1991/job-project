@@ -1,0 +1,178 @@
+export const decHeadItems = [{
+  key: 'tradeCoScc',
+  importLabel: '境内收货人',
+  exportLabel: '境内发货人'
+}, {
+  key: 'iEPort',
+  importLabel: '进境关别',
+  exportLabel: '出境关别'
+}, {
+  key: 'iEDate',
+  importLabel: '进口日期',
+  exportLabel: '出口日期'
+}, {
+  key: 'dDate',
+  label: '申报日期'
+}, {
+  key: 'manualNo',
+  label: '备案号'
+}, {
+  key: 'overseasConsignorCode',
+  label: '境外发货人'
+}, {
+  key: 'overseasConsigneeCode',
+  label: '境外收货人'
+}, {
+  key: 'trafMode',
+  label: '运输方式'
+}, {
+  key: 'nameVo',
+  label: '运输工具名称及航次号'
+}, {
+  key: 'billNo',
+  label: '提运单号'
+}, {
+  key: 'goodSplace',
+  label: '货物存放地点'
+}, {
+  key: 'ownerCodeScc',
+  label: '消费使用单位'
+}, {
+  key: 'tradeMode',
+  label: '监管方式'
+}, {
+  key: 'cutMode',
+  label: '征免性质'
+}, {
+  key: 'licenseNo',
+  label: '许可证号'
+}, {
+  key: 'despPortCode',
+  label: '启运港'
+}, {
+  key: 'contrNo',
+  label: '合同协议号'
+}, {
+  key: 'tradeAreaCode',
+  label: '贸易国别(地区)'
+}, {
+  key: 'tradeCountry',
+  importLabel: '启运国(地区)',
+  exportLabel: '运抵国(地区)'
+}, {
+  key: 'distinatePort',
+  importLabel: '经停港',
+  exportLabel: '指运港'
+}, {
+  key: 'entyPortCode',
+  importLabel: '入境口岸',
+  exportLabel: '离境口岸'
+}, {
+  key: 'wrapType',
+  label: '包装种类'
+}, {
+  key: 'packNo',
+  label: '件数'
+}, {
+  key: 'grossWt',
+  label: '毛重（千克）'
+}, {
+  key: 'netWt',
+  label: '净重（千克）'
+}, {
+  key: 'transMode',
+  label: '成交方式'
+}, {
+  key: 'feeMark',
+  label: '运费'
+}, {
+  key: 'insurMark',
+  label: '保费'
+}, {
+  key: 'otherMark',
+  label: '杂费'
+}, {
+  key: 'docuAndcertCode',
+  label: '随附单证及编号'
+}, {
+  key: 'note',
+  label: '标记唛码及备注'
+}, {
+  key: 'promiseItem1',
+  label: '特殊关系确认:'
+}, {
+  key: 'promiseItem2',
+  label: '价格影响确认:'
+}, {
+  key: 'promiseItem3',
+  label: '支付特许权使用费确认:'
+}, {
+  key: 'chkPayment',
+  label: '自报自缴:'
+}, {
+  key: 'orgCode',
+  label: '检验检疫受理机关'
+}, {
+  key: 'vsaOrgCode',
+  label: '领证机关'
+}, {
+  key: 'despDate',
+  label: '启运日期'
+}, {
+  key: 'blno',
+  label: 'B/L号'
+}, {
+  key: 'purpOrgCode',
+  label: '目的地检验检疫机关'
+}, {
+  key: 'correlationaNo',
+  label: '关联号码及理由'
+}, {
+  key: 'origBoxFlag',
+  label: '原箱运输'
+}, {
+  key: 'specialFlag',
+  label: '特殊业务标识'
+}, {
+  key: 'companyCer',
+  label: '企业资质'
+}, {
+  key: 'userInfo',
+  label: '使用人'
+}, {
+  key: 'inspDecElem',
+  label: '检验检疫签证申报要素'
+}, {
+  key: 'domesticConsigneeEname',
+  label: '境内收发货人名称(外文)'
+}, {
+  key: 'overseasConsignorCname',
+  label: '境外收发货人名称(中文)'
+}, {
+  key: 'overseasConsignorAddr',
+  label: '境外发货人地址'
+}, {
+  key: 'cmplDschrgDt',
+  label: '卸毕日期'
+}, {
+  key: 'inspOrgCode',
+  label: '口岸检验检疫机关'
+}, {
+  key: 'goodsNote',
+  label: '备注:'
+}, {
+  key: 'purpose',
+  label: '用途:'
+}, {
+  key: 'approveNo',
+  label: '许可证/审批号:'
+}, {
+  key: 'originRelation',
+  label: '原产地对应关系:'
+}, {
+  key: 'voyageNo',
+  label: '航次号:'
+}, {
+  key: 'trafName',
+  label: '运输工具名称:'
+}]

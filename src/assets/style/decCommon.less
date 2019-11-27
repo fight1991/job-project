@@ -1,0 +1,731 @@
+.sys-dec-class{
+  body {
+      font-size: 12px;
+      font-family: Arial,Microsoft YaHei,SimSun;
+      height: 100%;
+      color: #080808;
+      line-height: 1.42857143;
+      background-color: #fff;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      border-collapse:collapse;
+  }
+  .el-date-editor.el-input, .el-date-editor.el-input__inner {
+      width: auto;
+  }
+  .el-dialog .el-dialog__body .el-col-24 {
+    padding-bottom: 0px;
+  }
+  .fa-plus {
+    background: none !important;
+  }
+  .el-form-item--mini.el-form-item, .el-form-item--small.el-form-item {
+    margin-bottom: 10px;
+  }
+  .el-form-item__label {
+      text-align: right;
+      float: left;
+      font-size: 12px;
+      color: @font-color-title;
+      line-height: 16px;
+      padding: 0 10px 0 0;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+  }
+  .el-form-item--mini .el-form-item__content, .el-form-item--mini .el-form-item__label {
+    line-height: 19px;
+    height: 19px;
+  }
+  .sys-d-title.el-form-item--mini .el-form-item__label {
+    line-height: 19px;
+  }
+  .el-button--mini, .el-button--small {
+    font-size: 12px;
+    border-radius: 2px;
+    padding: 5px 5px;
+  }
+  .el-button+.el-button {
+    margin-left: 0px; 
+  }
+  .el-button--primary {
+    line-height: normal;
+    padding: 0px 2px;
+    font-size: 12px;
+    height: 16px;
+    border-radius: 4px;
+    background-color: #096AC6;
+    border: 0px;
+    color: #fff;
+  }
+  .dec-h-24 {
+      height: 24px;
+  }
+  .el-button--primary:focus, .el-button--primary:hover {
+      color: #fff;
+      background-color: #286090;
+      border-color: #204d74;
+  }
+  .btn-pop:focus, .btn-pop:hover {
+      color: #fff;
+      background-color: #286090;
+      border-color: #204d74;
+  }
+  .secondButton {
+      line-height: normal;
+      padding: 0px 2px;
+      font-size: 12px;
+      height: 20px;
+      border-radius: 4px;
+      background-color: #fff;
+      color: #096AC6;
+      border: solid 1px #d2d2d2!important;
+      margin-right: 2px;
+  }
+  .secondButton:hover {
+      color: #fff;
+      background-color: #286090;
+      border-color: #204d74;
+  }
+  .el-button--text {
+      padding: 0;
+  }
+  .sys-mini-btn{
+      padding: 6px;
+  }
+  .sys-dec-btns{
+      text-align: center
+  }
+  .el-checkbox-button__inner{
+  font-size: 12px;
+  }
+  .el-checkbox-button:last-child .el-checkbox-button__inner {
+      border-radius: 4px;
+      width: 100%;
+      height: 100%;
+      text-align: left;
+  }
+  .el-checkbox-button.is-checked:first-child .el-checkbox-button__inner {
+      border-left-color: #287fca;
+  }
+  .el-checkbox-button.is-checked .el-checkbox-button__inner {
+      color: #fff;
+      background-color: #287fca;
+      border-color: #287fca;
+      box-shadow: -1px 0 0 0 #8cc5ff;
+  }
+  .require-color .el-input__inner,.charter-form .require-color .el-form-item__content .el-date-editor,.charter-form .require-color .el-form-item__content .el-date-editor .el-input__inner,.charter-form .require-color .el-checkbox-group,.charter-form .require-color .el-radio-group,.require-color .el-textarea__inner{
+    background-color: #faffbd;
+  }
+  .error-color .el-input__inner,.charter-form .error-color .el-form-item__content .el-date-editor,.charter-form .error-color .el-form-item__content .el-date-editor .el-input__inner,.charter-form .error-color .el-checkbox-group,.charter-form .error-color .el-radio-group,.error-color .el-textarea__inner{
+    background-color: #ffd0d8 !important;
+  }
+  .dec-color-red .el-form-item__label,.dec-color-red .el-input__inner,.charter-form .dec-color-red .el-form-item__content .el-date-editor,.charter-form .dec-color-red .el-form-item__content .el-date-editor .el-input__inner,.charter-form .dec-color-red .el-checkbox-group,.charter-form .dec-color-red .el-radio-group,.dec-color-red .el-textarea__inner{
+    color: #fe0101;
+  }
+.dec-color-yellow .el-input__inner,.charter-form .dec-color-yellow .el-form-item__content .el-date-editor,.charter-form .dec-color-yellow .el-form-item__content .el-date-editor .el-input__inner,.charter-form .dec-color-yellow .el-checkbox-group,.charter-form .dec-color-yellow .el-radio-group,.dec-color-yellow .el-textarea__inner{
+    color: #f8a227;
+  }
+ .dec-color-black .el-input__inner,.charter-form .dec-color-black .el-form-item__content .el-date-editor,.charter-form .dec-color-black .el-form-item__content .el-date-editor .el-input__inner,.charter-form .dec-color-black .el-checkbox-group,.charter-form .dec-color-black .el-radio-group,.dec-color-black .el-textarea__inner{
+    color: #4c4c4c;
+  }
+
+
+  // table
+  .el-table .ai-row-red {
+    color: #fe0101;
+  }
+  .el-table .ai-row-yellow {
+    color: #f8a227;
+  }
+  .el-table th{
+    padding: 0px;
+    font-size: 12px;
+    color: white;
+    background-color: #64A7EB;
+    border: 1px solid #e4eaec;
+    height: 20px;
+    vertical-align: middle;
+  }
+  .el-table__empty-block{
+      align-items: inherit;
+  }
+  .el-table--mini td, .el-table--mini th {
+    padding: 0px 0;
+    background-clip: padding-box;
+  }
+  table {
+    border-collapse: collapse;
+  }
+  .table-input td {
+      border: 1px solid black;
+  }
+  .table-input  table,  .table-input  td, .table-input  th {
+      border: 1px solid #B7B7B7;
+  }
+  .table-input .el-input__inner {
+    border: 0;
+    height: 18px;
+    line-height: 18px;
+  }
+  .el-table .cell, .el-table th > .cell {
+      text-overflow: initial;
+      white-space: nowrap;
+      overflow: hidden;
+  }
+  .dec-textarea .el-textarea__inner {
+      height: 18px;
+      overflow: hidden;
+      resize: none;
+      border: 0px;
+      padding: 2px 5px;
+      font-size: 12px;
+      vertical-align: middle;
+      font: 400 12px Arial;
+      min-height: 0 !important;
+  }
+  .charter-form .disable-color .el-form-item__content .el-date-editor,.charter-form .disable-color .el-form-item__content .el-date-editor .el-input__inner,.charter-form .disable-color .el-checkbox-group,.charter-form .disable-color .el-radio-group{
+      background-color: #ebebeb !important;
+  }
+  .charter-form {
+    .el-date-editor .el-input__inner{
+        margin-bottom: 0px;
+    }
+  }
+  .el-form-item--mini .el-form-item__content,  .el-form-item--mini .el-form-item__label {
+      line-height: 19px;
+      height: 19px;
+  }
+  .dec-elemet .el-form-item--mini .el-form-item__label {
+      height: auto;
+      line-height: auto;
+  }
+  .el-form-item--mini.el-form-item,  .el-form-item--small.el-form-item {
+      margin-bottom: 0px;
+  }
+  .el-input.is-disabled .el-input__inner {
+      background-color: #f5f5f5 ;
+      color: #606266;
+      cursor: not-allowed;
+      font-size: 12px;
+  }
+  .el-select--mini .dis-label {
+      height: 18px !important;
+      line-height: 18px !important;
+      font-size: 12px !important;
+      background-color: #ebebeb!important;
+      color: #B7B7B7 !important;
+      border-right: 1px solid #B7B7B7 !important;
+      padding-left: 5px !important;
+      border-radius: 2px !important;
+  }
+  .el-popover__reference>.el-input__inner[readonly] {
+      background-color: #ebebeb;
+  }
+  .el-form-item__content>.el-input>.el-input__inner[readonly] {
+      background-color: #ebebeb;
+  }
+  .el-form-item__content>.el-autocomplete>.el-input>.el-input__inner[readonly] {
+      background-color: #ebebeb;
+  }
+  .el-form-item__content>.el-col>.el-input>.el-input__inner[readonly] {
+      background-color: #ebebeb;
+  }
+  .el-form-item__content>.el-date-editor>.el-input__inner[readonly] {
+      background-color: #fff;
+  }
+  .el-form-item__content>.el-date-editor>.el-input__inner[disabled] {
+      background-color: #ebebeb;
+  }
+  .el-input--mini .el-input__inner, .el-range-editor--mini.el-input__inner {
+      height: 18px !important;
+      line-height: 18px;
+      border-top: 0;
+      border-right: 1px solid #B7B7B7 !important;
+      border-radius: 0;
+      border-bottom: 0;
+      border-left: 0;
+      vertical-align: middle;
+      // margin-bottom: 0px;
+      margin-top: -3px;
+  }
+  
+  .el-form-item__label {
+      text-align: right;
+      float: left;
+      font-size: 12px;
+      color: #080808;
+      padding: 0 2px 0 0;
+      box-sizing: border-box;
+      border-top: 0;
+      border-left: 0;
+      border-right: 1px solid #B7B7B7 !important;
+  }
+  .el-row {
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      border-bottom: 1px solid #B7B7B7;
+  }
+  .el-table__empty-block {
+      background-color: #e1f0ff;
+  }
+  .el-input__inner {
+      border-radius: 0px;
+      -webkit-border-radius: 0px;
+      padding: 0px;
+  }
+  .el-input__inner:focus {
+      position: relative;
+      top: 1px;
+      border-bottom: 1px solid rgba(5, 121, 239, 0.99) !important;
+  }
+  .el-table__empty-text {
+      width: 100%;
+      height: 20px;
+      background-color: #f4f8fc;
+      color: @font-color-gray;
+      line-height: 20px;
+  }
+  .el-button.is-disabled, .el-button.is-disabled:focus, .el-button.is-disabled:hover {
+      box-shadow: none;
+      opacity: 0.65;
+  }
+  .el-input--mini .el-input__icon {
+      line-height: 16px;
+  }
+  .el-dialog__body {
+      padding: 8px 22px 22px;
+      color: #606266;
+      font-size: 12px;
+  }
+  .el-dialog__header {
+      padding: 18px 0px 18px 18px !important;
+  }
+  .el-dialog__headerbtn .el-dialog__close {
+      color: #fff;
+  }
+  .dialog-primary-btn {
+      height: 32px;
+      line-height: 32px;
+      margin: 0 6px;
+      padding: 0 15px;
+      border: 1px solid;
+      border-radius: 2px;
+      font-size: 14px;
+      // font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      border-color: @sys-color-btn;
+      background-color: @sys-color-btn;
+      color: #fff;
+      margin-top:10px;
+      margin-right:5px;
+  }
+  .dialog-btn {
+      height: 32px;
+      line-height: 32px;
+      margin: 0 6px;
+      padding: 0 15px;
+      border: 1px solid #dedede;
+      background-color: #f0f0f0;
+      color: #3C3C3C;
+      border-radius: 2px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      margin-top:10px;
+      margin-right:5px;
+  }
+  .el-aside {
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      -ms-flex-negative: 0;
+      flex-shrink: 0;
+      margin-right:5px
+  }
+  .el-form-item__content {
+      line-height: 16px;
+      position: relative;
+      font-size: 12px;
+  }
+  .el-form-item {
+    margin-bottom: 0; 
+  }
+  .btn-pop {
+      line-height: normal;
+      width: 16px;
+      height: 16px;
+      border-radius: 8px;
+      background-color: #096AC6;
+      border: 0px;
+      color: #fff;
+      margin-left: 4px;
+      padding: 0 0;
+  }
+  .input-btn{
+      border-radius:0px;
+      margin-left:0px;
+      width:98%;
+      height:100%;
+      line-height:inherit;
+      background-color:#287fca;
+  }
+  .el-dialog__title {
+      line-height: 16px;
+      font-size: 16px;
+      height: 16px;
+      color: #fff;
+  }
+  .el-dialog__header {
+      padding: 5px 20px 5px;
+      background: #0969C8 !important;
+      color: #fff !important;
+      height: 16px;
+      position: relative;
+  }
+  .el-dialog__headerbtn {
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      padding: 0;
+      background: 0 0;
+      border: none;
+      outline: 0;
+      cursor: pointer;
+      font-size: 20px;
+      transform: translateY(-50%);
+  }
+  .border-margin {
+      margin-top: 15px;
+      margin-left: 15px;
+  }
+  .el-form-item__error {
+      color: white;
+      font-size: 12px;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: red;
+      z-index: 2;
+      padding: 5px 5px;
+      min-width: 20px;
+      line-height: 18px;
+      border-radius: 2px; 
+ }
+ .el-select-dropdown__item.selected {
+      background: #0080ff;
+      color: #ffffff;
+  }
+  .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+      background: #dbed8a;
+      font-weight: bold;
+  }
+  .el-select-dropdown__item {
+      font-size: 12px;
+      padding: 0 15px;
+      height: 22px;
+      line-height: 22px;
+      border: #c0c0c0 solid 1px;
+  }
+  .el-select-dropdown__list {
+      padding: 0;
+  }
+  .el-autocomplete-suggestion__wrap {
+      padding: 0;
+  }
+  .el-autocomplete-suggestion li {
+      padding: 0 15px;
+      margin: 0;
+      line-height: 22px;
+      cursor: pointer;
+      color: #606266;
+      font-size: 12px;
+      list-style: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 22px;
+      border: #c0c0c0 solid 1px;
+  }
+  .el-autocomplete-suggestion li.highlighted, .el-autocomplete-suggestion li:hover {
+      background-color: #dbed8a;
+  }
+  .el-form-item__content>.el-select>.el-input>.el-input__inner::placeholder{
+      color: #080808;
+  }
+  .el-form-item__content>.spical-class>.el-input>.el-input__inner::placeholder{
+      color: #B7B7B7;
+  }
+  .el-form-item__error:after{
+      border: solid transparent;
+      content: ' ';
+      height: 0;
+      position: absolute;
+      width: 0;
+      border-width: 6px;
+      border-bottom-color: red;
+      left: 10px;
+      top: 0;
+      margin-top: -9px;
+  }
+  .el-select-dropdown__list {
+      padding: 0;
+  }
+  .file-input{
+      height: 32px;
+      line-height: 32px;
+    }
+  
+  .el-radio+.el-radio {
+      margin-left: 16px;
+  }
+  .el-radio{
+      margin-left: 10px;
+      margin-right: 0;
+  }
+  .el-radio__label {
+      font-size: 12px;
+  }
+  
+  .print-margin .el-row {
+      border: 0;
+  }
+  .el-date-editor.el-input--prefix .el-input__inner{
+      padding-left: 30px;
+  }
+  .el-checkbox {
+      margin-left: 10px;
+  }
+  .el-checkbox__label {
+      padding-left: 5px;
+      font-size: 12px;
+      margin-right: 5px; 
+  }
+  .document-checkbox .el-checkbox__label {
+      color: #096AC6;
+  }
+  .table-checkbox .el-checkbox{
+    margin-left:0;
+  }
+  .el-button.is-disabled {
+    background-color: #096AC6;
+    color: #fff;
+  }
+  .el-message-box {
+    .el-button--small, .el-button--small.is-round {
+      padding: 9px 15px;
+    }
+    .el-button--mini, .el-button--small {
+      font-size: 12px;
+      border-radius: 4px;
+    }
+    .el-message-box__btns button:nth-child(2) {
+      margin-left: 10px;
+    }
+    .el-message-box__btns .el-button--primary, .el-message-box__btns .el-button--primary:focus, .el-message-box__btns .el-button--primary:hover {
+      background-color: #287fca;
+      border-color: #287fca;
+      height: 30px;
+      color: #ffffff;
+      line-height: 1;
+    }
+  }
+}
+.dec-query-table {
+  .el-table .cell {
+      white-space: nowrap; 
+      font-weight: normal;
+      color: #4c4c4c;
+      font-size: 12px;
+  }
+  .el-table{
+      .el-radio__label{
+          padding: 0;
+      }
+  }
+  .el-button+.el-button {
+      margin-left: 0px;
+  }
+  .el-table .word-break-Keep {
+      .cell {
+          white-space: normal; 
+      }
+  }
+  .el-pagination.is-background .el-pager li:not(.disabled).active {
+      background-color: #287fca;
+  }
+}
+/*****************报关单查询界面 table表特有样式*****************/
+.dec-table {
+  .el-table__empty-text {
+      width: 100%;
+      height: 40px;
+      background-color: #f4f8fc;
+      color: @font-color-gray;
+      line-height: 40px;
+  }
+  .el-table__empty-block{
+      align-items: inherit;
+  }
+  .el-table th>.cell {
+      white-space: inherit;
+  }
+  .el-table__header th .cell{
+    text-align: center;
+  }
+}
+.dec-dialog-class {
+  .el-dialog__title {
+       font-size: 16px;
+  }
+  .el-form-item__label {
+      font-size: 14px;
+  }
+  .button-primary{
+      width: 70px;
+      height: 30px;
+      line-height: 30px;
+      font-size: 14px;
+      border-radius: 4px;
+      background-color: #287fca;
+      border: 0;
+      color: #fff;
+  }
+  .el-dialog__header {
+      padding: 18px 20px 26px 18px;
+  }
+  .el-dialog__body {
+      padding: 0;
+  }
+}
+// 报关单审核
+.sys-dec-check{
+  padding: 0;
+  .el-table__body tr>td.c3,.el-table--enable-row-hover .el-table__body tr:hover>.c3  {
+      background-color: #d2ffd2 !important; 
+  }
+  .el-table__body tr>td.c2,.el-table--enable-row-hover .el-table__body tr:hover>.c1  {
+      background-color: #ffd0d8 !important; 
+  }
+  .el-table__body tr.current-row>td.c1,.el-table--enable-row-hover .el-table__body tr:hover>.c1 {
+      background-color: #fff;
+  }
+  .el-input__inner {
+      border: 0;
+  }
+  .el-tabs--card>.el-tabs__header .el-tabs__item.is-active {
+      border-bottom: 2px solid #114ed4;
+  }
+  .el-tabs__header {
+      background-color: #fff;
+  }
+  td{
+      vertical-align: unset
+  }
+}
+// 报关单
+.sys-dec-popover {
+  border-radius: 4px;
+  min-width: auto;
+  padding: 10px;
+  font-size: 12px;
+  line-height: 1.2;
+  background: #303133;
+  color: #fff;
+  .popper__arrow {
+      border-width: 6px;
+  }
+}
+
+.sys-dec-dialog {
+  .el-table th{
+      padding: 0px;
+      font-size: 12px;
+      color: white;
+      background-color: #64A7EB;
+      border-right-color: #e4eaec;
+      height: 20px;
+      vertical-align: middle;
+  }
+  .el-table__empty-block{
+      align-items: inherit;
+  }
+
+  .dialog-primary-btn {
+      height: 32px;
+      line-height: 32px;
+      margin: 0 6px;
+      padding: 0 15px;
+      border: 1px solid;
+      border-radius: 2px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      border-color: #4898d5;
+      background-color: #2e8ded;
+      color: #fff;
+      margin-top:10px;
+      margin-right:5px;
+  }
+  .dialog-btn {
+      height: 32px;
+      line-height: 32px;
+      margin: 0 6px;
+      padding: 0 15px;
+      border: 1px solid #dedede;
+      background-color: #f0f0f0;
+      color: #3C3C3C;
+      border-radius: 2px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      margin-top:10px;
+      margin-right:5px;
+  }
+  .el-dialog__body {
+      padding: 5px 5px;
+      color: #606266;
+      font-size: 12px;
+  }
+  .el-dialog__title {
+      line-height: 34px;
+      font-size: 18px;
+      color: #fff;
+  }
+  .el-dialog__header {
+      padding: 5px 20px 5px;
+      background: #0969C8 !important;
+      color: #fff !important;
+  }
+  .el-dialog__headerbtn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      padding: 0;
+      background:0 0;
+      border: none;
+      outline: 0;
+      cursor: pointer;
+      font-size: 16px;
+  }
+  table {
+      border-collapse: collapse;
+  }
+  .table-input td {
+      border: 1px solid black;
+  }
+  .table-input  table,  .table-input  td, .table-input  th {
+      border: 1px solid #B7B7B7;
+  }
+  .table-input .el-input__inner {
+      border: 0;
+      height: 18px;
+      line-height: 18px;
+  }.el-table .cell, .el-table th > .cell {
+      text-overflow: initial;
+      white-space: nowrap;
+  }
+}
