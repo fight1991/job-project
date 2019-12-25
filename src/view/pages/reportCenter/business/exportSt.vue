@@ -111,6 +111,18 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
+            <el-col :md="12" :lg="6">
+              <el-form-item label="商品编号" >
+                <el-autocomplete
+                  :maxlength="10"
+                  size='mini' clearable
+                  v-model="QueryForm.hsCode"
+                  :fetch-suggestions="querySearch"
+                  :trigger-on-focus="false"
+                  @select="handleSelect">
+                </el-autocomplete>
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row style="text-align:center;">
             <el-button size="mini" type="primary" @click="search()">统计</el-button>
@@ -231,7 +243,8 @@ export default {
         trafMode: '', // 运输方式
         tradeMode: '', // 监管方式
         customMaster: '', // 申报地海关
-        status: '1'
+        status: '1',
+        hsCode: '' // 商品编号
       },
       entrusters: [], // 委托客户
       graininess: [
@@ -422,6 +435,43 @@ export default {
     search () {
       this.getTableData(this.$store.state.pagination)
     },
+    querySearch (queryString, cb) {
+      // 大于4位数才开始查询
+      if (queryString.length < 4) {
+        let back = []
+        cb(back)
+        return
+      }
+      let param = {
+        'hsCode': queryString
+      }
+      this.$post({
+        url: 'API@/dec-common/dec/common/getHsCode',
+        data: param,
+        success: (res) => {
+          let back = []
+          let codeList = []
+          if (res.result && res.result.length > 0) {
+            for (let i in res.result) {
+              codeList.push({
+                value: res.result[i]
+              })
+            }
+            cb(codeList.slice(0, 10))
+          } else {
+            cb(back)
+          }
+        }
+      })
+    },
+    createFilter (queryString) {
+      return (restaurant) => {
+        return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) !== -1)
+      }
+    },
+    handleSelect (item) {
+      this.QueryForm.hsCode = item.value
+    },
     // 获取表格数据
     getTableData (pagination) {
       if (this.dates === '' || this.dates === null) {
@@ -483,7 +533,7 @@ export default {
     compareFieldList (orig, compare) {
       if (orig.length === compare.length) {
         for (let i in orig) {
-          if (orig[i].text !== compare[i].text) {
+          if (orig[i].fieldName !== compare[i].fieldName) {
             return false
           }
         }

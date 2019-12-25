@@ -53,6 +53,9 @@ export default {
     },
     goodsEnNameList: {
       type: Array
+    },
+    moduleName: {
+      type: String
     }
   },
   data () {
@@ -101,7 +104,7 @@ export default {
       let list = []
       for (let i in this.checkedGoodsEnNameList) {
         // 选中的值点击保存 是需要修改对应商品列表的英文名称
-        decBus.$emit('modifyDeclGoodsEname', this.checkedGoodsEnNameList[i])
+        decBus.getBus(this.moduleName).$emit('modifyDeclGoodsEname', this.checkedGoodsEnNameList[i])
         // for (let n in this.tableList) {
         //   if (this.checkedGoodsEnNameList[i].gNo === this.tableList[n].gNo) {
         //     this.tableList[n].declGoodsEname = this.checkedGoodsEnNameList[i].declGoodsEname

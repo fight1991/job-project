@@ -2,11 +2,11 @@ const MENU = [
   {
     path: '/finance/fundsApproval/list',
     name: 'fundsApproval-list',
-    icon: 'icons-finance-fundApproval',
+    icon: 'icons-menu-fundApproval',
     permissions: 'CCBA21608000000',
     hidden: false,
     meta: {
-      component: resolve => require(['./approvalList.vue'], resolve),
+      component: () => import(/* webpackChunkName: "approval-list" */ './approvalList.vue'),
       title: '请款审批'
     }
   }

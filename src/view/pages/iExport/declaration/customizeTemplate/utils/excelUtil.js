@@ -1,5 +1,5 @@
-import XLSX from 'xlsx'
 import Vue from 'vue'
+const XLSX = () => import(/* webpackChunkName: "xlsx" */'xlsx/dist/xlsx.core.min.js')
 
 let workbook
 
@@ -10,10 +10,12 @@ export default{
         url: url,
         successCallBack: (res) => {
           var data = new Uint8Array(res.data)
-          workbook = XLSX.read(data, {
-            type: 'array'
+          XLSX().then(module => {
+            workbook = module.read(data, {
+              type: 'array'
+            })
+            resolve()
           })
-          resolve()
         }
       })
     })

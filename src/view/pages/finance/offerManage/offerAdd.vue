@@ -65,7 +65,7 @@
           <div class="acceptOffer">
             <el-row class="title">应收费用</el-row>
             <el-row class="accept-body" v-for="(item1, index1) in submitData.quotationReceivableBodyVOList" :key="'key_1' + index1">
-              <span class="deleteBody" @click="delFeeBody(index1,true)"><img src="@/assets/img/delete_all.png" alt=""></span>
+              <span class="deleteBody list-icon-delete_all" @click="delFeeBody(index1,true)"><i></i></span>
               <!-- 第一行 -->
               <el-row :gutter="50" class="base-line">
                 <el-row :gutter="50" class="margin_0 base-line-one">
@@ -209,12 +209,12 @@
                     </el-form-item>
                   </el-col>
                   <!-- 删除图标 -->
-                  <span class="delete-icon" @click="delItems(index1,index2,'0',true)">
-                    <img src="@/assets/img/delete.png" alt="">
+                  <span class="delete-icon list-icon-red_delete" @click="delItems(index1,index2,'0',true)">
+                    <i></i>
                   </span>
                 </el-row>
                 <el-row class="margin_0">
-                  <el-button class="addMore" @click="addFeeMore(index1,'0',true)">添加更多</el-button>
+                  <el-button class="addMore list-btns list-icon-Add_more" @click="addFeeMore(index1,'0',true)"><i></i>添加更多</el-button>
                 </el-row>
               </el-row>
               <!-- 出口 -->
@@ -282,12 +282,12 @@
                     </el-form-item>
                   </el-col>
                   <!-- 删除图标 -->
-                  <span class="delete-icon" @click="delItems(index1,index3,'1',true)">
-                    <img src="@/assets/img/delete.png" alt="">
+                  <span class="delete-icon list-icon-red_delete" @click="delItems(index1,index3,'1',true)">
+                    <i></i>
                   </span>
                 </el-row>
                 <el-row class="margin_0">
-                  <el-button class="addMore" @click="addFeeMore(index1,'1',true)">添加更多</el-button>
+                  <el-button class="addMore list-btns list-icon-Add_more" @click="addFeeMore(index1,'1',true)"><i></i>添加更多</el-button>
                 </el-row>
               </el-row>
             </el-row>
@@ -299,7 +299,7 @@
           <div class="payOffer acceptOffer">
             <el-row class="title">应付费用</el-row>
             <el-row class="accept-body" v-for="(item1, index1) in submitData.quotationPayableBodyVOList" :key="'key_0' + index1">
-              <span class="deleteBody" @click="delFeeBody(index1,false)"><img src="@/assets/img/delete_all.png" alt=""></span>
+              <span class="deleteBody list-icon-delete_all" @click="delFeeBody(index1,false)"><i></i></span>
               <!-- 第一行 -->
               <el-row :gutter="50" class="base-line">
                 <el-row :gutter="50" class="margin_0 base-line-one">
@@ -443,12 +443,12 @@
                     </el-form-item>
                   </el-col>
                   <!-- 删除图标 -->
-                  <span class="delete-icon" @click="delItems(index1,index2,'0',false)">
-                    <img src="@/assets/img/delete.png" alt="">
+                  <span class="delete-icon list-icon-red_delete" @click="delItems(index1,index2,'0',false)">
+                    <i></i>
                   </span>
                 </el-row>
                 <el-row class="margin_0">
-                  <el-button class="addMore" @click="addFeeMore(index1,'0',false)">添加更多</el-button>
+                  <el-button class="addMore list-btns list-icon-Add_more" @click="addFeeMore(index1,'0',false)"><i></i>添加更多</el-button>
                 </el-row>
               </el-row>
               <!-- 出口 -->
@@ -515,12 +515,12 @@
                     </el-form-item>
                   </el-col>
                   <!-- 删除图标 -->
-                  <span class="delete-icon" @click="delItems(index1,index3,'1',false)">
-                    <img src="@/assets/img/delete.png" alt="">
+                  <span class="delete-icon list-icon-red_delete" @click="delItems(index1,index3,'1',false)">
+                    <i></i>
                   </span>
                 </el-row>
                 <el-row class="margin_0">
-                  <el-button class="addMore" @click="addFeeMore(index1,'1',false)">添加更多</el-button>
+                  <el-button class="addMore list-btns list-icon-Add_more" @click="addFeeMore(index1,'1',false)"><i></i>添加更多</el-button>
                 </el-row>
               </el-row>
             </el-row>
@@ -1162,7 +1162,6 @@ export default {
   .ei-line {
     padding-right: 16px;
   }
-  .delete-icon img,
   .deleteBody img {
     display: block;
   }
@@ -1224,9 +1223,7 @@ export default {
     }
     // Add_more
     .addMore {
-      padding: 6px 10px 6px 28px;
-      background: url("../../../../assets/img/Add_more.png") no-repeat;
-      background-position: 10px 7px;
+      padding: 7px 17px 7px 11px;
       background-color: #F3F6F6;
       color: #4c4c4c;
       &:hover {

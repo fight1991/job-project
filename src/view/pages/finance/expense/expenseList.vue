@@ -115,14 +115,14 @@
       <el-row class="query-btn" style="text-align:center">
         <el-button size="mini" type="primary" @click="getsExpenseList($store.state.pagination)">查询</el-button>
         <el-button size="mini" @click="resetForm">重置</el-button>
-        <router-link to="/finance/pdf/view">pdf预览</router-link>
       </el-row>
     </el-row>
     <!-- 列表表格开始 -->
     <div class='query-table-financeCommon'>
       <el-row class="table-btn">
-        <el-button size="mini" :disabled="isCreateBill || selectedRow.length===0" class="list-btns list-icon-createAccount" @click="createAccount"><i></i>生成对账单</el-button>
+        <el-button size="mini" :disabled="isCreateBill" class="list-btns list-icon-create" @click="createAccount"><i></i>生成对账单</el-button>
         <el-button size="mini" class="list-btns list-icon-add" @click="goToDeital('add')"><i></i>台账新增</el-button>
+        <el-button size="mini" :disabled="multiRegistBtn" class="list-btns list-icon-add" @click="goToRegistPage"><i></i>批量费用登记</el-button>
       </el-row>
       <el-table class='sys-table-table' :data="lazyTableList" border
         row-key="expenseBillId"
@@ -179,9 +179,9 @@
             {{scope.row.releaseDay || '-' }}
           </template>
         </el-table-column>
-        <el-table-column label="状态" min-width="100" align="center" prop="statusValue">
+        <el-table-column label="状态" fixed="right" min-width="100" align="center" prop="statusValue">
         </el-table-column>
-        <el-table-column label="操作" fixed="right" min-width="130" align="center">
+        <el-table-column label="操作" fixed="right" width="150" align="center">
           <template slot-scope="scope">
             <div class="sys-td-c">
               <el-button title="编辑" v-if="editIsShow(scope.row)" type="text" class="table-icon list-icon-edit" @click.stop="goToDeital('edit', scope.row.businessType, scope.row.iEFlag, scope.row.expenseBillId, scope.row.status)"><i></i></el-button>
@@ -189,6 +189,7 @@
               <el-button title="单条导出" type="text" class="table-icon list-icon-export" @click.stop="exportBill(scope.row.expenseBillId)"><i></i></el-button>
               <el-button type="text" title="台账审核" class="table-icon list-icon-subimtCheck" v-if="scope.row.status === 2" v-permissions="'CCBA21603010000'" @click.stop="goToDeital('check', scope.row.businessType, scope.row.iEFlag, scope.row.expenseBillId, scope.row.status, scope.row.businessType)"><i></i></el-button>
               <el-button title="电子票据上传" type="text" class="table-icon list-icon-upload" @click.stop="goToDeital('upload', scope.row.businessType, scope.row.iEFlag, scope.row.expenseBillId, scope.row.status, scope.row.businessType)"><i></i></el-button>
+              <el-button title="台账删除" v-if="deleteIsShow(scope.row)" type="text" class="table-icon list-icon-delete" @click.stop="deleteExpense(scope.row.expenseBillId)"><i></i></el-button>
             </div>
           </template>
         </el-table-column>
@@ -204,6 +205,7 @@
 
 <script>
 import util from '@/common/util'
+import finStore from '../finStore'
 import commonParam from '@/common/commonParam'
 import {mapState} from 'vuex'
 export default {
@@ -213,7 +215,6 @@ export default {
       dates2: [],
       corpList: [],
       expenseBillIds: [], // 存储报价id数组
-      isCreateBill: true,
       selectedRow: [],
       allFlag: false, // 是否勾了全选
       expenseTableList: [], // 截取数据源,每次截取50个
@@ -277,9 +278,8 @@ export default {
   },
   watch: {
     '$route': function (to, from) {
-      if (to.name === 'expense-list' && to.query.from === 'other' && from.name === 'expense-detail') {
+      if (to.name === 'expense-list' && to.query.from === 'other' && (from.name === 'expense-detail' || from.name === 'expense-multiExpenseRegister')) {
         this.getsExpenseList(this.$store.state.pagination)
-        this.isCreateBill = true
         this.expenseBillIds = []
         this.selectedRow = []
         this.dates1 = []
@@ -287,14 +287,31 @@ export default {
       }
     }
   },
-  computed: mapState({
-    currentUser (state) {
-      return state.userLoginInfo.userId
+  computed: {
+    ...mapState({
+      currentUser (state) {
+        return state.userLoginInfo.userId
+      },
+      currentCorp (state) {
+        return state.userLoginInfo.companyCode
+      }
+    }),
+    isCreateBill () { // 控制生成账单按钮
+      if (this.selectedRow.length === 0) return true
+      return !this.selectedRow.every(v => v.status === 1 || v.status === 3)
     },
-    currentCorp (state) {
-      return state.userLoginInfo.companyCode
+    multiRegistBtn () { // 批量登记按钮
+      if (this.selectedRow.length === 0) return true
+      return !this.selectedRow.every(v => v.status === 0 || v.status === 1)
+    },
+    billIds () {
+      if (!this.multiRegistBtn) {
+        return this.selectedRow.map(v => v.expenseBillId)
+      } else {
+        return []
+      }
     }
-  }),
+  },
   mounted () {
     // 将table数据默认显示50条
     let tableScreen = this.$refs['expenseTable'].$el.childNodes[2]
@@ -317,12 +334,14 @@ export default {
     }, {passive: true})
   },
   created () {
-    this.justyIsOpen()
+    this.$store.registerModule('finance-module', finStore)
     this.paginationInit = this.$store.state.pagination
     this.getsExpenseList(this.$store.state.pagination)
     this.getcorps()
     this.getCommonParam()
-    console.log(this.currentUser)
+  },
+  beforeDestroy () {
+    this.$store.unregisterModule('finance-module')
   },
   methods: {
     // 获取台账列表
@@ -481,6 +500,32 @@ export default {
         }
       })
     },
+    // 跳转到批量费用登记按钮
+    goToRegistPage () {
+      this.$store.commit('finance-module/setBillIds', [...new Set(this.billIds)])
+      this.$router.push({
+        name: 'expense-multiExpenseRegister'
+      })
+    },
+    // 台账删除
+    async deleteExpense (id) {
+      let res = await this.$confirm('确定删除选中的数据?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        domMount: this.$el.parentNode,
+        type: 'warning'
+      }).then(() => true)
+        .catch(() => false)
+      if (!res) return
+      this.$store.dispatch('ajax', {
+        url: 'API@saas-finance/bill/deleteBill',
+        data: {expenseBillId: id},
+        router: this.$router,
+        success: () => {
+          this.getsExpenseList(this.$store.state.pagination)
+        }
+      })
+    },
     // 单条导出台账信息
     exportBill (id) {
       this.$store.dispatch('ajax', {
@@ -514,31 +559,32 @@ export default {
         return
       }
       // 没开审核开关的时候，提示内容不需要提示需要内部审核
-      this.justyIsOpen((flag) => {
+      this.justyIsOpen(async (flag) => {
         let content = '是否确认生成对账单 ?'
         if (flag === 'Y') {
           content = '是否确认生成对账单 ? 请注意,当前情况下,生成的对账单需要先进行内容审核确认'
         }
-        this.$confirm(content, '提示', {
+        let res = await this.$confirm(content, '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
+          modalAppendToBody: true,
           domMount: this.$el.parentNode,
           type: 'warning'
-        }).then(() => {
-          this.$store.dispatch('ajax', {
-            url: 'API@saas-finance/account/create',
-            data: {expenseBillIds: this.expenseBillIds},
-            router: this.$router,
-            success: () => {
-              this.$message({
-                type: 'success',
-                message: '生成对账单成功'
-              })
-              this.getsExpenseList(this.$store.state.pagination)
-              this.isCreateBill = true
-            }
-          })
-        }).catch(() => {})
+        }).then(() => true).catch(() => false)
+        if (!res) return
+        this.$store.dispatch('ajax', {
+          url: 'API@saas-finance/account/create',
+          data: {expenseBillIds: this.expenseBillIds},
+          router: this.$router,
+          success: () => {
+            this.$message({
+              type: 'success',
+              message: '生成对账单成功'
+            })
+            this.getsExpenseList(this.$store.state.pagination)
+            this.selectedRow = []
+          }
+        })
       })
     },
     // 勾选选择框
@@ -546,7 +592,6 @@ export default {
       this.expenseBillIds = selection.map(v => {
         return v.expenseBillId
       })
-      this.isCreateBill = !selection.every(v => v.status === 1 || v.status === 3)
       this.selectedRow = [...selection]
     },
     // 勾选选择框全选
@@ -562,13 +607,12 @@ export default {
       this.expenseBillIds = selectBox.map(v => {
         return v.expenseBillId
       })
-      this.isCreateBill = !selectBox.every(v => v.status === 1 || v.status === 3)
       this.selectedRow = [...selectBox]
     },
     // 点击表格行
     chooseSelectRow (row, column, event) {
-      let index = this.expenseBillIds.indexOf(row.expenseBillId)
-      if (index >= 0) { // 当前的行已经被选中了
+      let index = this.selectedRow.indexOf(row)
+      if (index > -1) { // 当前的行已经被选中了
         this.$refs['expenseTable'].toggleRowSelection(row, false)
         this.expenseBillIds.splice(index, 1)
         this.selectedRow.splice(index, 1)
@@ -577,7 +621,6 @@ export default {
         this.expenseBillIds.push(row.expenseBillId)
         this.selectedRow.push({...row})
       }
-      this.isCreateBill = !this.selectedRow.every(v => v.status === 1 || v.status === 3)
     },
     // 编辑按钮是否显示
     editIsShow (row) {
@@ -592,6 +635,14 @@ export default {
         }
       }
       return false
+    },
+    // 删除按钮是否显示
+    deleteIsShow (row) {
+      if (row.status === 0 || row.status === 1) {
+        return true
+      } else {
+        return false
+      }
     }
   }
 }

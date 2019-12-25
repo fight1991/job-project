@@ -2,11 +2,11 @@ const MENU = [
   {
     path: '/finance/billManage/list',
     name: 'billManage-list',
-    icon: 'icons-finance-billManage',
+    icon: 'icons-menu-billManage',
     permissions: 'CCBA21605000000',
     hidden: false,
     meta: {
-      component: resolve => require(['./billList.vue'], resolve),
+      component: () => import(/* webpackChunkName: "bill-list" */ './billList.vue'),
       title: '发票管理'
     }
   },
@@ -16,7 +16,7 @@ const MENU = [
     permissions: 'CCBA21605000000',
     hidden: true,
     meta: {
-      component: resolve => require(['./invoiceDetail.vue'], resolve),
+      component: () => import(/* webpackChunkName: "invoice-detail" */ './invoiceDetail.vue'),
       title: '发票详情'
     }
   }

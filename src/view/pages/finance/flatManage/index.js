@@ -2,11 +2,11 @@ const MENU = [
   {
     path: '/finance/flatManage/list',
     name: 'flatManage-list',
-    icon: 'icons-finance-flatManage',
+    icon: 'icons-menu-flatManage',
     permissions: 'CCBA21606000000',
     hidden: false,
     meta: {
-      component: resolve => require(['./flatList.vue'], resolve),
+      component: () => import(/* webpackChunkName: "flat-list" */ './flatList.vue'),
       title: '平账管理'
     }
   },
@@ -17,7 +17,7 @@ const MENU = [
     permissions: 'CCBA21606000000',
     hidden: true,
     meta: {
-      component: resolve => require(['./flatRecord.vue'], resolve),
+      component: () => import(/* webpackChunkName: "flat-record" */ './flatRecord.vue'),
       title: '平账记录'
     }
   }

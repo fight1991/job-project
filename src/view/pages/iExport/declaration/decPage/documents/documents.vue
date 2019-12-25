@@ -183,7 +183,7 @@ export default {
   },
   created () {
     this.billSync = window.localStorage.billSync === 'true'
-    decBus.$on('setDocFieldToSate', this.setDocFieldToSate)
+    decBus.getBus(this.moduleName).$on('setDocFieldToSate', this.setDocFieldToSate)
   },
   computed: {
     controller () {
@@ -267,7 +267,7 @@ export default {
             for (let item in this.licenselist) {
               if (delData[index].docuCode === this.licenselist[item].docuCode) {
                 if (delData[index].docuCode === 'c') {
-                  decBus.$emit('modifyManualGoods', null)
+                  decBus.getBus(this.moduleName).$emit('modifyManualGoods', null)
                 }
                 this.licenselist.splice(item, 1)
                 break
@@ -345,7 +345,7 @@ export default {
               return
             }
             // 开放智能补录
-            decBus.$emit('setBodyControllerFieldValue', {'isJinEr': true})
+            decBus.getBus(this.moduleName).$emit('setBodyControllerFieldValue', {'isJinEr': true})
           }
           if (['Y', 'E', 'R', 'F', 'J', 'k', 'd'].includes(this.decLicense.docuCode)) {
             // 原产地证
@@ -360,9 +360,9 @@ export default {
                 return
               }
             }
-            decBus.$emit('setHeadFieldToSate', 'manualNo')
+            decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'manualNo')
             let manualNo = this.$store.state[this.moduleName].manualNo
-            decBus.$emit('setHeadFieldToSate', 'tradeMode')
+            decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'tradeMode')
             let tradeMode = this.$store.state[this.moduleName].tradeMode
             // 打开联系单备案商品信息列表
             if (util.isEmpty(manualNo)) {
@@ -376,7 +376,7 @@ export default {
             this.queryManualGoods()
           } else if (this.decLicense.docuCode === 'a') {
             if (this.billSync) {
-              decBus.$emit('getHeadCompany', null)
+              decBus.getBus(this.moduleName).$emit('getHeadCompany', null)
               this.emsType = 'query'
               this.selectCompanyVisiable = true
             } else {
@@ -394,9 +394,9 @@ export default {
     },
     // 查询联系单备案商品信息
     queryManualGoods () {
-      decBus.$emit('setHeadFieldToSate', 'manualNo')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'manualNo')
       let manualNo = this.$store.state[this.moduleName].manualNo
-      decBus.$emit('setHeadFieldToSate', 'tradeMode')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'tradeMode')
       let tradeMode = this.$store.state[this.moduleName].tradeMode
       this.$post({
         url: 'API@/dec-common/dec/common/queryManualList',
@@ -450,7 +450,7 @@ export default {
           if (this.licenselist[i].gNo === gNo) {
             // 如果 修改是从c改变的。则需要清除表体数据,不为完整申报时
             if (this.licenselist[i].docuCode === 'c' && this.decLicense.docuCode !== 'c' && this.controller.iEFlag === 'I' && !this.controller.isWholeDec) {
-              decBus.$emit('modifyManualGoods', null)
+              decBus.getBus(this.moduleName).$emit('modifyManualGoods', null)
             }
             this.licenselist[i] = this.decLicense
             // 为了刷新列表的 操作
@@ -474,7 +474,7 @@ export default {
       }
       if (isFlag) {
         // TODO
-        decBus.$emit('setTableListToSate', null)
+        decBus.getBus(this.moduleName).$emit('setTableListToSate', null)
         this.tableListLength = this.$store.state[this.moduleName].tableList.length
         this.originRelVisible = true
       } else {
@@ -506,7 +506,7 @@ export default {
     },
     backManualGoods (pramas) {
       if (pramas !== null) {
-        decBus.$emit('setManualGoods', {params: pramas})
+        decBus.getBus(this.moduleName).$emit('setManualGoods', {params: pramas})
         this.saveDecLic()
       }
       this.manualGoodsVisabled = false
@@ -567,9 +567,9 @@ export default {
             headVo['decSeqNo'] = res.result.decSeqNo
             // 若原本报关单中有数据，选择了核注清单并且同步后，原报关单中数据会清空，并用核注清单中的数据覆盖回填
             // 1. 先清空原有的表头和表体数据 只保留 状态 报关单的类型 decPid等关键字段
-            decBus.$emit('resetHeadData', headVo, this.head)
+            decBus.getBus(this.moduleName).$emit('resetHeadData', headVo, this.head)
             // 表体
-            decBus.$emit('emsDataBack', res.result.invtListType, this.body)
+            decBus.getBus(this.moduleName).$emit('emsDataBack', res.result.invtListType, this.body)
             this.saveDecLic()
             this.selectCompanyVisiable = false
           } else {
@@ -672,7 +672,7 @@ export default {
           },
           other: (res) => {
             // 如果本地没有数据 则先显示选择公司的弹出框
-            decBus.$emit('getHeadCompany', null)
+            decBus.getBus(this.moduleName).$emit('getHeadCompany', null)
             this.emsType = 'match'
             this.selectCompanyVisiable = true
           }
@@ -692,9 +692,9 @@ export default {
       if (param !== null) {
         // 反填数据
         // 表头赋值
-        decBus.$emit('emsDataHeadBack', param.compareHead)
+        decBus.getBus(this.moduleName).$emit('emsDataHeadBack', param.compareHead)
         // 表体赋值
-        decBus.$emit('emsDataBackAll', param.compareBody, param.coverFlag)
+        decBus.getBus(this.moduleName).$emit('emsDataBackAll', param.compareBody, param.coverFlag)
         this.matchEmsVisiable = false
         this.selectCompanyVisiable = false
       } else {
@@ -716,7 +716,7 @@ export default {
       this.licenselist = []
       // this.saasLicensedocu = []
       if (this.controller.iEFlag === 'I') { // 进口
-        decBus.$emit('setHeadFieldValue', {'iEDate': decUtil.getTodayDate()})
+        decBus.getBus(this.moduleName).$emit('setHeadFieldValue', {'iEDate': decUtil.getTodayDate()})
       }
     },
     clearDocumentsData () {

@@ -25,7 +25,7 @@
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
-                :picker-options="pickerOptions2"
+                :picker-options="pickerOptions"
                 >
               </el-date-picker>
             </el-form-item>
@@ -146,8 +146,10 @@ import util from '@/common/util'
 import commonParam from '@/common/commonParam'
 import returnInfo from '../component/returnDetail.vue'
 import cancelInfo from './airCancelDetail'
+import pickerOptions from '@/common/mixin/pickerOptions'
 
 export default {
+  mixins: [pickerOptions],
   data () {
     return {
       dates: ['', ''],
@@ -184,42 +186,6 @@ export default {
         value: true,
         text: '操作状态'
       }], // 表头
-      pickerOptions2: {
-        shortcuts: [{
-          text: '当天',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '本周',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            let week = start.getDay()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * week)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '本月',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            let monthDay = start.getDate() - 1
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * monthDay)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '最近一月',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            picker.$emit('pick', [start, end])
-          }
-        }]
-      },
       tableNameList: {
         tableNames: [
           'SAAS_CUSTOMS_REL', // 海关关区

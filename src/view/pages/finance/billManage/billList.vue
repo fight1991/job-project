@@ -61,7 +61,7 @@
     <div class='query-table-financeCommon'>
       <el-row class="table-btn">
         <el-button size="mini" class="list-btns list-icon-rollback" :disabled="invoiceIds.length === 0" @click="cancelBill"><i></i>撤销开票</el-button>
-        <el-button size="mini" class="list-btns list-icon-exportBill" @click="exportAllBill"><i></i>导出发票</el-button>
+        <el-button size="mini" class="list-btns list-icon-export" @click="exportAllBill"><i></i>导出发票</el-button>
         <el-button size="mini" class="list-btns list-icon-look" @click="getDialogType(1)"><i></i>查看导出记录</el-button>
         <el-button size="mini" class="list-btns list-icon-case" :disabled="caseIds.length === 0" @click="confirmBtnCase"><i></i>结案</el-button>
         <el-button size="mini" class="list-btns list-icon-look" @click="getDialogType(2)"><i></i>查看结案记录</el-button>
@@ -469,6 +469,7 @@ export default {
       this.$confirm('若撤销此发票,发票将从发票列表消失,账单中对应数据状态将发生改变,是否确认要撤销开票?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
+        modalAppendToBody: true,
         domMount: this.$el.parentNode,
         type: 'warning'
       }).then(() => {

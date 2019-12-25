@@ -1,8 +1,5 @@
 <template>
-  <!-- 查看回执 组件 -->
   <section class="sys-main">
-    <!-- <el-header style="height:4px">
-    </el-header> -->
     <el-row class="mg-b-15">
       <span class="padR">接单类型</span>
       <el-radio-group v-model="orderType" @change="orderChange" :disabled="isSave">
@@ -1188,10 +1185,11 @@
       </el-tab-pane>
     </el-tabs>
     </div>
-    <div slot="footer"  class="sys-dialog-footer query-btn" style="margin: 0;">
-      <el-button type="primary" v-if="iEFlag == 'import'" size="mini" style="float:left;height: 30px;" @click="addFun('submit')" v-permissions="'CCBA20202010100'" :disabled="isView || status === '2'">提交</el-button>
-      <el-button type="primary" v-if="iEFlag == 'export'"  size="mini" style="float:left;height: 30px;" @click="addFun('submit')" v-permissions="'CCBA20202020100'" :disabled="isView || status === '2'">提交</el-button>
-      <el-button type="primary" v-if="changeExportReceiptView" style="float:left;height: 30px;margin-left:7px;padding: 6px 20px;" size="mini" @click="changeExportReceipt()">转为出口接单</el-button>
+    <div slot="footer"  class="sys-dialog-footer query-btn" style="margin: 0;font-size: 0;">
+      <el-button type="primary" v-if="iEFlag == 'import'" size="mini" style="float:left;height: 30px;" @click="addFun('submit')" v-permissions="'CCBA20202010100'" :disabled="isView || status === '2' || ocrNoDis">{{orderType == 'dec'? '生成报关单' :'提交'}}</el-button>
+      <el-button type="primary" v-if="iEFlag == 'export'"  size="mini" style="float:left;height: 30px;" @click="addFun('submit')" v-permissions="'CCBA20202020100'" :disabled="isView || status === '2' || ocrNoDis">{{orderType == 'dec'? '生成报关单' :'提交'}}</el-button>
+      <el-button type="primary" v-if="orderType == 'dec'" :disabled="isView || status === '2' || ocrNoDis" style="float:left;height: 30px;" @click="submitAi">生成AI制单</el-button>
+      <el-button type="primary" v-if="changeExportReceiptView" style="float:left;height: 30px;padding: 6px 20px;" size="mini" @click="changeExportReceipt()">转为出口接单</el-button>
       <el-button type="primary" class='dec-h-30' size="mini" @click="addFun('add')" :disabled="isStatus">暂存</el-button>
       <el-button class='dec-h-30' size="mini" @click="closeOrder">关闭</el-button>
     </div>
@@ -1291,6 +1289,7 @@
 
 <script>
 import util from '@/common/util'
+import storageHandle from '@/common/storageHandle'
 export default {
   name: 'return-receipt',
   props: {
@@ -1543,7 +1542,8 @@ export default {
       provinceListA: [], // 省
       cityListA: [], // 市
       saveOrderType: '', // 存放接单类型
-      changeExportReceiptView: false // 是否显示转为出口接单
+      changeExportReceiptView: false, // 是否显示转为出口接单
+      ocrNoDis: false // 是否有流水号
     }
   },
   created () {
@@ -2068,6 +2068,7 @@ export default {
           this.fileorderList.forEach((e, i) => {
             e['gNo'] = i + 1
           })
+          this.ocrNoDis = !util.isEmpty(this.baseInfo.ocrNo)
         }
       })
     },
@@ -2208,7 +2209,7 @@ export default {
       if (util.isEmpty(keyValue)) {
         this.$nextTick(() => {
           if (this.selectObj.params === 'SAAS_EDOC_CODE') {
-            this[this.selectObj.obj] = list.slice(0, 10)
+            this[this.selectObj.obj] = storageHandle.getEdocCodesByRelatedBusiness(list, 'order').slice(0, 10)
           } else {
             this[this.selectObj.obj] = list
           }
@@ -2221,14 +2222,14 @@ export default {
         })
         if (type === 'init') {
           if (this.selectObj.params === 'SAAS_EDOC_CODE') {
-            this[this.selectObj.obj] = filterList.slice(0, 10)
+            this[this.selectObj.obj] = storageHandle.getEdocCodesByRelatedBusiness(filterList, 'order').slice(0, 10)
           } else {
             this[this.selectObj.obj] = filterList
           }
         } else if (type === 'select') {
           this.$nextTick(() => {
             if (this.selectObj.params === 'SAAS_EDOC_CODE') {
-              this[this.selectObj.obj] = filterList.slice(0, 10)
+              this[this.selectObj.obj] = storageHandle.getEdocCodesByRelatedBusiness(filterList, 'order').slice(0, 10)
             } else {
               this[this.selectObj.obj] = filterList
             }
@@ -2302,22 +2303,36 @@ export default {
           this.$emit('closeEditUpload')
           return false
         }
-        let param = new FormData()
-        param.append('file', file, file.name)
-        this.$upload({
-          url: 'API@saas-upload/upload/pdfConverter',
-          data: param,
-          success: (res) => {
-            this.fileList = []
-            if (res.result && res.result.length === 1) {
-              let arr = file.name.split('.')
-              res.result[0].name = arr[0] + '.pdf'
-              this.fileList = res.result
-            } else {
-              this.messageTips(res.message, 'error')
+        if (fileType === 'application/pdf') {
+          let param = new FormData()
+          param.append('multiFile', file, file.name)
+          param.append('filePath', '/longshine/dec/' + this.$store.state.userLoginInfo.sccCode + '/doc/' + (util.dateFormat(new Date(), 'yyyyMMdd')))
+          this.$upload({
+            url: 'FILE@/saas-upload/upload/uploadFile',
+            data: param,
+            success: (res) => {
+              this.fileList = []
+              this.fileList.push(res.result)
             }
-          }
-        })
+          })
+        } else {
+          let param = new FormData()
+          param.append('file', file, file.name)
+          this.$upload({
+            url: 'API@saas-upload/upload/pdfConverter',
+            data: param,
+            success: (res) => {
+              this.fileList = []
+              if (res.result && res.result.length === 1) {
+                let arr = file.name.split('.')
+                res.result[0].name = arr[0] + '.pdf'
+                this.fileList = res.result
+              } else {
+                this.messageTips(res.message, 'error')
+              }
+            }
+          })
+        }
       }
       return false
     },
@@ -2896,6 +2911,39 @@ export default {
           }
         })
       }
+    },
+    // 生成AI
+    submitAi () {
+      this.baseInfo.rcvDate = util.dateFormat(this.baseInfo.rcvDate, 'yyyy-MM-dd')
+      this.baseInfo.demandDate = util.dateFormat(this.baseInfo.demandDate, 'yyyy-MM-dd')
+      this.baseInfo.type = this.orderType
+      this.baseInfo.agentSendCarWithBLOBsVO = util.simpleClone(this.sendInfo)
+      let arr = this.fileorderList.filter(e => {
+        return delete e.gNo
+      })
+      this.baseInfo.sysDocVOs = util.simpleClone(arr)
+      this.baseInfo.iEFlag = this.iEFlag === 'import' ? 'I' : 'E'
+      if (this.baseInfo.splitFlag === 'Y') {
+        this.messageTips('AI制单不支持拼票', 'error')
+        return false
+      }
+      this.$confirm('您确认要生成AI制单吗？', '提示', {
+        modalAppendToBody: true,
+        domMount: this.$el.parentNode,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$post({
+          url: 'API@/dec-common/ccba/common/addOcr',
+          data: this.baseInfo,
+          success: (res) => {
+            this.messageTips('生成成功', 'success')
+            this.$emit('closedecele')
+          }
+        })
+      }).catch(() => {
+      })
     }
   }
 }
@@ -2947,15 +2995,6 @@ export default {
     vertical-align: sub;
     margin-right: 5px;
   }
-  .m-r-10{
-    margin-right: 10px;
-  }
-  .span-right{
-    float: right;
-    margin-right: 5%;
-    color: #0b93f3;
-    margin-top: 6px;
-  }
   .sys-dialog-footer{
     margin-top: 20px;
     margin-bottom: 10px;
@@ -2964,9 +3003,11 @@ export default {
     .el-button {
       height: 30px;
       padding: 7px 20px;
-      margin-left: 10px;
       font-size: 14px;
       border-radius: 4px;
+    }
+    .el-button + .el-button {
+      margin-left: 10px;
     }
   }
 .dec-h-30{

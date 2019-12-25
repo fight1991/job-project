@@ -207,6 +207,5 @@ export default {
 .template-radio{
   width: 15px;
   height: 15px;
-  vertical-align: middle;
 }
 </style>

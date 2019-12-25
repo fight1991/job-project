@@ -59,7 +59,7 @@
         <el-table-column  property="entQualiftypeName" label="企业资质类别名称" min-width="100"></el-table-column>
         <el-table-column  property="entQualifNo" label="企业资质编号" min-width="100"></el-table-column>
       </el-table>
-      <el-checkbox v-model="checkPromise" @change='cropPromiseClick'><span class="tips">企业承诺：本单位持有海关要求的合格保证、标签标识及其他证明声明材料，知悉相关材料内容，保证符合法律法规要求，并自存留档。</span></el-checkbox>
+      <el-checkbox v-model="checkPromise" @change='cropPromiseClick'></el-checkbox><span class="tips">企业承诺：本单位持有海关要求的合格保证、标签标识及其他证明声明材料，知悉相关材料内容，保证符合法律法规要求，并自存留档。</span>
     </el-dialog>
     <!--使用人 弹出框 结束-->
   </section>
@@ -288,6 +288,7 @@ export default {
   .tips{
     font-size: 10px;
     color: @font-color-btn;
+    margin-left: 5px;
   }
   .m-t-10{
     margin-top: 10px;

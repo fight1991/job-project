@@ -73,6 +73,7 @@ import decList from '../summaryDec/components/decList'
 import decContainer from '../summaryDec/components/containers'
 import decDocuments from '../summaryDec/components/documents'
 import decprintView from '../decPage/components/decPrint'
+import decUtil from '../decPage/common/decUtil'
 export default {
   components: {
     decHead,
@@ -705,6 +706,7 @@ export default {
      */
     goToDec () {
       let funFlag = this.controller.funFlag
+      let pid = this.controller.pid
       let operationType = this.controller.operationType
       let decOperationType = 'look'
       if (operationType === 'look') {
@@ -712,38 +714,10 @@ export default {
       } else {
         decOperationType = 'edit'
       }
-      let routeName
-      let tabName
-      let pid = this.controller.pid
-      if (funFlag === 'declaration') {
-        if (decOperationType === 'look') {
-          tabName = '进口报关单(完整申报)'
-          routeName = 'importDecLook'
-        } else {
-          tabName = '进口报关单(完整申报)'
-          routeName = 'importDecEdit'
-        }
+      let queryParam = {
+        'summary': 'true'
       }
-      if (funFlag === 'recordList') {
-        if (decOperationType === 'look') {
-          tabName = '进境备案清单(完整申报)'
-          routeName = 'importRecordLook'
-        } else {
-          tabName = '进境备案清单(完整申报)'
-          routeName = 'importRecordEdit'
-        }
-      }
-      this.$router.push({
-        name: routeName,
-        params: {
-          'pid': pid,
-          'setTitle': tabName + '-' + pid,
-          'setId': routeName + operationType + pid
-        },
-        query: {
-          'summary': 'true'
-        }
-      })
+      decUtil.gotoDecPage(funFlag, 'import', decOperationType, pid, 'whole', queryParam, this)
     },
     // 提交审核
     sumbitCheck () {

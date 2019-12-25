@@ -70,7 +70,7 @@
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
-                :picker-options="pickerOptions2">
+                :picker-options="pickerOptions">
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -117,8 +117,8 @@
        <el-row class="op-btn">
         <el-button size="mini" class="list-btns list-icon-viewEdit" @click="visiblEdit"><i></i>可视化审核</el-button>
         <el-button size="mini" class="list-btns list-icon-scan" @click="visibleView"><i></i>可视化预览</el-button>
-        <el-button size="mini" class="list-btns list-icon-reject"  v-permissions="'CCBA20204010100'" @click="batchCheck"><i></i>批量审核</el-button>
-        <el-button size="mini" class="list-btns list-icon-check" @click="batchReject"><i></i>批量驳回</el-button>
+        <el-button size="mini" class="list-btns list-icon-check"  v-permissions="'CCBA20204010100'" @click="batchCheck"><i></i>批量审核</el-button>
+        <el-button size="mini" class="list-btns list-icon-reject" @click="batchReject"><i></i>批量驳回</el-button>
         <el-button size="mini" class="list-btns list-icon-rollback" @click="rollbackStatus"><i></i>状态回退</el-button>
         <el-button size="mini" class="list-btns list-icon-look" @click="lookDecDetail"><i></i>查看详情</el-button>
         <el-button size="mini" class="list-btns list-icon-print" @click="downLoadPdf"><i></i>打印</el-button>
@@ -129,7 +129,7 @@
                 <el-checkbox size="mini" v-model="item.value" @change="columnFieldChange">{{item.text}}</el-checkbox>
               </li>
             </ul>
-            <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-dropdown" slot="reference"></el-button>
+            <el-button size="mini" class="list-btns list-btn-drop list-icon-dropdown" slot="reference"></el-button>
           </el-popover>
         </div>
       </el-row>
@@ -180,12 +180,15 @@
 <script>
 import util from '@/common/util'
 import decprintView from '../declaration/decPage/components/decPrint'
+import pickerOptions from '@/common/mixin/pickerOptions'
+import decUtil from './decPage/common/decUtil'
 
 export default {
   name: 'dec-check',
   components: {
     decprintView
   },
+  mixins: [pickerOptions],
   data () {
     return {
       queryCondition: {
@@ -288,51 +291,7 @@ export default {
       }, {
         value: true,
         text: '复核人'
-      }],
-      pickerOptions2: {
-        shortcuts: [{
-          text: '当天',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '本周',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            let week = start.getDay()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * week)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '最近7天',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '本月',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            let monthDay = start.getDate() - 1
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * monthDay)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '最近一月',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            picker.$emit('pick', [start, end])
-          }
-        }]
-      }
+      }]
     }
   },
   created () {
@@ -774,7 +733,7 @@ export default {
         } else {
           pageType = 'declaration'
         }
-        this.gotoDecPage(pageType, row.iEFlag === 'I' ? 'import' : 'export', 'look', row.decPid.toString())
+        decUtil.gotoDecPage(pageType, row.iEFlag === 'I' ? 'import' : 'export', 'look', row.decPid.toString(), 'dec', {}, this)
       } else { // 两步申报
         if (row.declTrnrel === '0') {
           pageType = 'declaration'
@@ -795,59 +754,6 @@ export default {
       } else {
         tabName = '进境备案清单(概要申报)'
         routeName = 'importSummaryRecordLook'
-      }
-      this.$router.push({
-        name: routeName,
-        params: {
-          'pid': pid,
-          'setTitle': tabName + '-' + pid,
-          'setId': routeName + 'look' + pid
-        }
-      })
-    },
-    /**
-     * 跳转 新增、详情、编辑
-     * @param funFlag  功能页面 declaration 报关单   recordList 备案清单 template 初始值模板
-     * @param flag  进出口标识
-     * @param pid  报关单主键  可不传
-     * @param operationType 操作   add 新增 look 查看  edit 编辑
-     */
-    gotoDecPage (funFlag, flag, operationType, pid = 'new') {
-      let routeName
-      let tabName
-      if (funFlag === 'declaration') {
-        if (flag === 'import') {
-          tabName = '进口报关单'
-          if (operationType === 'look') {
-            routeName = 'importDecLook'
-          } else if (operationType === 'edit') {
-            routeName = 'importDecEdit'
-          }
-        } else if (flag === 'export') {
-          tabName = '出口报关单'
-          if (operationType === 'look') {
-            routeName = 'exportDecLook'
-          } else if (operationType === 'edit') {
-            routeName = 'exportDecEdit'
-          }
-        }
-      }
-      if (funFlag === 'recordList') {
-        if (flag === 'import') {
-          tabName = '进境备案清单'
-          if (operationType === 'look') {
-            routeName = 'importRecordLook'
-          } else if (operationType === 'edit') {
-            routeName = 'importRecordEdit'
-          }
-        } else if (flag === 'export') {
-          tabName = '出境备案清单'
-          if (operationType === 'look') {
-            routeName = 'exportRecordLook'
-          } else if (operationType === 'edit') {
-            routeName = 'exportRecordEdit'
-          }
-        }
       }
       this.$router.push({
         name: routeName,

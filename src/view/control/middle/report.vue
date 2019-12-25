@@ -130,7 +130,8 @@ export default {
           iEFlag: 'ALL',
           startDate: this.dates[0],
           endDate: this.dates[1],
-          refreshFlag: flag === 'refresh' ? 'Y' : 'N'
+          refreshFlag: flag === 'refresh' ? 'Y' : 'N',
+          signBoard: '1'
         },
         isLoad: false,
         showErrorMessage: false,

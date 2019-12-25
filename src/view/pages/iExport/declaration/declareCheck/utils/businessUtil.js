@@ -367,8 +367,13 @@ export default{
   },
   // 其他价格影响因素 格式化
   generatePromiseItems (decHead) {
-    let promiseArr = decHead.promiseItmes.split('')
-    return [promiseCodeChangName(promiseArr[0]), promiseCodeChangName(promiseArr[1]), promiseCodeChangName(promiseArr[2])]
+    // eslint-disable-next-line
+    let result = [, , ]
+    if (decHead.promiseItmes) {
+      let promiseArr = decHead.promiseItmes.split('')
+      result = [promiseCodeChangName(promiseArr[0]), promiseCodeChangName(promiseArr[1]), promiseCodeChangName(promiseArr[2])]
+    }
+    return result
   },
   generateNote (decHead, container) {
     // 备注
@@ -424,7 +429,7 @@ export default{
           origStr.push(Ystr + arr.join('、'))
         }
       }
-      docStr.push(licenses[x].docuCodeValue + ' ' + licenses[x].certCode)
+      docStr.push((licenses[x].docuCodeValue || '') + ' ' + (licenses[x].certCode || ''))
     }
     // 随附单证及编号 随附单证1 为 随附单证  随附单证2 为随附单据
     let strDoc = ''
@@ -449,12 +454,12 @@ export default{
   // 企业资质的格式化处理
   generateCompanyCer (decHead) {
     if (decHead.decCopLimits.length === 0) {
-      return
+      return ''
     }
     let list = decHead.decCopLimits
     let value = []
     for (let i in list) {
-      let str = '(' + list[i].entQualiftypeCode + ')' + ' ' + list[i].entQualiftypeCodeValue + ' ' + list[i].entQualifNo
+      let str = '(' + (list[i].entQualiftypeCode || '') + ')' + ' ' + (list[i].entQualiftypeCodeValue || '') + ' ' + (list[i].entQualifNo || '')
       value.push(str)
     }
     return value.join(' ; ')
@@ -462,12 +467,12 @@ export default{
   // 使用人格式化处理
   generateUserInfo (decHead) {
     if (decHead.decDecUsers.length === 0) {
-      return
+      return ''
     }
     let list = decHead.decDecUsers
     let value = []
     for (let i in list) {
-      let str = list[i].useOrgpersonCode + '(' + list[i].useOrgpersonTel + ')'
+      let str = (list[i].useOrgpersonCode || '') + '(' + (list[i].useOrgpersonTel || '') + ')'
       value.push(str)
     }
     return value.join(' ; ')
@@ -475,12 +480,12 @@ export default{
   // 检验检疫签证申报要素格式化处理
   generateInspDecElem (decHead) {
     if (decHead.decRequestCerts.length === 0) {
-      return
+      return ''
     }
     let list = decHead.decRequestCerts
     let value = []
     for (let i in list) {
-      let str = list[i].appCertCode + '(' + list[i].appCertCodeValue + ' ' + list[i].applOri + ' ' + list[i].applCopyQuan + ' )'
+      let str = (list[i].appCertCode || '') + '(' + (list[i].appCertCodeValue || '') + ' ' + (list[i].applOri || '') + ' ' + (list[i].applCopyQuan || '') + ' )'
       value.push(str)
     }
     return value.join(' ; ')
@@ -541,5 +546,128 @@ export default{
       results.push(result)
     })
     return results
+  },
+  generateReviewedLog (newData, oldData) {
+    let decVerifyHeadVO = {}
+    let decVerifyListVOs = []
+    let decVerifyContainerVOs = []
+    let decVerify = {}
+    let decVerifyContainer = {}
+    let newItems = this.generatePromiseItems(newData.decHeadVO)
+    let oldItems = this.generatePromiseItems(oldData.decHeadVO)
+    let newformatDecList = this.formatDecList(newData.decListVO, [])
+    let oldformatDecList = this.formatDecList(oldData.decListVO, [])
+    let newLicenseInfo = this.generateLicenseInfo(newData.decLicensesVO, newData.decHeadVO)
+    let oldLicenseInfo = this.generateLicenseInfo(oldData.decLicensesVO, oldData.decHeadVO)
+    let formatDecKeys = ['purpose', 'approveNo']
+    let licenseKeys = ['originRelation', 'docuAndcertCode']
+    decHeadItems.forEach(item => {
+      if (item.relatedFields && item.relatedFields.length) {
+        let note = ''
+        item.relatedFields.forEach(field => {
+          let oldValue = oldData.decHeadVO[field]
+          let newValue = newData.decHeadVO[field]
+          if (licenseKeys.indexOf(field) !== -1) {
+            oldValue = oldLicenseInfo[field]
+            newValue = newLicenseInfo[field]
+          }
+          if (formatDecKeys.indexOf(field) !== -1) {
+            oldValue = oldformatDecList[field]
+            newValue = newformatDecList[field]
+          }
+          if (field === 'decCopLimits') {
+            oldValue = this.generateCompanyCer({decCopLimits: oldValue})
+            newValue = this.generateCompanyCer({decCopLimits: newValue})
+          }
+          if (field === 'decRequestCerts') {
+            oldValue = this.generateInspDecElem({decRequestCerts: oldValue})
+            newValue = this.generateInspDecElem({decRequestCerts: newValue})
+          }
+          if (field === 'decDecUsers') {
+            oldValue = this.generateUserInfo({decDecUsers: oldValue})
+            newValue = this.generateUserInfo({decDecUsers: newValue})
+          }
+          if (field === 'promiseItem1') {
+            oldValue = oldItems[0]
+            newValue = newItems[0]
+          }
+          if (field === 'promiseItem2') {
+            oldValue = oldItems[1]
+            newValue = newItems[1]
+          }
+          if (field === 'promiseItem3') {
+            oldValue = oldItems[2]
+            newValue = newItems[2]
+          }
+          if (field === 'note') {
+            oldValue = this.generateNote(oldData.decHeadVO, oldData.decContainersVO)
+            newValue = this.generateNote(newData.decHeadVO, newData.decContainersVO)
+          }
+          if (field === 'specialFlag') {
+            oldValue = this.generateSpecialFlag(oldData.decHeadVO)
+            newValue = this.generateSpecialFlag(newData.decHeadVO)
+          }
+          if (oldValue !== newValue) {
+            note += '更改' + (oldValue || '') + '为' + (newValue || '') + ','
+          }
+        })
+        if (note) {
+          decVerifyHeadVO[item.key + 'Note'] = note.substr(0, note.length - 1)
+          decVerifyHeadVO[item.key] = 1
+        }
+      }
+    })
+    decVerifyHeadVO.decPid = newData.decHeadVO.decPid
+    decVerifyHeadVO.auditOpinion = ''
+    if (newData.decListVO.length === oldData.decListVO.length) {
+      newData.decListVO.forEach((item, index) => {
+        decVerify = {}
+        decVerify.gNo = item.gNo
+        decListItems.forEach(listItem => {
+          if (listItem.relatedFields && listItem.relatedFields.length) {
+            let note = ''
+            listItem.relatedFields.forEach(field => {
+              let oldValue = oldData.decListVO[index][field]
+              let newValue = newData.decListVO[index][field]
+              if (oldValue !== newValue) {
+                note += '更改' + (oldValue || '') + '为' + (newValue || '') + ','
+              }
+            })
+            if (note) {
+              decVerify[listItem.key + 'Note'] = note.substr(0, note.length - 1)
+              decVerify[listItem.key + 'Color'] = 1
+            }
+          }
+        })
+        decVerifyListVOs.push(decVerify)
+      })
+    }
+    if (newData.decContainersVO.length === oldData.decContainersVO.length) {
+      newData.decContainersVO.forEach((item, index) => {
+        decVerifyContainer = {}
+        containerListItems.forEach(listItem => {
+          if (listItem.relatedFields && listItem.relatedFields.length) {
+            let note = ''
+            listItem.relatedFields.forEach(field => {
+              let oldValue = oldData.decContainersVO[index][field]
+              let newValue = newData.decContainersVO[index][field]
+              if (oldValue !== newValue) {
+                note += '更改' + (oldValue || '') + '为' + (newValue || '') + ','
+              }
+            })
+            if (note) {
+              decVerifyContainer[listItem.key + 'Note'] = note.substr(0, note.length - 1)
+              decVerifyContainer[listItem.key + 'Color'] = 1
+            }
+          }
+        })
+        decVerifyContainerVOs.push(decVerifyContainer)
+      })
+    }
+    return {
+      'decVerifyHeadVO': decVerifyHeadVO, // 报关单表头
+      'decVerifyListVOs': decVerifyListVOs, // 报关单 表体
+      'decVerifyContainerVOs': decVerifyContainerVOs // 报关单集装箱
+    }
   }
 }

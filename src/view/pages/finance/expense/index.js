@@ -2,11 +2,11 @@ const MENU = [
   {
     path: '/finance/expense/list',
     name: 'expense-list',
-    icon: 'icons-finance-offerAccount',
+    icon: 'icons-menu-account',
     permissions: 'CCBA21603000000',
     hidden: false,
     meta: {
-      component: resolve => require(['./expenseList.vue'], resolve),
+      component: () => import(/* webpackChunkName: "expense-list" */ './expenseList.vue'),
       title: '费用台账'
     }
   },
@@ -16,18 +16,18 @@ const MENU = [
     permissions: 'CCBA21603000000',
     hidden: true,
     meta: {
-      component: resolve => require(['./expenseDetail.vue'], resolve),
+      component: () => import(/* webpackChunkName: "expense-detail" */ './expenseDetail.vue'),
       title: '台账详情'
     }
   },
   {
-    path: '/finance/pdf/view',
-    name: 'pdf-view',
+    path: '/finance/expense/multiExpenseRegister',
+    name: 'expense-multiExpenseRegister',
     permissions: 'CCBA21603000000',
     hidden: true,
     meta: {
-      component: resolve => require(['./pdfView.vue'], resolve),
-      title: 'pdf预览'
+      component: () => import(/* webpackChunkName: "multi-expense-register" */ './multiExpenseRegister.vue'),
+      title: '批量费用登记'
     }
   }
 ]

@@ -1,7 +1,7 @@
 <template>
   <section class='sys-main invoiceDetail'>
-    <div class="topFlag flex" v-if="optionsType === 'edit' && isSplitPrice">
-      <img src="@/assets/img/Tips.png" alt="">
+    <div class="topFlag list-icon-Tips flex" v-if="optionsType === 'edit' && isSplitPrice">
+      <i></i>
       <div class="text">当前开票金额已超过100000元,系统将自动进行拆分开票操作</div>
     </div>
     <!-- 发票类型区域 -->
@@ -523,9 +523,9 @@ export default {
     border: 1px solid #ffc56b;
     background-color: #ffe9c7;
     border-radius: 2px;
-    img {
-      display:block;
+    i {
       margin-right: 8px;
+      padding-left: 1px;
     }
   }
 </style>

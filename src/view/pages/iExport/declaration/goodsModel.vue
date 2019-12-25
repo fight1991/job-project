@@ -68,7 +68,7 @@
             <el-dropdown-item command="syncRecord">同步记录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <el-button size="mini" class="list-btns list-icon-listExport" @click="exportList" ><i></i>导出</el-button>
+        <el-button size="mini" class="list-btns list-icon-export" @click="exportList" ><i></i>导出</el-button>
       </el-row>
       <!-- 列表 list -->
       <el-table class='sys-table-table  dec-table' :data="goodsModelList"

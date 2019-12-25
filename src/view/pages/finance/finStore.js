@@ -2,7 +2,8 @@ export default {
   namespaced: true,
   state () {
     return {
-      ticketIds: []
+      ticketIds: [],
+      billIds: [] // 费用项id
     }
   },
   getters: {
@@ -13,6 +14,9 @@ export default {
   mutations: {
     setTicketIds (state, data) {
       state.ticketIds = data
+    },
+    setBillIds (state, data) {
+      state.billIds = data
     }
   }
 }

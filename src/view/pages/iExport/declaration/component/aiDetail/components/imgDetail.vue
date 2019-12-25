@@ -3,29 +3,37 @@
     <div class="unDialog-container" ref="unDialog-container" @wheel="wheel($event)">
       <div style='width: 100%; height: 100%;' :style="{transform: 'translate3d('+ left + 'px, '+ top +'px, 0px) scale(' + scale + ')'}" @mousedown="moveImg($event)">
         <div class='unDialog-content'>
-          <img :src='currentPicInfo.url' class="starryImg" ref="starryImg" @load="calImgPosition">
+          <iframe-view v-if="checkPageFlag()" :url="currentPicInfo.url"></iframe-view>
+          <img v-else :src='currentPicInfo.url' class="starryImg" ref="starryImg" @load="imgLoaded">
           <div :style='{top: rectPosition.top + "px", left: rectPosition.left + "px", width: rectPosition.width + "px", height: rectPosition.height + "px", display: isNeedShowPosition ? "block" : "none"}' class='unDialog-sign'></div>
         </div>
       </div>
       <div class="hCenter"></div>
       <div class="wCenter"></div>
     </div>
-    <div class="toolbar">
-      <span class="ai-icon-print" title="打印" @click="aiPrint"><i class='dec-i'></i></span>
-      <span class="ai-icon-amplifier" title="放大" @click="addSize"><i class='dec-i'></i></span>
-      <span class="ai-icon-shrink" title="缩小" @click="subSize"><i class='dec-i'></i></span>
+    <div class="toolbar" v-show="!checkPageFlag()">
+      <span class="list-icon-ai_print" title="打印" @click="aiPrint"><i class='dec-i'></i></span>
+      <span class="list-icon-amplifier" title="放大" @click="addSize"><i class='dec-i'></i></span>
+      <span class="list-icon-shrink" title="缩小" @click="subSize"><i class='dec-i'></i></span>
     </div>
   </div>
 </template>
 <script>
+import iframeView from './iframeView'
 export default {
   name: 'img-detail',
+  components: {
+    iframeView
+  },
   props: {
     currentPicInfo: {
       type: Object
     },
     showPosition: {
       type: Boolean
+    },
+    currentImgRect: {
+      type: Object
     }
   },
   data () {
@@ -45,15 +53,27 @@ export default {
       imgInfo: {
         widthScale: 0,
         heightScale: 0
-      }
+      },
+      showRect: false
     }
   },
   computed: {
     isNeedShowPosition () {
-      return this.showPosition && !(this.rectPosition.top === 0 && this.rectPosition.left === 0 && this.rectPosition.width === 0 && this.rectPosition.height === 0)
+      return this.showPosition && this.showRect
     }
   },
   methods: {
+    // 审单页面且取随附单据
+    checkPageFlag () {
+      if (this.$attrs.pageFlag === 'check' && !this.$attrs.isFromAi) {
+        return true
+      } else {
+        return false
+      }
+    },
+    imgLoaded () {
+      this.drawImgRect(this.currentImgRect)
+    },
     calImgPosition (force) {
       let imgPosition = this.$refs.starryImg
       this.imgInfo = {
@@ -74,6 +94,9 @@ export default {
           width: width + 2,
           height: height + 2
         }
+        this.showRect = true
+      } else {
+        this.showRect = false
       }
     },
     wheel (event) {
@@ -95,7 +118,7 @@ export default {
         } else if (event.detail) {
           delta = event.detail > 0 ? 1 : -1
         }
-        let diffScale = -delta * this.scaleRatio * 10
+        let diffScale = -delta * this.scaleRatio
         this.scale = this.scale + diffScale
         let relativePosition = this.$refs['unDialog-container'].getBoundingClientRect()
         this.left = (event.pageX - relativePosition.left + this.left) * this.scale / (this.scale - diffScale) - (event.pageX - relativePosition.left)
@@ -153,6 +176,7 @@ export default {
       height: calc(100% - 20px);
       overflow: hidden;
       .hCenter{
+        display: none;
         position: absolute;
         height: 1px;
         width: 100%;
@@ -160,6 +184,7 @@ export default {
         top: 200px;
       }
       .wCenter{
+        display: none;
         position: absolute;
         height: 100%;
         width: 1px;
@@ -175,15 +200,16 @@ export default {
           width: 100%;
           height: auto;
         }
+        .unDialog-sign {
+          position: absolute;
+          border: 2px solid red;
+        }
       }
     }
     .toolbar {
       height: 20px;
       text-align: center;
       .dec-i{
-        display: inline-block;
-        width: 20px;
-        height: 20px;
         vertical-align: middle;
         margin: 0 5px;
       }

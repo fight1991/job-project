@@ -12,6 +12,13 @@ export default {
       if (state[key] !== undefined) {
         Object.assign(state, {[key]: value})
       }
+    },
+    setCheckPage (state, obj) {
+      for (let k in obj) {
+        if (obj.hasOwnProperty(k)) {
+          state[k] = obj[k]
+        }
+      }
     }
   },
   actions: {

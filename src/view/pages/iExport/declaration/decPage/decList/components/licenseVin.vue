@@ -235,7 +235,7 @@ export default {
     }
   },
   created () {
-    decBus.$on('setValueForlicVINForm', this.setValueForlicVINForm)
+    decBus.getBus(this.moduleName).$on('setValueForlicVINForm', this.setValueForlicVINForm)
   },
   methods: {
     openLicVIN () {

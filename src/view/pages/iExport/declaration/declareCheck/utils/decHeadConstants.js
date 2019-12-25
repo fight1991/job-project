@@ -1,178 +1,235 @@
 export const decHeadItems = [{
   key: 'tradeCoScc',
   importLabel: '境内收货人',
-  exportLabel: '境内发货人'
+  exportLabel: '境内发货人',
+  relatedFields: ['tradeCoScc', 'tradeName']
 }, {
   key: 'iEPort',
   importLabel: '进境关别',
-  exportLabel: '出境关别'
+  exportLabel: '出境关别',
+  relatedFields: ['iEPort']
 }, {
   key: 'iEDate',
   importLabel: '进口日期',
-  exportLabel: '出口日期'
+  exportLabel: '出口日期',
+  relatedFields: ['iEDate']
 }, {
   key: 'dDate',
-  label: '申报日期'
+  label: '申报日期',
+  relatedFields: ['dDate']
 }, {
   key: 'manualNo',
-  label: '备案号'
+  label: '备案号',
+  relatedFields: ['manualNo']
 }, {
   key: 'overseasConsignorCode',
-  label: '境外发货人'
+  label: '境外发货人',
+  relatedFields: ['overseasConsignorEname', 'overseasConsignorEname']
 }, {
   key: 'overseasConsigneeCode',
-  label: '境外收货人'
+  label: '境外收货人',
+  relatedFields: ['overseasConsigneeEname', 'overseasConsigneeCode']
 }, {
   key: 'trafMode',
-  label: '运输方式'
+  label: '运输方式',
+  relatedFields: ['trafMode']
 }, {
   key: 'nameVo',
-  label: '运输工具名称及航次号'
+  label: '运输工具名称及航次号',
+  relatedFields: ['trafName', 'voyageNo']
 }, {
   key: 'billNo',
-  label: '提运单号'
+  label: '提运单号',
+  relatedFields: ['billNo']
 }, {
   key: 'goodSplace',
-  label: '货物存放地点'
+  label: '货物存放地点',
+  relatedFields: ['goodSplace']
 }, {
   key: 'ownerCodeScc',
-  label: '消费使用单位'
+  label: '消费使用单位',
+  relatedFields: ['ownerName']
 }, {
   key: 'tradeMode',
-  label: '监管方式'
+  label: '监管方式',
+  relatedFields: ['tradeMode']
 }, {
   key: 'cutMode',
-  label: '征免性质'
+  label: '征免性质',
+  relatedFields: ['cutMode']
 }, {
   key: 'licenseNo',
-  label: '许可证号'
+  label: '许可证号',
+  relatedFields: ['licenseNo']
 }, {
   key: 'despPortCode',
-  label: '启运港'
+  label: '启运港',
+  relatedFields: ['despPortCode']
 }, {
   key: 'contrNo',
-  label: '合同协议号'
+  label: '合同协议号',
+  relatedFields: ['contrNo']
 }, {
   key: 'tradeAreaCode',
-  label: '贸易国别(地区)'
+  label: '贸易国别(地区)',
+  relatedFields: ['tradeAreaCode']
 }, {
   key: 'tradeCountry',
   importLabel: '启运国(地区)',
-  exportLabel: '运抵国(地区)'
+  exportLabel: '运抵国(地区)',
+  relatedFields: ['tradeCountry']
 }, {
   key: 'distinatePort',
   importLabel: '经停港',
-  exportLabel: '指运港'
+  exportLabel: '指运港',
+  relatedFields: ['distinatePort']
 }, {
   key: 'entyPortCode',
   importLabel: '入境口岸',
-  exportLabel: '离境口岸'
+  exportLabel: '离境口岸',
+  relatedFields: ['entyPortCode']
 }, {
   key: 'wrapType',
-  label: '包装种类'
+  label: '包装种类',
+  relatedFields: ['wrapType']
 }, {
   key: 'packNo',
-  label: '件数'
+  label: '件数',
+  relatedFields: ['packNo']
 }, {
   key: 'grossWt',
-  label: '毛重（千克）'
+  label: '毛重（千克）',
+  relatedFields: ['grossWt']
 }, {
   key: 'netWt',
-  label: '净重（千克）'
+  label: '净重（千克）',
+  relatedFields: ['netWt']
 }, {
   key: 'transMode',
-  label: '成交方式'
+  label: '成交方式',
+  relatedFields: ['transMode']
 }, {
   key: 'feeMark',
-  label: '运费'
+  label: '运费',
+  relatedFields: ['feeCurr', 'insurRate', 'insurMark']
 }, {
   key: 'insurMark',
-  label: '保费'
+  label: '保费',
+  relatedFields: ['insurCurr', 'insurRate', 'insurMark']
 }, {
   key: 'otherMark',
-  label: '杂费'
+  label: '杂费',
+  relatedFields: ['otherCurr', 'otherRate', 'otherMark']
 }, {
   key: 'docuAndcertCode',
-  label: '随附单证及编号'
+  label: '随附单证及编号',
+  relatedFields: ['docuAndcertCode']
 }, {
   key: 'note',
-  label: '标记唛码及备注'
+  label: '标记唛码及备注',
+  relatedFields: ['note']
 }, {
   key: 'promiseItem1',
-  label: '特殊关系确认:'
+  label: '特殊关系确认:',
+  relatedFields: ['promiseItem1']
 }, {
   key: 'promiseItem2',
-  label: '价格影响确认:'
+  label: '价格影响确认:',
+  relatedFields: ['promiseItem2']
 }, {
   key: 'promiseItem3',
-  label: '支付特许权使用费确认:'
+  label: '支付特许权使用费确认:',
+  relatedFields: ['promiseItem3']
 }, {
   key: 'chkPayment',
-  label: '自报自缴:'
+  label: '自报自缴:',
+  relatedFields: ['chkPayment']
 }, {
   key: 'orgCode',
-  label: '检验检疫受理机关'
+  label: '检验检疫受理机关',
+  relatedFields: ['orgCode']
 }, {
   key: 'vsaOrgCode',
-  label: '领证机关'
+  label: '领证机关',
+  relatedFields: ['vsaOrgCode']
 }, {
   key: 'despDate',
-  label: '启运日期'
+  label: '启运日期',
+  relatedFields: ['despDate']
 }, {
   key: 'blno',
-  label: 'B/L号'
+  label: 'B/L号',
+  relatedFields: ['blno']
 }, {
   key: 'purpOrgCode',
-  label: '目的地检验检疫机关'
+  label: '目的地检验检疫机关',
+  relatedFields: ['purpOrgCode']
 }, {
   key: 'correlationaNo',
-  label: '关联号码及理由'
+  label: '关联号码及理由',
+  relatedFields: ['correlationReasonFlag', 'correlationReasonFlagValue']
 }, {
   key: 'origBoxFlag',
-  label: '原箱运输'
+  label: '原箱运输',
+  relatedFields: ['origBoxFlag']
 }, {
   key: 'specialFlag',
-  label: '特殊业务标识'
+  label: '特殊业务标识',
+  relatedFields: ['specialFlag']
 }, {
   key: 'companyCer',
-  label: '企业资质'
+  label: '企业资质',
+  relatedFields: ['decCopLimits']
 }, {
   key: 'userInfo',
-  label: '使用人'
+  label: '使用人',
+  relatedFields: ['decDecUsers']
 }, {
   key: 'inspDecElem',
-  label: '检验检疫签证申报要素'
+  label: '检验检疫签证申报要素',
+  relatedFields: ['decRequestCerts']
 }, {
   key: 'domesticConsigneeEname',
-  label: '境内收发货人名称(外文)'
+  label: '境内收发货人名称(外文)',
+  relatedFields: ['domesticConsigneeEname']
 }, {
   key: 'overseasConsignorCname',
-  label: '境外收发货人名称(中文)'
+  label: '境外收发货人名称(中文)',
+  relatedFields: ['overseasConsignorCname']
 }, {
   key: 'overseasConsignorAddr',
-  label: '境外发货人地址'
+  label: '境外发货人地址',
+  relatedFields: ['overseasConsignorAddr']
 }, {
   key: 'cmplDschrgDt',
-  label: '卸毕日期'
+  label: '卸毕日期',
+  relatedFields: ['cmplDschrgDt']
 }, {
   key: 'inspOrgCode',
-  label: '口岸检验检疫机关'
+  label: '口岸检验检疫机关',
+  relatedFields: ['inspOrgCode']
 }, {
   key: 'goodsNote',
-  label: '备注:'
+  label: '备注:',
+  relatedFields: ['noteS', 'markNo']
 }, {
   key: 'purpose',
-  label: '用途:'
+  label: '用途:',
+  relatedFields: ['purpose']
 }, {
   key: 'approveNo',
-  label: '许可证/审批号:'
+  label: '许可证/审批号:',
+  relatedFields: ['approveNo']
 }, {
   key: 'originRelation',
-  label: '原产地对应关系:'
+  label: '原产地对应关系:',
+  relatedFields: ['originRelation']
 }, {
   key: 'voyageNo',
-  label: '航次号:'
+  label: '航次号:',
+  relatedFields: ['voyageNo']
 }, {
   key: 'trafName',
-  label: '运输工具名称:'
+  label: '运输工具名称:',
+  relatedFields: ['trafName']
 }]

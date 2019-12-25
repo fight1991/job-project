@@ -538,9 +538,9 @@ export default {
         if (ref === 'origBoxFlag') { // 原箱运输
           this.openSpecialBusiContent()
         } else if (ref === 'grossWt' && this.isShowInput.isDoc === false) { // 毛重
-          summaryBus.$emit('getGNameFocus', null)
+          summaryBus.getBus(this.moduleName).$emit('getGNameFocus', null)
         } else if (ref === 'licenseNo') { // 许可证号
-          summaryBus.$emit('getGNameFocus', null)
+          summaryBus.getBus(this.moduleName).$emit('getGNameFocus', null)
         } else if (ref === 'correlationReasonFlag' && this.controller.iEFlag === 'E') {
           this.openSpecialBusiContent()
         }

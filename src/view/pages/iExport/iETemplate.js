@@ -1,10 +1,17 @@
 // 进出口模板
+import abstractComponent from '@/view/common/abstract.vue'
+const decTemplateComponent = () => import(/* webpackChunkName: "dec-template" */ './declaration/decTemplate.vue')
+const decTemplateQueryComponent = () => import(/* webpackChunkName: "dec-template-query" */ './declaration/decTemplateQuery.vue')
+const shippingTemplateComponent = () => import(/* webpackChunkName: "ship-template" */ './declaration/shipping.vue')
+const customizeTemplateQueryComponent = () => import(/* webpackChunkName: "customize-template-query" */ './declaration/customizeTemplate/list.vue')
+const customizeTemplateComponent = () => import(/* webpackChunkName: "customize-template" */ './declaration/customizeTemplate/detail.vue')
+
 const MENU = {
   path: '/iExport/iETemplate',
   name: 'iETemplate',
-  icon: 'icons-menu-iEDefault',
+  icon: 'icons-menu-ie-default',
   permissions: 'CCBA20201000000',
-  component: resolve => require(['../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '进出口模板'
   },
@@ -16,7 +23,7 @@ const MENU = {
       permissions: 'CCBA20201020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./declaration/decTemplate.vue'], resolve),
+        component: decTemplateComponent,
         title: '进口报关单模板',
         iEFlag: 'import',
         operationType: 'add'
@@ -29,7 +36,7 @@ const MENU = {
       permissions: 'CCBA20201020000',
       hidden: true,
       meta: {
-        component: resolve => require(['./declaration/decTemplate.vue'], resolve),
+        component: decTemplateComponent,
         title: '进口报关单模板',
         iEFlag: 'import',
         operationType: 'edit'
@@ -42,7 +49,7 @@ const MENU = {
       permissions: 'CCBA20201020000',
       hidden: true,
       meta: {
-        component: resolve => require(['./declaration/decTemplate.vue'], resolve),
+        component: decTemplateComponent,
         title: '进口报关单模板',
         iEFlag: 'import',
         operationType: 'look'
@@ -55,7 +62,7 @@ const MENU = {
       permissions: 'CCBA20201030000',
       hidden: false,
       meta: {
-        component: resolve => require(['./declaration/decTemplate.vue'], resolve),
+        component: decTemplateComponent,
         title: '出口报关单模板',
         iEFlag: 'export',
         operationType: 'add'
@@ -68,7 +75,7 @@ const MENU = {
       permissions: 'CCBA20201030000',
       hidden: true,
       meta: {
-        component: resolve => require(['./declaration/decTemplate.vue'], resolve),
+        component: decTemplateComponent,
         title: '出口报关单模板',
         iEFlag: 'export',
         operationType: 'edit'
@@ -81,7 +88,7 @@ const MENU = {
       permissions: 'CCBA20201030000',
       hidden: true,
       meta: {
-        component: resolve => require(['./declaration/decTemplate.vue'], resolve),
+        component: decTemplateComponent,
         title: '出口报关单模板',
         iEFlag: 'export',
         operationType: 'look'
@@ -116,7 +123,7 @@ const MENU = {
       permissions: 'CCBA20201010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./declaration/decTemplateQuery.vue'], resolve),
+        component: decTemplateQueryComponent,
         title: '报关单模板查询'
       }
     },
@@ -138,7 +145,7 @@ const MENU = {
       permissions: 'CCBA20201030000',
       hidden: false,
       meta: {
-        component: resolve => require(['./declaration/shipping.vue'], resolve),
+        component: shippingTemplateComponent,
         title: '出口导入模板'
       }
     },
@@ -149,7 +156,7 @@ const MENU = {
       permissions: 'CCBA20201050000',
       hidden: false,
       meta: {
-        component: resolve => require(['./declaration/customizeTemplate/list.vue'], resolve),
+        component: customizeTemplateQueryComponent,
         title: '自定义模板'
       }
     },
@@ -158,7 +165,7 @@ const MENU = {
       name: 'customizeTemplate',
       hidden: true,
       meta: {
-        component: resolve => require(['./declaration/customizeTemplate/detail.vue'], resolve),
+        component: customizeTemplateComponent,
         title: '自定义模版'
       }
     }

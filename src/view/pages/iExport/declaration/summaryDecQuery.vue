@@ -86,7 +86,7 @@
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
-                :picker-options="pickerOptions2"
+                :picker-options="pickerOptions"
                 >
               </el-date-picker>
             </el-form-item>
@@ -129,7 +129,7 @@
                 <el-checkbox size="mini" v-model="item.value" @change="columnFieldChange">{{item.text}}</el-checkbox>
               </li>
             </ul>
-            <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-dropdown" slot="reference"></el-button>
+            <el-button size="mini" class="list-btns list-btn-drop list-icon-dropdown" slot="reference"></el-button>
           </el-popover>
         </div>
         <span class="span-right">已选择<span>{{checkedNum}}</span>项</span>
@@ -190,11 +190,14 @@
 
 <script>
 import util from '@/common/util'
+import '@/common/other/client'
+import pickerOptions from '@/common/mixin/pickerOptions'
 import decprintView from './decPage/components/decPrint'
 export default {
   components: {
     decprintView
   },
+  mixins: [pickerOptions],
   name: 'summaryDecQueryTable',
   data () {
     return {
@@ -330,50 +333,6 @@ export default {
       selectObj: {
         obj: '',
         parmas: ''
-      },
-      pickerOptions2: {
-        shortcuts: [{
-          text: '当天',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '本周',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            let week = start.getDay()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * week)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '最近7天',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '本月',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            let monthDay = start.getDate() - 1
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * monthDay)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '最近一月',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            picker.$emit('pick', [start, end])
-          }
-        }]
       },
       printCompnentParam: {}, // 打印组件 的传递参数
       printCompnentVisible: false, // 打印组件 显示 隐藏

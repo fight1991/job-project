@@ -51,9 +51,9 @@
                     trigger="click"
                     v-model='scanShow'
                     >
-                    <img src="@/assets/img/scan.png" style="height:150px;"><img/>
-                    <el-col :span="3" slot="reference" >
-                      <img src="@/assets/img/wx-minipic.png" style="height:20px;float:right;"><img/>
+                    <img src="https://www.5itrade.cn/files/CCBA/scan.png" style="height:150px;"><img/>
+                    <el-col :span="3" slot="reference" style="height: 20px">
+                      <span class="list-icon-wx-minipic"><i></i></span>
                     </el-col>
                   </el-popover>
                 </el-row>
@@ -193,7 +193,7 @@ export default {
           url: 'API@/saas-dictionary/gtin/getCurrGtin ',
           data: {},
           isPageList: false,
-          isLoading: false,
+          isLoad: false,
           success: (res) => {
             if (res.result) {
               this.QueryHistoryForm.gtin = res.result

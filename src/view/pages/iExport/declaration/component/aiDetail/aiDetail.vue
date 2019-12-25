@@ -6,11 +6,11 @@
     </div>
     <!-- 内容区 -->
     <div class='unDialog-tabs'>
-      <el-tabs  v-model="activeName" @tab-click="handleClick">
+      <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane class="tabPane" :label="tabName" v-for="tabName in tabNames" :name="tabName" :key="tabName">
           <el-carousel indicator-position="none" trigger="click" height='100%' :autoplay="false" :loop="false" @change="carouselChange" :ref="'carousel' + tabName">
             <el-carousel-item v-for="(item, index) in picList[tabName]" :key="item.picType + index" name='index'>
-              <img-detail v-if="item.url" :currentPicInfo="item" :showPosition="showPosition" :ref="'imgDetail_' + tabName + '_' + index"></img-detail>
+              <img-detail v-bind="$attrs" v-if="item.url" :currentPicInfo="item" :showPosition="showPosition" :ref="'imgDetail_' + tabName + '_' + index" :currentImgRect="currentImgRect"></img-detail>
             </el-carousel-item>
           </el-carousel>
         </el-tab-pane>
@@ -127,9 +127,17 @@ export default {
       }
     },
     changeDialogPosition () {
-      this.dialogPosition = {
-        width: parseInt(document.body.clientWidth - 860),
-        height: parseInt(document.body.clientHeight - 120)
+      console.log(this.$attrs.pagePos)
+      if (this.$attrs.pagePos) {
+        this.dialogPosition = {
+          width: this.$attrs.pagePos.totalW - this.$attrs.pagePos.otherW,
+          height: parseInt(document.body.clientHeight - 120)
+        }
+      } else {
+        this.dialogPosition = {
+          width: parseInt(document.body.clientWidth - 815),
+          height: parseInt(document.body.clientHeight - 120)
+        }
       }
     },
     getBase64 (imgUrl, imgW, imgH, deg, callback) {
@@ -265,58 +273,45 @@ export default {
   border-radius: 2px;
   z-index: 1000;
   box-sizing: border-box;
-}
-.unDialog-header {
-  background-color: #0969C8;
-  color: #fff;
-  height: 15px;
-  line-height: 15px;
-  padding: 10px 0px 10px 10px;
-  cursor: move;
-  user-select: none;
-}
-.unDialog-close {
-  position: absolute;
-  top: 6px;
-  right: 16px;
-  cursor: pointer;
-}
-
-.unDialog-tabs {
-  background-color: #fff;
-  height: calc(100% - 35px);
-  .el-tabs {
-    height: 100%;
+  .unDialog-header {
+    background-color: #0969C8;
+    color: #fff;
+    height: 15px;
+    line-height: 15px;
+    padding: 10px 0px 10px 10px;
+    cursor: move;
+    user-select: none;
+    .unDialog-close {
+      position: absolute;
+      top: 6px;
+      right: 16px;
+      cursor: pointer;
+    }
   }
-  .el-tabs__content {
-    height: calc(100% - 30px);
-    .el-tab-pane{
+  .unDialog-tabs {
+    background-color: #fff;
+    height: calc(100% - 35px);
+    .el-tabs {
       height: 100%;
-      .el-carousel{
+    }
+    .el-tabs__content {
+      height: calc(100% - 30px);
+      .el-tab-pane{
         height: 100%;
+        .el-carousel{
+          height: 100%;
+        }
+      }
+    }
+    .el-tabs__header {
+      padding: 0 20px;
+      margin: 0;
+      .el-tabs__item{
+        height: 30px;
+        line-height: 30px;
       }
     }
   }
-  .el-tabs__header {
-    padding: 0 20px;
-    margin: 0;
-    .el-tabs__item{
-      height: 30px;
-      line-height: 30px;
-    }
-  }
-}
-
-.unDialog-sign {
-  position: absolute;
-  border: 2px solid red;
-}
-.dec-i{
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  vertical-align: middle;
-  margin: 0 5px;
 }
 
 </style>

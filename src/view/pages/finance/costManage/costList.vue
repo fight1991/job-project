@@ -119,8 +119,8 @@
       :close-on-click-modal='false' width="560px"
       :modal-append-to-body="false">
       <div class="dec-div">
-        <div class="topFlag flex" v-if="type !== 'look'">
-          <img src="@/assets/img/warning.png" alt="">
+        <div class="topFlag flex list-icon-orange_warning" v-if="type !== 'look'">
+          <i></i>
           <div class="text">若需要使用账单的金蝶导出功能实现与金蝶系统的数据比对，请一定填写“会计科目”字段。</div>
         </div>
         <el-form size="mini" :label-width="'75px'" ref="addFees" :model="addFees" :rules="addFeesRule">
@@ -584,9 +584,10 @@ export default {
     padding-left: 18px;
     margin-bottom: 20px;
     box-sizing: border-box;
-    img {
+    i {
       display:block;
       margin-right: 8px;
+      padding-right: 4px;
     }
   }
 .query-condition {

@@ -120,13 +120,13 @@
   .error-color .el-input__inner,.charter-form .error-color .el-form-item__content .el-date-editor,.charter-form .error-color .el-form-item__content .el-date-editor .el-input__inner,.charter-form .error-color .el-checkbox-group,.charter-form .error-color .el-radio-group,.error-color .el-textarea__inner{
     background-color: #ffd0d8 !important;
   }
-  .dec-color-red .el-form-item__label,.dec-color-red .el-input__inner,.charter-form .dec-color-red .el-form-item__content .el-date-editor,.charter-form .dec-color-red .el-form-item__content .el-date-editor .el-input__inner,.charter-form .dec-color-red .el-checkbox-group,.charter-form .dec-color-red .el-radio-group,.dec-color-red .el-textarea__inner{
+  .dec-color-red .el-form-item__label,.dec-color-red .el-input__inner,.charter-form .dec-color-red .el-form-item__content .el-date-editor,.charter-form .dec-color-red .el-form-item__content .el-date-editor .el-input__inner,.charter-form .dec-color-red .el-checkbox-group,.charter-form .dec-color-red .el-radio-group,.dec-color-red .el-textarea__inner,.dec-color-red .form-txt{
     color: #fe0101;
   }
-.dec-color-yellow .el-input__inner,.charter-form .dec-color-yellow .el-form-item__content .el-date-editor,.charter-form .dec-color-yellow .el-form-item__content .el-date-editor .el-input__inner,.charter-form .dec-color-yellow .el-checkbox-group,.charter-form .dec-color-yellow .el-radio-group,.dec-color-yellow .el-textarea__inner{
+  .dec-color-yellow .el-input__inner,.charter-form .dec-color-yellow .el-form-item__content .el-date-editor,.charter-form .dec-color-yellow .el-form-item__content .el-date-editor .el-input__inner,.charter-form .dec-color-yellow .el-checkbox-group,.charter-form .dec-color-yellow .el-radio-group,.dec-color-yellow .el-textarea__inner,.dec-color-yellow .form-txt{
     color: #f8a227;
   }
- .dec-color-black .el-input__inner,.charter-form .dec-color-black .el-form-item__content .el-date-editor,.charter-form .dec-color-black .el-form-item__content .el-date-editor .el-input__inner,.charter-form .dec-color-black .el-checkbox-group,.charter-form .dec-color-black .el-radio-group,.dec-color-black .el-textarea__inner{
+  .dec-color-black .el-input__inner,.charter-form .dec-color-black .el-form-item__content .el-date-editor,.charter-form .dec-color-black .el-form-item__content .el-date-editor .el-input__inner,.charter-form .dec-color-black .el-checkbox-group,.charter-form .dec-color-black .el-radio-group,.dec-color-black .el-textarea__inner,.dec-color-black .form-txt{
     color: #4c4c4c;
   }
 
@@ -728,4 +728,29 @@
       text-overflow: initial;
       white-space: nowrap;
   }
+}
+.container-table {
+    .el-table-column--selection .cell {
+        padding-left: 0;
+    }
+    .cell:not(.el-checkbox), .el-table th div {
+        padding-right: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .cell, th div, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell {
+        padding-left: 0;
+    }
+    .el-checkbox {
+        margin-left: 3px;
+    }
+}
+.remove-row-bottom  {
+    .el-row {
+        border-bottom: 0;
+    }
+    .el-form-item__label {
+        line-height: 32px;
+        text-align: left;
+    }
 }

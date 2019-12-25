@@ -2,8 +2,8 @@
   <section class="sys-main finance">
     <div class="originInfo">
       <!-- 最顶部独立报价标识 -->
-      <div class="topFlag flex" v-if="quotationDetail.quotationHeadVO.singleFlag">
-        <img src="@/assets/img/Tips.png" alt="">
+      <div class="topFlag list-icon-Tips flex" v-if="quotationDetail.quotationHeadVO.singleFlag">
+        <i></i>
         <div class="text">项目独立报价</div>
       </div>
       <!-- 基本信息 -->
@@ -374,9 +374,9 @@ export default {
     box-sizing: border-box;
     border: 1px solid #ffc56b;
     background-color: #ffe9c7;
-    img {
-      display:block;
+    i {
       margin-right: 8px;
+      padding-left: 1px;
     }
   }
   .baseInfo,

@@ -10,7 +10,6 @@
         <el-dialog :modal-append-to-body='false'
           title="编辑标记及号码附件信息"
           :visible.sync="attachVisabled"
-          append-to-body
           class='sys-dec-class'
           width="600px">
           <section >
@@ -34,7 +33,7 @@
           </section>
         </el-dialog>
         <!-- 弹出框 编辑标记及号码附件信息 结束-->
-       <section>
+       <section class="sys-dec-class">
         <div class="border">
           <el-form :model="accDocVo"  label-width="100px" size="mini">
             <el-row>
@@ -44,8 +43,7 @@
                   @focus="tipsFillMessage('','saasEdocCode','SAAS_EDOC_CODE')"
                   remote filterable ref='edocCode'  default-first-option
                   :remote-method="checkParamsList"
-                  @keyup.enter.native="autoSaveAccDocByE"
-                  :popper-append-to-body = 'false'>
+                  @keyup.enter.native="autoSaveAccDocByE">
                     <el-option
                       v-for="item in saasEdocCode"
                       :key="item.codeField"
@@ -123,6 +121,7 @@
 </template>
 <script>
 import util from '@/common/util'
+import storageHandle from '@/common/storageHandle'
 export default {
   name: 'acc-doc',
   props: {
@@ -571,6 +570,9 @@ export default {
     checkParamsList (query) {
       let keyValue = query.trim()
       let list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
+      if (this.selectObj.params === 'SAAS_EDOC_CODE') {
+        list = storageHandle.getEdocCodesByRelatedBusiness(JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE')), 'common')
+      }
       let filterList = []
       if (util.isEmpty(keyValue)) {
         this[this.selectObj.obj] = list.slice(0, 10)
@@ -654,4 +656,22 @@ export default {
  .text-center {
    text-align: center;
  }
+ .el-select-dropdown__item.selected {
+        background: #0080ff;
+        color: #ffffff;
+    }
+  .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
+      background: #dbed8a;
+      font-weight: bold;
+  }
+  .el-select-dropdown__item {
+      font-size: 12px;
+      padding: 0 15px;
+      height: 22px;
+      line-height: 22px;
+      border: #c0c0c0 solid 1px;
+  }
+  .el-select-dropdown__list {
+        padding: 0;
+    }
 </style>

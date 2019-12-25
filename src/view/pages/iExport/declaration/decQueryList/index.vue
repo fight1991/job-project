@@ -118,7 +118,7 @@
                   range-separator="至"
                   start-placeholder="开始日期"
                   end-placeholder="结束日期"
-                  :picker-options="pickerOptions2"
+                  :picker-options="pickerOptions"
                   >
                 </el-date-picker>
               </el-form-item>
@@ -250,6 +250,17 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-row :gutter="50">
+            <el-col :md="12" :lg="6">
+              <el-form-item label="申报日期">
+                <el-date-picker v-model="QueryDecForm.dDate" style="width:100%"
+                  :disabled="isDisabled" clearable
+                  value-format="yyyyMMdd"
+                  format='yyyy-MM-dd'>
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </div>
         <el-row :gutter="50">
           <el-col :span="24" class='query-btn'>
@@ -285,7 +296,7 @@
           <el-button size="mini" class="list-btns list-icon-declare" title='仅上海地区可用' :disabled="isDisabledDec" @click="directDeclare"><i></i>申报</el-button>
         </el-tooltip>
         <el-dropdown @command="exportDec">
-          <el-button size="mini" class="list-btns list-icon-listExport"><i></i>导出</el-button>
+          <el-button size="mini" class="list-btns list-icon-export"><i></i>导出</el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="exportList">列表导出</el-dropdown-item>
             <el-dropdown-item command="exportDetail">详情导出</el-dropdown-item>
@@ -297,14 +308,14 @@
           <el-button size="mini" class="list-btns list-icon-sign" @click="markStar"><i></i>标记</el-button>
         </el-tooltip>
          <el-dropdown @command="createBill">
-          <el-button size="mini" class="list-btns list-icon-listExport"><i></i>生成接单</el-button>
+          <el-button size="mini" class="list-btns list-icon-createOrder"><i></i>生成接单</el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="createBill">生成接单</el-dropdown-item>
             <el-dropdown-item command="mergeBill">合并接单</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
         <el-button size="mini" class="list-btns list-icon-subimtCheck" v-permissions="'CCBA20205010500'" @click="submitAudit"><i></i>提交审核</el-button>
-        <el-button size="mini" class="list-btns list-icon-billDown"  @click="openBillCompent"><i></i>清单下载</el-button>
+        <el-button size="mini" class="list-btns list-icon-download"  @click="openBillCompent"><i></i>清单下载</el-button>
         <el-button size="mini" class="list-btns list-icon-scan" @click="visibleView"><i></i>可视化预览</el-button>
         <el-dropdown @command="OCRupLoad" v-if="false"> <!--智能制单:CCBA2.17需求移至接单-->
           <el-button size="mini" class="list-btns list-icon-AI"><i></i>智能制单</el-button>
@@ -320,7 +331,7 @@
                 <el-checkbox size="mini" v-model="item.value" @change="columnFieldChange">{{item.text}}</el-checkbox>
               </li>
             </ul>
-            <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-dropdown" slot="reference"></el-button>
+            <el-button size="mini" class="list-btns list-btn-drop list-icon-dropdown" slot="reference"><i></i></el-button>
           </el-popover>
         </div>
         <span class="span-right">已选择<span>{{checkedNum}}</span>项</span>
@@ -338,7 +349,7 @@
         <el-table-column label="标记" align='center'  min-width="50">
           <template slot-scope="scope">
             <span class='el-icon-star-on' title='标记' v-if = "scope.row.isFavour === '1'"></span>
-            <span class='ocr-img border-0' title='ocr' v-if = "scope.row.ref5 === 'Y'"><i class='dec-i'></i></span>
+            <span class='list-icon-ocr border-0' title='ocr' v-if = "scope.row.ref5 === 'Y'"><i class='dec-i'></i></span>
           </template>
         </el-table-column>
         <el-table-column label="智能流水号" align='center' prop="ocrNo" min-width="150"  v-if="fieldList.ocrNo.value"></el-table-column>
@@ -375,13 +386,13 @@
         <el-table-column label="贸易国" align='left' prop="tradeAreaCodeValue" v-if="fieldList.tradeAreaCodeValue.value" min-width="100"></el-table-column>
         <el-table-column label="客户端统一编号" align='left' prop="clientSeqno" v-if="fieldList.clientSeqno.value" min-width="120"></el-table-column>
         <el-table-column label="更新时间" align='center' prop="updateTime" v-if="fieldList.updateTime.value" min-width="150"></el-table-column>
-        <el-table-column label="操作" fixed="right" align='center' min-width="140" >
+        <el-table-column label="操作" fixed="right" align='center' min-width="150" >
           <template slot-scope="scope">
-            <a href="javascript:void(0)" class="list-icon-editH border-0" title="编辑" @click="editDetail(scope.row)"><i class='dec-i'></i></a>
-            <a href="javascript:void(0)" class="list-icon-lookH border-0" title="查看" @click.stop="lookupDetail(scope.row)"><i class='dec-i'></i></a>
-            <a href="javascript:void(0)" class="list-icon-lookH2 border-0" title="查看业务跟踪明细" @click.stop="lookTrackeDetail(scope.row)"><i class='dec-i'></i></a>
-            <a href="javascript:void(0)" class="list-icon-finance border-0" title="登账"  @click.stop="skipAccount(scope.row)"><i class='dec-i'></i></a>
-            <a href="javascript:void(0)" class="list-icon-refreshH border-0" title="同步" v-show= 'scope.row.cusCiqNo' @click.stop="checkIfbind(scope.row)"><i class='dec-i'></i></a>
+            <el-button type="text" class="table-icon list-icon-edit" title="编辑" @click="editDetail(scope.row)"><i></i></el-button>
+            <el-button type="text" class="table-icon list-icon-look" title="查看" @click.stop="lookupDetail(scope.row)"><i></i></el-button>
+            <el-button type="text" class="table-icon list-icon-tailAfter" title="查看业务跟踪明细" @click.stop="lookTrackeDetail(scope.row)"><i></i></el-button>
+            <el-button type="text" class="table-icon list-icon-ledger" title="登账"  @click.stop="skipAccount(scope.row)"><i></i></el-button>
+            <el-button type="text" class="table-icon list-icon-sync" title="同步" v-show= 'scope.row.cusCiqNo' @click.stop="checkIfbind(scope.row)"><i></i></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -429,7 +440,7 @@
         <input type="button"  class ='button-primary' @click="verifyPassed" value='登录'>
       </span>
     </el-dialog>
-    <bill-download ref="billDownload" :billDownLoadVisible.sync="billDownLoadVisible" :sccCode="sccCode" :isConBossId="isConBossId" :queryType.sync="queryType" @backQueryForm="backQueryForm"></bill-download>
+    <bill-download ref="billDownload" :billDownLoadVisible.sync="billDownLoadVisible" :sccCode="sccCode" :isConBossId="isConBossId" :queryType.sync="queryType" @backQueryForm="backQueryForm" :userInfo="userInfo"></bill-download>
     <el-dialog :modal-append-to-body='false'
       title="关联接单"
       :visible.sync="contactBossIdVisible"
@@ -592,6 +603,7 @@
 
 <script>
 import util from '@/common/util'
+import pickerOptions from '@/common/mixin/pickerOptions'
 // import Vue from 'vue'
 import '@/common/other/client'
 import rightsUtil from '@/common/rightsUtil'
@@ -613,6 +625,7 @@ import createBill from '../component/createBill.vue'
 import syncdecRecord from '../component/syncDecRcord.vue'
 import billDownload from './components/billDownLoad.vue'
 import syncStar from '../component/syncStar.vue'
+import decUtil from '../decPage/common/decUtil'
 
 export default {
   components: {
@@ -630,6 +643,7 @@ export default {
     billDownload,
     syncStar
   },
+  mixins: [pickerOptions],
   name: 'decQueryTable',
   data () {
     return {
@@ -702,51 +716,7 @@ export default {
       coverVisable: false, // 覆盖
       initCoverParam: '', //
       gotoBind: false,
-      downLoadType: '',
-      pickerOptions2: {
-        shortcuts: [{
-          text: '当天',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '本周',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            let week = start.getDay()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * week)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '最近7天',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '本月',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            let monthDay = start.getDate() - 1
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * monthDay)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '最近一月',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            picker.$emit('pick', [start, end])
-          }
-        }]
-      }
+      downLoadType: ''
     }
   },
   created () {
@@ -784,7 +754,8 @@ export default {
         updateTimeStart: '', // 最近开始操作时间
         updateTimeEnd: '', // 最近终止操作时间
         iEFlag: '', // 进出口标志
-        ocrNo: '' // 智能流水号
+        ocrNo: '', // 智能流水号
+        dDate: '' // 申报日期
       }
     },
     resetDecForm  () {
@@ -857,6 +828,7 @@ export default {
       this.QueryDecForm.updateTimeEnd = this.$route.query.endTime
       this.QueryDecForm.status = this.$route.query.status
       this.QueryDecForm.iEFlag = this.$route.query.iEFlag
+      this.QueryDecForm.createUser = ''
       this.pageList()
     },
     // 设置默认的查询日期
@@ -1036,7 +1008,8 @@ export default {
           corpBusiNo: this.QueryDecForm.corpBusiNo, //  客户端统一编号
           updateTimeStart: this.QueryDecForm.updateTimeStart, // 最近开始操作时间
           updateTimeEnd: this.QueryDecForm.updateTimeEnd, // 最近终止操作时间
-          iEFlag: this.QueryDecForm.iEFlag // 进出口标志
+          iEFlag: this.QueryDecForm.iEFlag, // 进出口标志
+          dDate: this.QueryDecForm.dDate // 申报日期
         }
       }
       if (!util.isEmpty(this.field)) {
@@ -1076,21 +1049,22 @@ export default {
     // 跳转 查看界面
     lookupDetail (row) {
       let pageType
+      let flag = row.iEFlag === 'I' ? 'import' : 'export'
       if (row.declTrnrel === '0') {
         pageType = 'declaration'
-        this.gotoDecPage(pageType, row.iEFlag === 'I' ? 'import' : 'export', 'look', row.decPid.toString(), row.bossId, row.tsPid, row)
+        this.skipDecPage(pageType, flag, 'look', row.decPid.toString(), row.tsPid, row.bossId, row)
       } else if (row.declTrnrel === '2') {
         pageType = 'recordList'
-        this.gotoDecPage(pageType, row.iEFlag === 'I' ? 'import' : 'export', 'look', row.decPid.toString(), row.bossId, row.tsPid, row)
+        this.skipDecPage(pageType, flag, 'look', row.decPid.toString(), row.tsPid, row.bossId, row)
       } else if (row.declTrnrel === '1') {
         pageType = 'declaration'
-        this.gotoTransPage(pageType, row.iEFlag === 'I' ? 'import' : 'export', 'look', row.decPid.toString(), row.bossId, row)
+        this.gotoTransPage(pageType, flag, 'look', row.decPid.toString())
       } else if (row.declTrnrel === '3') {
         pageType = 'recordList'
-        this.gotoTransPage(pageType, row.iEFlag === 'I' ? 'import' : 'export', 'look', row.decPid.toString())
+        this.gotoTransPage(pageType, flag, 'look', row.decPid.toString())
       } else if (row.declTrnrel === '4') {
         pageType = 'secondDec'
-        this.gotoTransPage(pageType, row.iEFlag === 'I' ? 'import' : 'export', 'look', row.decPid.toString())
+        this.gotoTransPage(pageType, flag, 'look', row.decPid.toString())
       }
     },
     // 跳转编辑页面
@@ -1104,21 +1078,22 @@ export default {
         return false
       }
       let pageType
+      let flag = row.iEFlag === 'I' ? 'import' : 'export'
       if (row.declTrnrel === '0') {
         pageType = 'declaration'
-        this.gotoDecPage(pageType, row.iEFlag === 'I' ? 'import' : 'export', 'edit', row.decPid.toString(), row.tsPid, row.bossId, row)
+        this.skipDecPage(pageType, flag, 'edit', row.decPid.toString(), row.tsPid, row.bossId, row)
       } else if (row.declTrnrel === '2') {
         pageType = 'recordList'
-        this.gotoDecPage(pageType, row.iEFlag === 'I' ? 'import' : 'export', 'edit', row.decPid.toString(), row.tsPid, row.bossId, row)
+        this.skipDecPage(pageType, flag, 'edit', row.decPid.toString(), row.tsPid, row.bossId, row)
       } else if (row.declTrnrel === '1') {
         pageType = 'declaration'
-        this.gotoTransPage(pageType, row.iEFlag === 'I' ? 'import' : 'export', 'edit', row.decPid.toString(), '', row.bossId, row)
+        this.gotoTransPage(pageType, flag, 'edit', row.decPid.toString())
       } else if (row.declTrnrel === '3') {
         pageType = 'recordList'
-        this.gotoTransPage(pageType, row.iEFlag === 'I' ? 'import' : 'export', 'edit', row.decPid.toString(), '', row.bossId, row)
+        this.gotoTransPage(pageType, flag, 'edit', row.decPid.toString())
       } else if (row.declTrnrel === '4') {
         pageType = 'secondDec'
-        this.gotoTransPage(pageType, row.iEFlag === 'I' ? 'import' : 'export', 'edit', row.decPid.toString(), '', row.bossId, row)
+        this.gotoTransPage(pageType, flag, 'edit', row.decPid.toString())
       }
     },
     /**
@@ -1128,60 +1103,20 @@ export default {
      * @param pid  报关单主键  可不传
      * @param operationType 操作   add 新增 look 查看  edit 编辑
      */
-    gotoDecPage (funFlag, flag, operationType, pid = 'new', tsPid, bossId, row) {
-      let routeParam = {
-        'declaration@import@look@dec': {tabName: '进口报关单', routeName: 'importDecLook'},
-        'declaration@import@look@summary': {tabName: '进口报关单(完整申报)', routeName: 'importDecLook'},
-        'declaration@import@edit@dec': {tabName: '进口报关单', routeName: 'importDecEdit'},
-        'declaration@import@edit@summary': {tabName: '进口报关单(完整申报)', routeName: 'importDecEdit'},
-        'declaration@export@edit@dec': {tabName: '出口报关单', routeName: 'exportDecEdit'},
-        'declaration@export@edit@summary': {tabName: '出口报关单(完整申报)', routeName: 'exportDecEdit'},
-        'declaration@export@look@dec': {tabName: '出口报关单', routeName: 'exportDecLook'},
-        'declaration@export@look@summary': {tabName: '出口报关单(完整申报)', routeName: 'exportDecLook'},
-        'recordList@import@look@dec': {tabName: '进境备案清单', routeName: 'importRecordLook'},
-        'recordList@import@look@summary': {tabName: '进境备案清单(完整申报)', routeName: 'importRecordLook'},
-        'recordList@import@edit@dec': {tabName: '进境备案清单', routeName: 'importRecordEdit'},
-        'recordList@import@edit@summary': {tabName: '进境备案清单(完整申报)', routeName: 'importRecordEdit'},
-        'recordList@export@look@dec': {tabName: '出境备案清单', routeName: 'exportRecordLook'},
-        'recordList@export@look@summary': {tabName: '出境备案清单(完整申报)', routeName: 'exportRecordLook'},
-        'recordList@export@edit@dec': {tabName: '出境备案清单', routeName: 'exportRecordEdit'},
-        'recordList@export@edit@summary': {tabName: '出境备案清单(完整申报)', routeName: 'exportRecordEdit'}
+    skipDecPage (funFlag, flag, operationType, pid = 'new', tsPid, bossId, row) {
+      let queryParam = {}
+      if (row.ocrNo) {
+        queryParam['priceInnerNo'] = bossId
+        queryParam['aiType'] = 'Intelligent'
+        queryParam['taskId'] = row.ocrNo
+      } else {
+        queryParam['priceInnerNo'] = bossId
       }
-      let para = `${funFlag}@${flag}@${operationType}`
+      let pageType = 'dec'
       if (tsPid) {
-        para += '@summary'
-      } else {
-        para += '@dec'
+        pageType = 'whole'
       }
-      let routeName = routeParam[para].routeName
-      let tabName = routeParam[para].tabName
-      if (row.ocrNo) { // 如果是智能制单的数据
-        this.$router.push({
-          name: routeName,
-          params: {
-            'pid': pid,
-            'setTitle': tabName + '-' + pid,
-            'setId': routeName + operationType + pid
-          },
-          query: {
-            'priceInnerNo': bossId,
-            'aiType': 'Intelligent',
-            'taskId': row.ocrNo
-          }
-        })
-      } else {
-        this.$router.push({
-          name: routeName,
-          params: {
-            'pid': pid,
-            'setTitle': tabName + '-' + pid,
-            'setId': routeName + operationType + pid
-          },
-          query: {
-            'priceInnerNo': bossId
-          }
-        })
-      }
+      decUtil.gotoDecPage(funFlag, flag, operationType, pid, pageType, queryParam, this)
     },
     /**
      * 跳转 新增、详情、编辑
@@ -2096,11 +2031,13 @@ export default {
         this.queryDecList()
       }
     },
-    // 对比两个数组里的值是否一样
+    // 对比两个对象的KEY值是否一样
     compareFieldList (orig, compare) {
-      if (orig.length === compare.length) {
-        for (let i in orig) {
-          if (orig[i].text !== compare[i].text) {
+      let origKeys = Object.keys(orig)
+      let compareKeys = Object.keys(compare)
+      if (origKeys.length === compareKeys.length) {
+        for (let i in origKeys) {
+          if (origKeys[i] !== compareKeys[i]) {
             return false
           }
         }

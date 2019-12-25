@@ -297,9 +297,19 @@ function gerBinaryFile ({url, successCallBack}) {
     successCallBack && successCallBack(res)
   })
 }
+function getStreamFile ({url, successCallBack}) {
+  axios({
+    method: 'get',
+    url: url,
+    responseType: 'text'
+  }).then((res) => {
+    successCallBack && successCallBack(res)
+  })
+}
 
 // 将post挂载到vue的原型上
 Vue.prototype.$post = post
 Vue.prototype.$upload = upload
 Vue.prototype.$all = all
 Vue.prototype.$getBinaryFile = gerBinaryFile
+Vue.prototype.$getStreamFile = getStreamFile

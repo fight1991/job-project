@@ -13,124 +13,124 @@
     </el-row>
     <table>
       <tr>
-        <checkItem :moduleName="moduleName" :isImport="isImport" :checkData="headConfig['tradeCoScc']" width="25%">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" :isImport="isImport" :checkData="headConfig['tradeCoScc']" width="25%">
           <span class='content-font'>{{"(" + (decHead.tradeCoScc || "") + ")"}}</span>
           <p class='content-font'>{{decHead.tradeName}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName" :isImport="isImport" :checkData="headConfig['iEPort']" colspan="2" width="20%">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" :isImport="isImport" :checkData="headConfig['iEPort']" colspan="2" width="20%">
           <span class='content-font'>{{"(" + (decHead.iEPort || "") + ")"}}</span>
           <p class='content-font'>{{decHead.iEPortValue}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName" :isImport="isImport" :checkData="headConfig['iEDate']" colspan="2" width="20%">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" :isImport="isImport" :checkData="headConfig['iEDate']" colspan="2" width="20%">
           <p class='content-font'>{{decHead.iEDate}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName" :isImport="isImport" :checkData="headConfig['dDate']" width="15%">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" :isImport="isImport" :checkData="headConfig['dDate']" width="15%">
           <p class='content-font'>{{decHead.dDate}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName" :isImport="isImport" :checkData="headConfig['manualNo']" colspan="2" width="20%">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" :isImport="isImport" :checkData="headConfig['manualNo']" colspan="2" width="20%">
           <p class='content-font'>{{decHead.manualNo}}</p>
         </checkItem>
       </tr>
       <tr>
-        <checkItem :moduleName="moduleName" v-if="isImport" :isImport="isImport" :checkData="headConfig['overseasConsignorCode']" width="25%">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" v-if="isImport" :isImport="isImport" :checkData="headConfig['overseasConsignorCode']" width="25%">
           <span >{{"(" + (decHead.overseasConsignorCode|| "") + ")"}}</span>
           <p>{{decHead.overseasConsignorEname}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName" v-if="!isImport" :isImport="isImport" :checkData="headConfig['overseasConsigneeCode']" width="25%">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" v-if="!isImport" :isImport="isImport" :checkData="headConfig['overseasConsigneeCode']" width="25%">
           <span>{{"(" + (decHead.overseasConsigneeCode|| "") + ")"}}</span>
           <p>{{decHead.overseasConsigneeEname}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName" colspan="2" :isImport="isImport" :checkData="headConfig['trafMode']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" colspan="2" :isImport="isImport" :checkData="headConfig['trafMode']">
           <span class='content-font'>{{"(" + (decHead.trafMode|| "") + ")"}}</span>
           <p class='content-font'>{{decHead.trafModeValue}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName" colspan="2" :isImport="isImport" :checkData="headConfig['nameVo']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" colspan="2" :isImport="isImport" :checkData="headConfig['nameVo']">
           <p class='content-font'>{{(decHead.trafName && decHead.voyageNo) ? (decHead.trafName + '/' + decHead.voyageNo) : (decHead.trafName || decHead.voyageNo)}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName" :colspan="isImport?1:3" :isImport="isImport" :checkData="headConfig['billNo']" :disabled="disabledSpecialEle">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" :colspan="isImport?1:3" :isImport="isImport" :checkData="headConfig['billNo']" :disabled="disabledSpecialEle">
           <p class='content-font'>{{decHead.billNo}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName" colspan="2" v-if="isImport" :isImport="isImport" :checkData="headConfig['goodSplace']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" colspan="2" v-if="isImport" :isImport="isImport" :checkData="headConfig['goodSplace']">
           <p class='content-font'>{{decHead.goodSplace}}</p>
         </checkItem>
       </tr>
       <tr>
-        <checkItem :moduleName="moduleName" :isImport="isImport" :checkData="headConfig['ownerCodeScc']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" :isImport="isImport" :checkData="headConfig['ownerCodeScc']">
           <span class='content-font'>{{"(" + (decHead.ownerCodeScc|| "") + ")"}}</span>
           <p class='content-font'>{{decHead.ownerName}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName" colspan="2" :isImport="isImport" :checkData="headConfig['tradeMode']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" colspan="2" :isImport="isImport" :checkData="headConfig['tradeMode']">
           <span class='content-font'>{{"(" + (decHead.tradeMode|| "") + ")"}}</span>
           <p class='content-font'>{{decHead.tradeModeValue}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName" colspan="2" :isImport="isImport" :checkData="headConfig['cutMode']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" colspan="2" :isImport="isImport" :checkData="headConfig['cutMode']">
           <span class='content-font'>{{"("+ (decHead.cutMode|| "") + ")"}}</span>
           <p class='content-font'>{{decHead.cutModeValue}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName" :colspan="isImport?1:3" :isImport="isImport" :checkData="headConfig['licenseNo']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" :colspan="isImport?1:3" :isImport="isImport" :checkData="headConfig['licenseNo']">
           <p class='content-font'>{{decHead.licenseNo}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName" colspan="2" v-if="isImport" :isImport="isImport" :checkData="headConfig['despPortCode']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" colspan="2" v-if="isImport" :isImport="isImport" :checkData="headConfig['despPortCode']">
           <span class='content-font'>{{"("+ (decHead.despPortCode|| "") + ")"}}</span>
           <p class='content-font'>{{decHead.despPortCodeValue}}</p>
         </checkItem>
       </tr>
       <tr>
-        <checkItem :moduleName="moduleName" :isImport="isImport" :checkData="headConfig['contrNo']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" :isImport="isImport" :checkData="headConfig['contrNo']">
           <p class='content-font'>{{decHead.contrNo}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName" colspan="2" :isImport="isImport" :checkData="headConfig['tradeAreaCode']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" colspan="2" :isImport="isImport" :checkData="headConfig['tradeAreaCode']">
           <span class='content-font'>{{"(" + (decHead.tradeAreaCode|| "") + ")"}}</span>
           <p class='content-font'>{{decHead.tradeAreaCodeValue}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName" colspan="2" :isImport="isImport" :checkData="headConfig['tradeCountry']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" colspan="2" :isImport="isImport" :checkData="headConfig['tradeCountry']">
           <span class='content-font'>{{"(" + (decHead.tradeCountry|| "") + ")"}}</span>
           <p class='content-font'>{{decHead.tradeCountryValue}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName"  :isImport="isImport" :checkData="headConfig['distinatePort']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName"  :isImport="isImport" :checkData="headConfig['distinatePort']">
           <span class='content-font'>{{"(" + (decHead.distinatePort|| "") + ")"}}</span>
           <p class='content-font'>{{decHead.distinatePortValue}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName"  colspan="2" :isImport="isImport" :checkData="headConfig['entyPortCode']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName"  colspan="2" :isImport="isImport" :checkData="headConfig['entyPortCode']">
           <span class='content-font'>{{"(" + (decHead.entyPortCode|| "") + ")"}}</span>
           <p class='content-font'>{{decHead.entyPortCodeValue}}</p>
         </checkItem>
       </tr>
       <tr>
-        <checkItem :moduleName="moduleName"  :isImport="isImport" :checkData="headConfig['wrapType']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName"  :isImport="isImport" :checkData="headConfig['wrapType']">
           <span class='content-font'>{{"(" + (decHead.wrapType|| "") + ")" }}</span>
           <p class='content-font'>{{decHead.wrapTypeValue}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName"  width= "10%" :isImport="isImport" :checkData="headConfig['packNo']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName"  width= "10%" :isImport="isImport" :checkData="headConfig['packNo']">
           <p class='content-font'>{{decHead.packNo}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName"  width= "10%" :isImport="isImport" :checkData="headConfig['grossWt']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName"  width= "10%" :isImport="isImport" :checkData="headConfig['grossWt']">
           <p class='content-font'>{{decHead.grossWt}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName"  width= "10%" :isImport="isImport" :checkData="headConfig['netWt']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName"  width= "10%" :isImport="isImport" :checkData="headConfig['netWt']">
           <p class='content-font'>{{decHead.netWt}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName"  width= "10%" :isImport="isImport" :checkData="headConfig['transMode']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName"  width= "10%" :isImport="isImport" :checkData="headConfig['transMode']">
           <span class='content-font'>{{"(" + (decHead.transMode|| "") + ")"}}</span>
           <p class='content-font'>{{decHead.transModeValue}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName" :isImport="isImport" :checkData="headConfig['feeMark']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" :isImport="isImport" :checkData="headConfig['feeMark']">
           <p class='content-font'>{{format(decHead.feeCurr, decHead.feeRate, decHead.feeMark)}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName" width= "10%" :isImport="isImport" :checkData="headConfig['insurMark']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" width= "10%" :isImport="isImport" :checkData="headConfig['insurMark']">
           <p class='content-font'>{{format(decHead.insurCurr, decHead.insurRate, decHead.insurMark)}}</p>
         </checkItem>
-        <checkItem :moduleName="moduleName"  width= "10%" :isImport="isImport" :checkData="headConfig['otherMark']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName"  width= "10%" :isImport="isImport" :checkData="headConfig['otherMark']">
           <p class='content-font'>{{format(decHead.otherCurr, decHead.otherRate, decHead.otherMark)}}</p>
         </checkItem>
       </tr>
       <tr>
-        <checkItem :moduleName="moduleName" colspan="14" :isImport="isImport" :checkData="headConfig['docuAndcertCode']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" colspan="14" :isImport="isImport" :checkData="headConfig['docuAndcertCode']">
           <p class='content-font'>{{decOther.docuAndcertCode}}</p>
         </checkItem>
       </tr>
       <tr>
-        <checkItem :moduleName="moduleName" colspan="14" :isImport="isImport" :checkData="headConfig['note']">
+        <checkItem v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" colspan="14" :isImport="isImport" :checkData="headConfig['note']">
           <p class='content-font'>{{decOther.note}}</p>
         </checkItem>
       </tr>
@@ -162,6 +162,7 @@ export default {
   components: {
     checkItem
   },
+  created () {},
   computed: {
     isImport () {
       return this.$store.state[this.moduleName].isImport
@@ -208,7 +209,7 @@ export default {
   }
   .content-font{
     font-size: 13px;
-    height: 25px;
+    // height: 25px;
     width: 100%;
     margin-block-start: 0;
     margin-block-end: 0;

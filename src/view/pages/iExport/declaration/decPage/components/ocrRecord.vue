@@ -6,7 +6,6 @@
       :visible.sync="orcRecordVisable"
       :close-on-click-modal='false'
       :close-on-press-escape='false'
-      v-loading="$store.state.loading"
       @closed ="closeOrcRecord()"
       v-dialogDrag
       width="900px">
@@ -23,9 +22,9 @@
         </el-table-column>
         <el-table-column  property="statusValue" label="识别状态" min-width="100">
         </el-table-column>
-         <el-table-column label="操作" min-width="100">
+         <el-table-column label="操作" min-width="100" align='center'>
            <template slot-scope="scope">
-             <el-button size="mini" v-if="scope.row.status === '1'"  @click="backOrcdata(scope.row.taskId,scope.row.docType)" style='border:unset;background-color:unset;padding:7px 0px' title='数据回填' class="list-btns list-icon-syncH"><i></i></el-button>
+             <el-button size="mini" v-if="scope.row.status === '1'"  @click="backOrcdata(scope.row.taskId,scope.row.docType)" style='border:unset;background-color:unset;padding:7px 0px' class="list-btns list-icon-useH"><i></i></el-button>
              <el-button size="mini" v-if="scope.row.status === '1'" @click="showResult(scope.row.taskId,scope.row.docType,scope.row.docUrl)" style='border:unset;background-color:unset;padding:7px 0px' title='识别结果' class="list-btns list-icon-lookH"><i></i></el-button>
            </template>
         </el-table-column>
@@ -52,7 +51,7 @@
 <script>
 import util from '@/common/util.js'
 // import decUtil from '../../common/decUtil'
-const dexcernRes = () => import(/* webpackChunkName: "dec-page-main" */'./descernRes')
+import dexcernRes from './descernRes'
 export default {
   name: 'classify-Goods',
   props: {

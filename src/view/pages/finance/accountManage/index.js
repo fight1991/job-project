@@ -2,11 +2,11 @@ const MENU = [
   {
     path: '/finance/accountManage/list',
     name: 'accountManage-list',
-    icon: 'icons-finance-accountManage',
+    icon: 'icons-menu-accountManage',
     permissions: 'CCBA21603000000',
     hidden: false,
     meta: {
-      component: resolve => require(['./accountList.vue'], resolve),
+      component: () => import(/* webpackChunkName: "account-list" */ './accountList.vue'),
       title: '账单管理'
     }
   },
@@ -16,7 +16,7 @@ const MENU = [
     permissions: 'CCBA21603000000',
     hidden: true,
     meta: {
-      component: resolve => require(['./accountDetail.vue'], resolve),
+      component: () => import(/* webpackChunkName: "account-detail" */ './accountDetail.vue'),
       title: '对账单详情'
     }
   },
@@ -26,7 +26,7 @@ const MENU = [
     permissions: 'CCBA21603000000',
     hidden: true,
     meta: {
-      component: resolve => require(['./accountCheck.vue'], resolve),
+      component: () => import(/* webpackChunkName: "account-check" */ './accountCheck.vue'),
       title: '账单驳回编辑'
     }
   }

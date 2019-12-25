@@ -19,14 +19,15 @@
         <el-col :span="24">
           <el-table :data="tableDecContainerlist" :height='200'
             ref="tableDecContainer"
+            class='wrap-table container-table'
             style="width:100%" size="mini"
             @select="decContaCheckChange"
             @selection-change="decContaChange"
             @row-click= 'backDecContaInfo'>
-            <el-table-column type="selection" width="55" ></el-table-column>
-            <el-table-column prop="containerNo" label="集装箱号" min-width="80"></el-table-column>
-            <el-table-column prop="containerSizeValue" label="集装箱规格" min-width="100"></el-table-column>
-            <el-table-column prop="lclFlag" label="拼箱标识" min-width="80">
+            <el-table-column type="selection" width="20" ></el-table-column>
+            <el-table-column prop="containerNo" label="集装箱号" min-width="95"></el-table-column>
+            <el-table-column prop="containerSizeValue" label="集装箱规格" min-width="65"></el-table-column>
+            <el-table-column prop="lclFlag" label="拼箱标识" min-width="65">
               <template slot-scope="scope">
                 <span>{{scope.row.lclFlag === '0' ? '否' : scope.row.lclFlag === '1' ? '是' : ''}}</span>
               </template>
@@ -129,7 +130,7 @@
     </el-dialog>
     <!-- 弹出框 集装箱导入 结束 -->
     <!-- —商品项号关系组件  -->
-    <goods-gno :goodsGNoVisible.sync="goodsGNoVisible" :goodsNo='decContainer.goodsNo' :isDisabled="controller.isDisabled" @close:goodsGno="backGoodsGNo" :tableList="tableList"></goods-gno>
+    <goods-gno :goodsGNoVisible.sync="goodsGNoVisible" :goodsNo='decContainer.goodsNo' :isDisabled="controller.isDisabled" @close:goodsGno="backGoodsGNo" :tableList="tableList" :moduleName="moduleName"></goods-gno>
   </section>
 </template>
 <script>
@@ -197,9 +198,9 @@ export default {
     }
   },
   created () {
-    decBus.$on('focusContainerNo', this.focusContainerNo)
-    decBus.$on('backContainerList', this.backContainerList)
-    decBus.$on('initDocCheck', this.initDocCheck)
+    decBus.getBus(this.moduleName).$on('focusContainerNo', this.focusContainerNo)
+    decBus.getBus(this.moduleName).$on('backContainerList', this.backContainerList)
+    decBus.getBus(this.moduleName).$on('initDocCheck', this.initDocCheck)
   },
   watch: {
     tableDecContainerlist: 'computedConta'

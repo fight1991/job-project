@@ -1,10 +1,13 @@
 <template>
   <div>
-    <el-table class='sys-table-table dec-table' ref='deCheckTable' :data="deCheckList" height="250"
-    :cell-class-name="deCellClass" @row-click='deCheckRowClick' border highlight-current-row size="mini">
+    <el-table
+      class='sys-table-table dec-table'
+      ref='deCheckTable'
+      :data="deCheckList" height="250"
+      :cell-class-name="deCellClass" @row-click='deCheckRowClick' border highlight-current-row size="mini">
       <el-table-column label="项号" prop="gNoAllColor" min-width="80">
         <template slot-scope="scope">
-          <span>{{scope.row.gNo}}</span><br>
+          <span>{{scope.row.gNo}}</span>
           <span>{{scope.row.contrItem}}</span>
         </template>
       </el-table-column>
@@ -15,8 +18,20 @@
       </el-table-column>
       <el-table-column label="商品名称及规格型号" prop="gNameAndModelColor"  min-width="150">
         <template slot-scope="scope">
-          <span>{{scope.row.gName}}</span><br>
-          <span>{{scope.row.gModel}}</span>
+          <el-popover
+            popper-class="sys-dec-class"
+            placement="right-start"
+            trigger="hover"
+            width="500"
+            @show="mouseEnter(scope.row)"
+            @hide="elementVisible=false">
+            <decelement-view v-if="elementVisible" :datas="decElementPara" :btnIsShow="false"></decelement-view>
+            <div class="pop-loading" v-else><i class="el-icon-loading"></i></div>
+            <div slot="reference">
+              <span>{{scope.row.gName}}</span><br>
+              <span>{{scope.row.gModel}}</span>
+            </div>
+          </el-popover>
         </template>
       </el-table-column>
       <el-table-column label="数量及单位" prop="gQtyAndUnitColor"  min-width="100" align='right'>
@@ -63,13 +78,15 @@
         <span class='title-name'>tips:</span>
         <span class='content-font'>{{decOther.statistics}}</span>
       </div>
-      <dec-list-item :moduleName="moduleName" :itemConfig="itemConfig" :listItem="listItem" @changeColor="reRender" :disableList="disableList" :decOther="decOther"></dec-list-item>
+      <dec-list-item v-on="$listeners" v-bind="$attrs" :moduleName="moduleName" :itemConfig="itemConfig" :listItem="listItem" @changeColor="reRender" :disableList="disableList" :decOther="decOther"></dec-list-item>
     </div>
   </div>
 </template>
 <script>
 import decListItem from './decListItem'
 import businessUtil from '../utils/businessUtil'
+import decelementView from '../../decPage/decList/components/decelement'
+
 // import { mapState } from 'vuex'
 
 export default {
@@ -92,12 +109,22 @@ export default {
     }
   },
   components: {
-    decListItem
+    decListItem,
+    decelementView
   },
   data () {
     return {
       itemConfig: businessUtil.getDefaultDecListItemConfig(),
-      listItem: {}
+      listItem: {},
+      decElementPara: {
+        checkedgoods: '', // 商品数据
+        opeType: 'look', // 操作类型 add 新增  edit 编辑  look 查看
+        gModel: '', // 规格型号
+        iEFlag: '', // 进出口标志 I 进口 E 出口
+        gName: '',
+        gtin: '' // gtin码
+      },
+      elementVisible: false
     }
   },
   computed: {
@@ -106,6 +133,9 @@ export default {
     },
     isLook () {
       return this.$store.state[this.moduleName].isLook
+    },
+    iEFlag () {
+      return this.$store.state[this.moduleName].iEFlag
     }
   },
   methods: {
@@ -119,6 +149,31 @@ export default {
     deCheckRowClick (row) {
       this.listItem = row
       this.itemConfig = this.decCheckConfigs[this.deCheckList.indexOf(row)]
+    },
+    // 根据商品编号codeTs查询商品列表参数
+    getCheckedgoods (codeTs, callback) {
+      this.$post({
+        url: 'API@/saas-dictionary/dictionary/getGoods',
+        data: {
+          codeTs,
+          iEFlag: this.iEFlag
+        },
+        isLoad: false,
+        success: (res) => {
+          if (res.result && res.result[0]) {
+            callback && callback(res.result[0])
+          }
+        }
+      })
+    },
+    mouseEnter ({codeTs, gModel, gName, gTin}) {
+      this.decElementPara.gModel = gModel
+      this.decElementPara.gName = gName
+      this.decElementPara.gTin = gTin
+      this.getCheckedgoods(codeTs, (res) => {
+        this.decElementPara.checkedgoods = res
+        this.elementVisible = true
+      })
     }
   }
 }
@@ -139,5 +194,10 @@ export default {
   float: right;
   width: 10px;
   height: 10px;
+}
+.pop-loading {
+  display: flex;
+  justify-content:center;
+  font-size: 26px;
 }
 </style>

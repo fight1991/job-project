@@ -78,8 +78,8 @@ export default {
     }
   },
   created () {
-    summaryBus.$on('setTableListToSate', this.setTableListToSate)
-    summaryBus.$on('getGNameFocus', this.getGNameFocus)
+    summaryBus.getBus(this.moduleName).$on('setTableListToSate', this.setTableListToSate)
+    summaryBus.getBus(this.moduleName).$on('getGNameFocus', this.getGNameFocus)
   },
   watch: {
     declareType (newVal, oldVal) {

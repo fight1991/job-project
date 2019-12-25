@@ -1,10 +1,14 @@
 // 报关单审核
+import abstractComponent from '@/view/common/abstract.vue'
+const decCheckListComponent = () => import(/* webpackChunkName: "dec-check-list" */ './declaration/decCheck.vue')
+const decCheckComponent = () => import(/* webpackChunkName: "dec-check" */ './declaration/declareCheck/declareCheck.vue')
+
 const MENU = {
   path: '/iExport/reviewed',
   name: 'reviewed',
-  icon: 'icons-menu-decCheck',
+  icon: 'icons-menu-dec-check',
   permissions: 'CCBA20204000000',
-  component: resolve => require(['../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '审单'
   },
@@ -16,7 +20,7 @@ const MENU = {
       permissions: 'CCBA20204010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./declaration/decCheck.vue'], resolve),
+        component: decCheckListComponent,
         title: '报关单审核'
       }
     },
@@ -27,7 +31,7 @@ const MENU = {
       permissions: 'CCBA20204010000',
       hidden: true,
       meta: {
-        component: resolve => require(['./declaration/declareCheck/declareCheck.vue'], resolve),
+        component: decCheckComponent,
         title: '报关单可视化审核编辑',
         operationType: 'edit'
       }
@@ -39,7 +43,7 @@ const MENU = {
       permissions: 'CCBA20204010000',
       hidden: true,
       meta: {
-        component: resolve => require(['./declaration/declareCheck/declareCheck.vue'], resolve),
+        component: decCheckComponent,
         title: '报关单可视化审核预览',
         operationType: 'look'
       }
@@ -51,7 +55,7 @@ const MENU = {
       permissions: 'CCBA20204010000',
       hidden: true,
       meta: {
-        component: resolve => require(['./declaration/declareCheck/declareCheck.vue'], resolve),
+        component: decCheckComponent,
         title: '概要申报可视化审核编辑',
         operationType: 'edit'
       }
@@ -63,7 +67,7 @@ const MENU = {
       permissions: 'CCBA20204010000',
       hidden: true,
       meta: {
-        component: resolve => require(['./declaration/declareCheck/declareCheck.vue'], resolve),
+        component: decCheckComponent,
         title: '概要申报可视化审核预览',
         operationType: 'look'
       }

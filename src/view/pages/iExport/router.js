@@ -5,6 +5,9 @@ import importVouching from './importVouching' // 进口制单
 import exportVouching from './exportVouching' // 出口制单
 import Reviewed from './reviewed' // 审单
 import DataQuery from './dataQuery' // 业务数据查询
+import otherNewTabComponent from './otherNewTab.vue'
+import newTabComponent from './newTab.vue'
+import blankPageComponent from './blankPage.vue'
 const MENU = [
   {
     path: '/iExport/index',
@@ -12,7 +15,7 @@ const MENU = [
     hidden: false,
     icon: 'el-icon-menu1',
     permissions: 'WF000000',
-    component: resolve => require(['./blankPage.vue'], resolve),
+    component: blankPageComponent,
     meta: {
       title: '首页'
     }
@@ -29,7 +32,7 @@ const MENU = [
     icon: 'icons-menu-decRegister',
     permissions: 'CCBA20208000000',
     meta: {
-      component: resolve => require(['./declaration/decRegister.vue'], resolve),
+      component: () => import(/* webpackChunkName: "dec-register" */ './declaration/decRegister.vue'),
       title: '异常状态登记'
     }
   },
@@ -39,7 +42,7 @@ const MENU = [
     permissions: 'SAASOM0504000000',
     hidden: false,
     meta: {
-      component: resolve => require(['./newTab.vue'], resolve),
+      component: newTabComponent,
       title: '编辑详情'
     }
   },
@@ -49,7 +52,7 @@ const MENU = [
     permissions: 'SAASOM0504000000',
     hidden: false,
     meta: {
-      component: resolve => require(['./otherNewTab.vue'], resolve),
+      component: otherNewTabComponent,
       title: '编辑详情'
     }
   },
@@ -60,40 +63,49 @@ const MENU = [
     icon: 'icons-menu-aiCenter',
     permissions: 'CCBA20212000000',
     meta: {
-      component: resolve => require(['./declaration/intelligentVouching/queryConidtion.vue'], resolve),
-      title: '智能制单测试'
-    }
-  },
-  {
-    path: '/iExport/intelligentTest/vouching',
-    name: 'intelligentVouchingQueryTest',
-    icon: 'icons-menu-aiCenter',
-    permissions: 'CCBA20211000000',
-    meta: {
-      component: resolve => require(['./declaration/intelligentVouching/queryConidtionTest.vue'], resolve),
-      title: '智能制单中心'
-    }
-  },
-  {
-    path: '/iExport/intelligentTest/:funFlag/:iEFlag/:operationType/:pid',
-    name: 'intelligentVouchingTest',
-    hidden: true,
-    icon: 'icons-menu-decRegister',
-    permissions: 'CCBA20211000000',
-    meta: {
-      component: resolve => require(['./declaration/intelligentVouching/decPage.vue'], resolve),
-      title: '智能制单录入'
+      component: () => import(/* webpackChunkName: "intelligent-list" */ './declaration/intelligentVouching/queryConidtion.vue'),
+      title: 'AI智能制单中心'
     }
   },
   {
     path: '/iExport/intelligent/:funFlag/:iEFlag/:operationType/:pid',
     name: 'intelligentVouching',
     hidden: true,
-    icon: 'icons-menu-decRegister',
+    icon: 'icons-menu-aiCenter',
     permissions: 'CCBA20212000000',
     meta: {
-      component: resolve => require(['./declaration/decPage/decPage.vue'], resolve),
-      title: '智能制单录入测试'
+      component: () => import(/* webpackChunkName: "dec-page" */ './declaration/decPage/decPage.vue'),
+      title: '智能制单录入'
+    }
+  },
+  {
+    path: '/iExport/onlineTrust/query',
+    name: 'onlineTrustQuery',
+    icon: 'icons-menu-online-entrust',
+    permissions: 'CCBA20205000000', // CCBA20214000000
+    meta: {
+      component: () => import(/* webpackChunkName: "online-trust-list" */ './onlineTrust/queryConidtion.vue'),
+      title: '在线委托'
+    }
+  },
+  {
+    path: '/iExport/zyhy/intelligent/vouching',
+    name: 'zyhyIntelQuery',
+    icon: 'icons-menu-aiCenter',
+    permissions: 'CCBA20213000000',
+    meta: {
+      component: () => import(/* webpackChunkName: "zyhy-list" */ './declaration/zyhy/index.vue'),
+      title: '中远AI'
+    }
+  },
+  {
+    path: '/iExport/zyhy/intelligent/vouching/:taskId',
+    name: 'zyhyIntelVouching',
+    icon: 'icons-menu-aiCenter',
+    hidden: true,
+    meta: {
+      component: () => import(/* webpackChunkName: "zyhy-detail" */ './declaration/zyhy/detail.vue'),
+      title: '制单详情'
     }
   }
 ]

@@ -58,7 +58,7 @@
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
-                :picker-options="pickerOptions2">
+                :picker-options="pickerOptions">
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -88,6 +88,11 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :md="12" :lg="6">
+            <el-form-item label="流水号">
+              <el-input v-model="QueryDecForm.ocrNo" clearable></el-input>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="24" class='query-btn'>
@@ -103,7 +108,7 @@
       <!-- 操作 -->
       <el-row class="op-btn">
         <el-dropdown @command="handleCommand">
-          <el-button size="mini" class="file-inputx list-btns list-icon-import"><i></i>导入</el-button>
+          <el-button size="mini" class="list-btns list-icon-import"><i></i>导入</el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="importExcel">导入Excel文件</el-dropdown-item>
             <el-dropdown-item>
@@ -129,6 +134,7 @@
             <el-dropdown-item command="record">识别记录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
+        <el-button size="mini" type="primary" class="list-btns special-btn" @click="toAI">AI制单</el-button>
         <div style="float:right;">
           <el-button size="mini" v-if="iEFlag == 'import'" class="list-btns list-icon-declare" v-permissions="'CCBA20202010100'"  @click="orderTakenToDec"><i></i>提交</el-button>
           <el-button size="mini" v-if="iEFlag == 'export'" class="list-btns list-icon-declare" v-permissions="'CCBA20202020100'"  @click="orderTakenToDec"><i></i>提交</el-button>
@@ -140,7 +146,7 @@
                   <el-checkbox size="mini" v-model="item.value" @change="columnFieldChange">{{item.label}}</el-checkbox>
                 </li>
               </ul>
-              <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-dropdown" slot="reference"></el-button>
+              <el-button size="mini" class="list-btns list-btn-drop list-icon-dropdown" slot="reference"></el-button>
             </el-popover>
           </div>
         </div>
@@ -148,100 +154,105 @@
       <!-- 列表 list -->
       <el-table class='sys-table-table dec-table order-table' :data="resultList" border highlight-current-row size="mini" @selection-change="selectFun" height="370px">
         <el-table-column  type="selection" width="40" align="center"></el-table-column>
-        <el-table-column label="接单编号" min-width="150" v-if="thList[0].value">
+        <el-table-column label="流水号" min-width="150" v-if="thList.ocrNo.value" align="left">
           <template slot-scope="scope">
-            <div class="sys-td-l">{{scope.row.innerNo}}</div>
+            <div>{{scope.row.ocrNo}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="接单分号" min-width="150" v-if="thList[1].value">
+        <el-table-column label="接单编号" min-width="150" v-if="thList.innerNo.value" align="left">
           <template slot-scope="scope">
-            <div class="sys-td-l">{{scope.row.bossId}}</div>
+            <div>{{scope.row.innerNo}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="统一编号" min-width="150" v-if="thList[2].value">
+        <el-table-column label="接单分号" min-width="150" v-if="thList.bossId.value" align="left">
           <template slot-scope="scope">
-            <div class="sys-td-l"><a href="javascript:void(0)" style='color: #409eff;' @click="lookDec(scope.row)">{{scope.row.cusCiqNo}}</a></div>
+            <div>{{scope.row.bossId}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="接单标识" min-width="110" v-if="thList[3].value">
+        <el-table-column label="统一编号" min-width="150" v-if="thList.cusCiqNo.value" align="left">
           <template slot-scope="scope">
-            <div class="sys-td-l" v-if="scope.row.ref6 == '' || scope.row.ref6 == null">自主接单</div>
-            <div class="sys-td-l" v-else>{{scope.row.ref6}}</div>
+            <div><a href="javascript:void(0)" style='color: #409eff;' @click="lookDec(scope.row)">{{scope.row.cusCiqNo}}</a></div>
           </template>
         </el-table-column>
-        <el-table-column label="申报状态" min-width="110" v-if="thList[4].value">
+        <el-table-column label="接单标识" min-width="110" v-if="thList.ref6.value" align="left">
           <template slot-scope="scope">
-            <div class="sys-td-l" v-if="scope.row.type == 'invt'">{{scope.row.invtStatusValue}}</div>
-            <div class="sys-td-l" v-else>{{scope.row.decStatusValue}}</div>
+            <div v-if="scope.row.ref6 == '' || scope.row.ref6 == null">自主接单</div>
+            <div v-else>{{scope.row.ref6}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="系统状态" min-width="110" v-if="thList[5].value">
+        <el-table-column label="申报状态" min-width="110" v-if="thList.decInvtStatusValue.value" align="left">
           <template slot-scope="scope">
-            <div class="sys-td-l">{{scope.row.statusValue}}</div>
+            <div v-if="scope.row.type == 'invt'">{{scope.row.invtStatusValue}}</div>
+            <div v-else>{{scope.row.decStatusValue}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="接单类型" min-width="110" v-if="thList[6].value">
+        <el-table-column label="系统状态" min-width="110" v-if="thList.statusValue.value" align="left">
           <template slot-scope="scope">
-            <div class="sys-td-l" v-if="(scope.row.type == 'invt' && scope.row.status === 'I') || (scope.row.type == 'invt' && scope.row.status === '1')"><a href="javascript:void(0)" style='color: #409eff;' @click="toInvtPage(scope.row)">{{formatType(scope.row.type)}}</a></div>
-            <div class="sys-td-l" v-else>{{formatType(scope.row.type)}}</div>
+            <div>{{scope.row.statusValue}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="接单日期" min-width="110" v-if="thList[7].value">
+        <el-table-column label="接单类型" min-width="110" v-if="thList.type.value" align="left">
           <template slot-scope="scope">
-            <div class="sys-td-c">{{scope.row.rcvDate}}</div>
+            <div v-if="(scope.row.type == 'invt' && scope.row.status === 'I') || (scope.row.type == 'invt' && scope.row.status === '1')"><a href="javascript:void(0)" style='color: #409eff;' @click="toInvtPage(scope.row)">{{formatType(scope.row.type)}}</a></div>
+            <div v-else>{{formatType(scope.row.type)}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="申报截止日期" min-width="110" v-if="thList[8].value">
+        <el-table-column label="接单日期" min-width="110" v-if="thList.rcvDate.value" align="center">
           <template slot-scope="scope">
-            <div class="sys-td-c">{{scope.row.demandDate}}</div>
+            <div>{{scope.row.rcvDate}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="委托客户" min-width="200" v-if="thList[9].value" align="left">
+        <el-table-column label="申报截止日期" min-width="110" v-if="thList.demandDate.value" align="center">
           <template slot-scope="scope">
-            {{scope.row.company}}
+            <div>{{scope.row.demandDate}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="手(账)册编号" min-width="130" v-if="thList[10].value">
+        <el-table-column label="委托客户" min-width="200" v-if="thList.company.value" align="left">
           <template slot-scope="scope">
-            <div class="sys-td-l">{{scope.row.manualNo}}</div>
+            <div>{{scope.row.company}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="提运单号" min-width="130" v-if="thList[11].value">
+        <el-table-column label="手(账)册编号" min-width="130" v-if="thList.manualNo.value" align="left">
           <template slot-scope="scope">
-            <div class="sys-td-l">{{scope.row.billNo}}</div>
+            <div>{{scope.row.manualNo}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="件数" min-width="100" v-if="thList[12].value">
+        <el-table-column label="提运单号" min-width="130" v-if="thList.billNo.value" align="left">
           <template slot-scope="scope">
-            <div class="sys-td-r">{{scope.row.packNo}}</div>
+            <div>{{scope.row.billNo}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="毛重" min-width="100" v-if="thList[13].value">
+        <el-table-column label="件数" min-width="100" v-if="thList.packNo.value" align="right">
           <template slot-scope="scope">
-            <div class="sys-td-r">{{scope.row.grossWt}}</div>
+            <div>{{scope.row.packNo}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="运输方式" min-width="110" v-if="thList[14].value">
+        <el-table-column label="毛重" min-width="100" v-if="thList.grossWt.value" align="right">
           <template slot-scope="scope">
-            <div class="sys-td-l">{{scope.row.trafModeValue}}</div>
+            <div>{{scope.row.grossWt}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="清单类型" min-width="110" v-if="thList[15].value">
+        <el-table-column label="运输方式" min-width="110" v-if="thList.trafModeValue.value" align="left">
           <template slot-scope="scope">
-            <div class="sys-td-l">{{scope.row.billtypeValue}}</div>
+            <div>{{scope.row.trafModeValue}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="报关标志" min-width="110" v-if="thList[16].value">
+        <el-table-column label="清单类型" min-width="110" v-if="thList.billtypeValue.value" align="left">
           <template slot-scope="scope">
-            <div class="sys-td-l">{{scope.row.ediIdValue}}</div>
+            <div>{{scope.row.billtypeValue}}</div>
+          </template>
+        </el-table-column>
+        <el-table-column label="报关标志" min-width="110" v-if="thList.ediIdValue.value" align="left">
+          <template slot-scope="scope">
+            <div>{{scope.row.ediIdValue}}</div>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="100" fixed="right">
           <template slot-scope="scope">
             <div class="order-list-btns">
-              <a href="javascript:void(0)" class="list-icon-edit border-0" title="编辑" @click="gotoDetail('edit', scope.row)"><i class='dec-i'></i></a>
-              <a href="javascript:void(0)" class="list-icon-look border-0" title="查看" @click="gotoDetail('view', scope.row)"><i class='dec-i'></i></a>
-              <!-- <a href="javascript:void(0)" class="list-icon-finance border-0" v-if="scope.row.ref3" title="登账" @click="toFinace(scope.row)"><i class='dec-i'></i></a> -->
+              <el-button type="text" class="table-icon list-icon-edit" title="编辑" @click="gotoDetail('edit', scope.row)"><i></i></el-button>
+              <el-button type="text" class="table-icon list-icon-look" title="查看" @click="gotoDetail('view', scope.row)"><i></i></el-button>
+              <!-- <el-button type="text" class="table-icon list-icon-ledger" title="登账"  v-if="scope.row.ref3"  @click="toFinace(scope.row)"><i></i></el-button> -->
             </div>
           </template>
         </el-table-column>
@@ -348,18 +359,20 @@
 </template>
 <script>
 import util from '@/common/util'
+import decUtil from './decPage/common/decUtil'
 import config from '@/config/config'
 import orderDetail from './component/order.vue'
 import execlImport from './component/execImport.vue'
 import ocrUpload from './component/ocrUpload.vue'
 import ocrRecord from './component/ocrRecord.vue'
-// import base64 from '@/common/base64'
+import pickerOptions from '@/common/mixin/pickerOptions'
 
 export default {
   components: {
     orderDetail, execlImport, ocrUpload, ocrRecord
   },
   name: 'orderQueryTable',
+  mixins: [pickerOptions],
   data () {
     return {
       QueryDecForm: {
@@ -378,7 +391,8 @@ export default {
         rcvEndDate: '',
         iEFlag: 'I', // 进出口标志
         createUser: '',
-        type: ''
+        type: '',
+        ocrNo: '' // 流水号
       },
       id: '',
       status: '',
@@ -396,58 +410,80 @@ export default {
       cdVisible: false,
       cdList: [], // 报关单数据
       checkedHead: [], // checkbox绑定的数据
-      thList: [{
-        value: true,
-        label: '接单编号'
-      }, {
-        value: true,
-        label: '接单分号'
-      }, {
-        value: true,
-        label: '统一编号'
-      }, {
-        value: true,
-        label: '接单标识'
-      }, {
-        value: true,
-        label: '报关状态'
-      }, {
-        value: true,
-        label: '业务状态'
-      }, {
-        value: true,
-        label: '接单类型'
-      }, {
-        value: true,
-        label: '接单日期'
-      }, {
-        value: true,
-        label: '要求报关时间'
-      }, {
-        value: true,
-        label: '委托客户'
-      }, {
-        value: true,
-        label: '手(账)册编号'
-      }, {
-        value: true,
-        label: '提运单号'
-      }, {
-        value: true,
-        label: '件数'
-      }, {
-        value: true,
-        label: '毛重'
-      }, {
-        value: true,
-        label: '运输方式'
-      }, {
-        value: true,
-        label: '清单类型'
-      }, {
-        value: true,
-        label: '报关标志'
-      }],
+      thList: {
+        ocrNo: {
+          value: false,
+          label: '流水号'
+        },
+        innerNo: {
+          value: true,
+          label: '接单编号'
+        },
+        bossId: {
+          value: true,
+          label: '接单分号'
+        },
+        cusCiqNo: {
+          value: true,
+          label: '统一编号'
+        },
+        ref6: {
+          value: true,
+          label: '接单标识'
+        },
+        decInvtStatusValue: {
+          value: true,
+          label: '申报状态'
+        },
+        statusValue: {
+          value: true,
+          label: '系统状态'
+        },
+        type: {
+          value: true,
+          label: '接单类型'
+        },
+        rcvDate: {
+          value: true,
+          label: '接单日期'
+        },
+        demandDate: {
+          value: true,
+          label: '申报截止日期'
+        },
+        company: {
+          value: true,
+          label: '委托客户'
+        },
+        manualNo: {
+          value: true,
+          label: '手(账)册编号'
+        },
+        billNo: {
+          value: true,
+          label: '提运单号'
+        },
+        packNo: {
+          value: true,
+          label: '件数'
+        },
+        grossWt: {
+          value: true,
+          label: '毛重'
+        },
+        trafModeValue: {
+          value: true,
+          label: '运输方式'
+        },
+        billtypeValue: {
+          value: true,
+          label: '清单类型'
+        },
+        ediIdValue: {
+          value: true,
+          label: '报关标志'
+        }
+      },
       iEList: [{
         code: 'E',
         name: '出口'
@@ -496,42 +532,6 @@ export default {
         value: 'log',
         label: '物流作业'
       }], // 接单类型
-      pickerOptions2: {
-        shortcuts: [{
-          text: '当天',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '本周',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            let week = start.getDay()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * week)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '本月',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            let monthDay = start.getDate() - 1
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * monthDay)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '最近一月',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            picker.$emit('pick', [start, end])
-          }
-        }]
-      },
       fileList: [],
       userId: '', // 当前登录用户id
       postPersonList: [], // 创建人数据
@@ -1025,8 +1025,8 @@ export default {
             }
           })
         } else {
-          let decType = this.selectList[0].declTrnrel === '2' ? 'recordList' : 'declaration'
-          this.gotoDecPage(decType, this.iEFlag, type === 'view' ? 'look' : 'edit', val.decPid)
+          let funFlag = this.selectList[0].declTrnrel === '2' ? 'recordList' : 'declaration'
+          decUtil.gotoDecPage(funFlag, this.iEFlag, type === 'view' ? 'look' : 'edit', val.decPid, 'dec', {}, this)
         }
       } else {
         if (val.importType === 'invt') {
@@ -1043,81 +1043,42 @@ export default {
             }
           })
         } else {
-          let decType = this.selectList[0].declTrnrel === '2' ? 'recordList' : 'declaration'
-          this.gotoDecPage(decType, this.iEFlag, type === 'view' ? 'look' : 'edit', val.decPid)
+          let funFlag = this.selectList[0].declTrnrel === '2' ? 'recordList' : 'declaration'
+          decUtil.gotoDecPage(funFlag, this.iEFlag, type === 'view' ? 'look' : 'edit', val.decPid, 'dec', {}, this)
         }
       }
     },
     // 跳转至报关单
     lookDec (val) {
-      let decType = val.declTrnrel === '2' ? 'recordList' : 'declaration'
-      this.gotoDecPage(decType, this.iEFlag, 'look', val.decPid)
-    },
-    /**
-     * 跳转 新增、详情、编辑
-     * @param funFlag  功能页面 declaration 报关单   recordList 备案清单 decTemplate 初始值模板
-     * @param flag  进出口标识
-     * @param pid  报关单主键  可不传
-     * @param operationType 操作   add 新增 look 查看  edit 编辑
-     */
-    gotoDecPage (funFlag, flag, operationType, pid = 'new') {
-      let routeName
-      let tabName
-      if (funFlag === 'declaration') {
-        if (flag === 'import') {
-          if (operationType === 'look') {
-            tabName = '进口报关单'
-            routeName = 'importDecLook'
-          } else if (operationType === 'edit') {
-            tabName = '进口报关单'
-            routeName = 'importDecEdit'
-          }
-        } else if (flag === 'export') {
-          if (operationType === 'look') {
-            tabName = '出口报关单'
-            routeName = 'exportDecLook'
-          } else if (operationType === 'edit') {
-            tabName = '出口报关单'
-            routeName = 'exportDecEdit'
-          }
-        }
-      }
-      if (funFlag === 'recordList') {
-        if (flag === 'import') {
-          if (operationType === 'look') {
-            tabName = '进境备案清单'
-            routeName = 'importRecordLook'
-          } else if (operationType === 'edit') {
-            tabName = '进境备案清单'
-            routeName = 'importRecordEdit'
-          }
-        } else if (flag === 'export') {
-          if (operationType === 'look') {
-            tabName = '出境备案清单'
-            routeName = 'exportRecordLook'
-          } else if (operationType === 'edit') {
-            tabName = '出境备案清单'
-            routeName = 'exportRecordEdit'
-          }
-        }
-      }
-      this.$router.push({
-        name: routeName,
-        params: {
-          'pid': pid,
-          'setTitle': tabName + '-' + pid,
-          'setId': routeName + operationType + pid
-        }
-      })
+      let funFlag = val.declTrnrel === '2' ? 'recordList' : 'declaration'
+      decUtil.gotoDecPage(funFlag, this.iEFlag, 'look', val.decPid, 'dec', {}, this)
     },
     // 获取当前登陆的个人信息
     getUserInfo () {
       this.userId = this.$store.state.userLoginInfo.userId
       if (!util.isEmpty(this.userId)) {
-        let fieldList = window.localStorage.getItem('RCO' + this.userId)
+        let fieldList = window.localStorage.getItem(this.iEFlag + 'RCO' + this.userId)
         if (!util.isEmpty(fieldList)) { // 如果表头显示有记录，用记录的表头显示
-          this.thList = JSON.parse(fieldList)
+          let list = JSON.parse(fieldList)
+          if (this.compareFieldList(this.thList, list)) {
+            this.thList = JSON.parse(fieldList)
+          } else {
+            window.localStorage.setItem(this.iEFlag + 'RCO' + this.userId, JSON.stringify(this.thList))
+          }
         }
+      }
+    },
+    // 对比两个数组里的值是否一样
+    compareFieldList (orig, compare) {
+      if (orig.length === compare.length) {
+        for (let i in orig) {
+          if (orig[i].label !== compare[i].label) {
+            return false
+          }
+        }
+        return true
+      } else {
+        return false
       }
     },
     // 跳转物流费用-登账
@@ -1130,7 +1091,7 @@ export default {
     columnFieldChange (value) {
       // 每次表头列表变化都需要把当前需要显示的字段 存到localStorage里 下次按现在的显示
       // key值 为DEC tableHead DTH加当前用户的id
-      window.localStorage.setItem('RCO' + this.userId, JSON.stringify(this.thList))
+      window.localStorage.setItem(this.iEFlag + 'RCO' + this.userId, JSON.stringify(this.thList))
     },
     // 跳转核注清单页面
     toInvtPage (val) {
@@ -1220,6 +1181,11 @@ export default {
     },
     closeCoverCompnent () {
       this.coverVisable = false
+    },
+    toAI () {
+      this.$router.push({
+        name: 'intelligentVouchingQuery'
+      })
     }
   }
 }
@@ -1281,5 +1247,16 @@ export default {
   }
   .order-list-btns{
     text-align: center;
+  }
+  .special-btn{
+    padding: 6px 8px;
+    vertical-align: middle;
+    background-color:@sys-color-main;
+    border:solid 1px @sys-color-main;
+    &:hover{
+      background-color:@sys-color-main;
+      border:solid 1px @sys-color-main;
+      color: #fff;
+    }
   }
 </style>

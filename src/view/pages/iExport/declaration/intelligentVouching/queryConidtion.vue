@@ -82,9 +82,9 @@
       <!-- 操作 -->
       <el-row class="op-btn">
         <el-button size="mini" class="list-btns list-icon-upload mg-r-10" @click="docUpload('add', {})"><i></i>单证上传</el-button>
-        <!-- <el-button size="mini" class="list-btns list-icon-rollback mg-r-10" @click="retreatBill"><i></i>退单</el-button> -->
-        <el-button size="mini" class="list-btns list-icon-autodeclare mg-r-10" :disabled="isSubmit()" @click="submitOcr('data', 'multiple')"><i></i>提交识别</el-button>
-        <el-button size="mini" class="list-btns list-icon-delete mg-r-10" :disabled="isDelete()" @click="deleteOcr"><i></i>删除</el-button>
+        <el-button size="mini" class="list-btns list-icon-rollback mg-r-10" @click="retreatBill('data', 'multiple')"><i></i>退回</el-button>
+        <el-button size="mini" class="list-btns list-icon-autodeclare mg-r-10" @click="submitOcr('data', 'multiple')"><i></i>提交识别</el-button>
+        <el-button size="mini" class="list-btns list-icon-delete mg-r-10" @click="deleteOcr"><i></i>删除</el-button>
         <el-button size="mini" class="list-btns list-icon-refresh mg-r-10" @click="pageList($store.state.pagination)"><i></i>刷新</el-button>
         <div class="airvehicle-list-drop">
           <el-popover popper-class="airvehicle-table-popper">
@@ -93,7 +93,7 @@
                 <el-checkbox size="mini" v-model="item.value" @change="columnFieldChange">{{item.text}}</el-checkbox>
               </li>
             </ul>
-            <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-dropdown" slot="reference"></el-button>
+            <el-button size="mini" class="list-btns list-btn-drop list-icon-dropdown" slot="reference"></el-button>
           </el-popover>
         </div>
       </el-row>
@@ -140,7 +140,7 @@
         </el-table-column>
         <el-table-column label="操作" fixed="right" align='center' min-width="100" >
           <template slot-scope="scope">
-            <!-- <el-button title="退单" type="text" class="table-icon list-icon-rollback" @click="retreatBill(scope.row)"><i></i></el-button> -->
+            <el-button title="退回" type="text" class="table-icon list-icon-rollback" v-if="(scope.row.taskStatus === '0' && scope.row.entrustType === '0') || (scope.row.taskStatus === '2' && scope.row.entrustType === '4')" @click="retreatBill(scope.row, 'single')"><i></i></el-button>
             <el-button title="提交识别" type="text" v-if="scope.row.taskStatus == '0'" class="table-icon list-icon-autodeclare" @click="submitOcr(scope.row, 'single')"><i></i></el-button>
             <el-button title="详情" type="text" class="table-icon list-icon-look" @click="docUpload('view', scope.row)"><i></i></el-button>
           </template>
@@ -155,6 +155,26 @@
     </div>
     <!-- 单证上传弹窗 -->
     <document-upload :uploadVisible.sync="uploadVisible" :operationType="operationType" :ocrInfo="ocrInfo"></document-upload>
+    <!-- 委托退回弹窗 -->
+    <el-dialog :modal-append-to-body='false'
+      title="委托退回原因"
+      :visible.sync="retreatVisible"
+      :close-on-click-modal='false'
+      v-loading="$store.state.loading"
+      class="batch-sync-dialog"
+      width="450px">
+      <el-form :model="retreatForm" ref="retreatForm" :rules="rules" size="mini">
+        <el-form-item prop="backReason">
+          <el-input type="textarea" v-model="retreatForm.backReason" rows="6" maxlength="200" show-word-limit></el-input>
+        </el-form-item>
+      </el-form>
+      <el-row>
+        <el-col :span="24" align="center">
+          <el-button size="mini" type="primary" @click="confirmForm">确定</el-button>
+          <el-button size="mini" @click="closeForm">取消</el-button>
+        </el-col>
+      </el-row>
+    </el-dialog>
   </section>
 </template>
 <script>
@@ -179,7 +199,15 @@ export default {
       corpList: [],
       uploadVisible: false, // 单证上传弹窗
       operationType: '',
-      ocrInfo: {}
+      ocrInfo: {},
+      retreatVisible: false,
+      rules: {
+        backReason: [{required: true, message: '请输入原因', trigger: 'blur'}]
+      },
+      retreatForm: {
+        backReason: '',
+        nos: []
+      }
     }
   },
   created () {
@@ -320,16 +348,38 @@ export default {
     },
     // 单证上传弹窗
     docUpload (type, data) {
-      this.uploadVisible = true
       this.operationType = type
-      this.ocrInfo = data
-    },
-    isSubmit () {
-      let flag = true
-      if (this.selectData.length !== 0 && this.selectData.every(v => v.taskStatus === '0')) {
-        flag = false
+      if (type === 'view') {
+        this.$post({
+          url: 'API@/dec-common/entrust/getEntrustDetail',
+          data: data.ocrNo,
+          success: (res) => {
+            if (res.result) {
+              this.ocrInfo = data
+              this.ocrInfo['backReason'] = res.result.backReason
+              this.ocrInfo['frozenReason'] = res.result.frozenReason
+              console.log(this.ocrInfo)
+              this.uploadVisible = true
+            }
+          }
+        })
+      } else {
+        this.uploadVisible = true
+        this.ocrInfo = data
       }
-      return flag
+    },
+    // 弹窗提示
+    messageConfirm (message) {
+      this.$alert(message, '提示', {
+        modalAppendToBody: true,
+        domMount: this.$el.parentNode,
+        dangerouslyUseHTMLString: true,
+        confirmButtonText: '我知道了',
+        type: 'warning',
+        customClass: 'alert-tips-warning',
+        callback: action => {
+        }
+      })
     },
     // 提交识别
     submitOcr (data, type) {
@@ -342,9 +392,20 @@ export default {
           })
           return false
         }
+        let disList = []
         this.selectData.forEach(e => {
-          selectedList.push(e.ocrNo)
+          if (e.taskStatus !== '0') {
+            disList.push(e.ocrNo)
+          } else {
+            selectedList.push(e.ocrNo)
+          }
         })
+        if (disList.length !== 0) {
+          let message = ''
+          disList.forEach(e => { message += `流水号 ${e} 的数据不能提交识别;<br>` })
+          this.messageConfirm(message)
+          return false
+        }
         this.submitOcrReq(selectedList)
       } else {
         this.submitOcrReq([data.ocrNo])
@@ -363,13 +424,6 @@ export default {
         }
       })
     },
-    isDelete () {
-      let flag = true
-      if (this.selectData.length !== 0 && this.selectData.every(v => v.taskType === '0') && this.selectData.every(v => v.taskStatus !== '4')) {
-        flag = false
-      }
-      return flag
-    },
     // 删除
     deleteOcr () {
       if (this.selectData.length === 0) {
@@ -379,10 +433,20 @@ export default {
         })
         return false
       }
-      let list = []
+      let [list, disList] = [[], []]
       this.selectData.forEach(e => {
-        list.push(e.ocrNo)
+        if (['0', '2'].includes(e.taskType) && e.taskStatus !== '4') {
+          list.push(e.ocrNo)
+        } else {
+          disList.push(e.ocrNo)
+        }
       })
+      if (disList.length !== 0) {
+        let message = ''
+        disList.forEach(e => { message += `流水号 ${e} 的数据不能删除;<br>` })
+        this.messageConfirm(message)
+        return false
+      }
       this.$confirm('确定要删除此数据吗？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -404,8 +468,72 @@ export default {
       }).catch(() => {
       })
     },
-    // 退单
-    retreatBill (data) {
+    // 退回
+    retreatBill (data, type) {
+      if (this.selectData.length === 0) {
+        this.$message({
+          type: 'error',
+          message: '请选择至少一条数据'
+        })
+        return false
+      }
+      let [list, disList] = [[], []]
+      this.selectData.forEach(e => {
+        if ((e.taskStatus === '0' && e.entrustType === '0') || (e.taskStatus === '2' && e.entrustType === '4')) { // 制单状态，委托状态 已上传+自动接单 识别失败+处理中
+          list.push(e.ocrNo)
+        } else {
+          disList.push(e.ocrNo)
+        }
+      })
+      if (disList.length !== 0) {
+        let message = ''
+        disList.forEach(e => { message += `流水号 ${e} 的数据不能退回;<br>` })
+        this.messageConfirm(message)
+        return false
+      }
+      this.$confirm('确定要退回此数据吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        modalAppendToBody: true,
+        domMount: this.$el.parentNode,
+        type: 'warning'
+      }).then(() => {
+        this.retreatVisible = true
+      }).catch(() => {
+      })
+    },
+    closeForm () {
+      this.retreatVisible = false
+      this.retreatForm = {
+        backReason: '',
+        nos: []
+      }
+      this.$nextTick(() => {
+        this.$refs['retreatForm'].clearValidate()
+      })
+    },
+    confirmForm () {
+      this.$refs['retreatForm'].validate((valid) => {
+        if (!valid) {
+          return false
+        }
+        let data = this.retreatForm
+        this.selectData.forEach(e => {
+          data.nos.push(e.ocrNo)
+        })
+        this.$post({
+          url: 'API@/dec-common/dec/orc/backEntrust',
+          data: data,
+          success: (res) => {
+            this.$message({
+              type: 'success',
+              message: '退回成功'
+            })
+            this.pageList(this.$store.state.pagination)
+            this.closeForm()
+          }
+        })
+      })
     }
   }
 }

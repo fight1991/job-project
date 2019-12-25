@@ -40,7 +40,7 @@
   </section>
 </template>
 <script>
-// import util from '@/common/util'
+import decUtil from '../decPage/common/decUtil'
 export default {
   name: 'ocr-record',
   data () {
@@ -89,20 +89,14 @@ export default {
           if (!res.result) {
             this.messageTips('该数据已被删除，不可查看', 'error')
           } else {
-            let pageType
-            if (row.declTrnrel === '0') {
-              pageType = 'declaration'
-            } else if (row.declTrnrel === '2') {
-              pageType = 'recordList'
-            } else {
-              pageType = 'declaration'
-            }
+            let funFlag = row.declTrnrel === '2' ? 'recordList' : 'declaration'
+            let iEFlag = row.iEFlag === 'I' ? 'import' : 'export'
             let status = res.result.status
             let isExamine = res.result.isExamine
             if (['002', '005', '2', '4', '5', '7', '8', '9', '10', '11'].includes(status) || ['3', 'R', '6'].includes(isExamine)) {
-              this.gotoDecPage(pageType, row.iEFlag === 'I' ? 'import' : 'export', 'look', row.sysCode.toString())
+              this.skipDecPage(funFlag, iEFlag, 'look', row.sysCode.toString())
             } else {
-              this.gotoDecPage(pageType, row.iEFlag === 'I' ? 'import' : 'export', 'edit', row.sysCode.toString())
+              this.skipDecPage(funFlag, iEFlag, 'edit', row.sysCode.toString())
             }
           }
         }
@@ -115,51 +109,8 @@ export default {
      * @param pid  报关单主键  可不传
      * @param operationType 操作   add 新增 look 查看  edit 编辑
      */
-    gotoDecPage (funFlag, flag, operationType, pid = 'new') {
-      let routeName
-      let tabName
-      if (funFlag === 'declaration') {
-        if (flag === 'import') {
-          tabName = '进口报关单'
-          if (operationType === 'look') {
-            routeName = 'importDecLook'
-          } else if (operationType === 'edit') {
-            routeName = 'importDecEdit'
-          }
-        } else if (flag === 'export') {
-          tabName = '出口报关单'
-          if (operationType === 'look') {
-            routeName = 'exportDecLook'
-          } else if (operationType === 'edit') {
-            routeName = 'exportDecEdit'
-          }
-        }
-      }
-      if (funFlag === 'recordList') {
-        if (flag === 'import') {
-          tabName = '进境备案清单'
-          if (operationType === 'look') {
-            routeName = 'importRecordLook'
-          } else if (operationType === 'edit') {
-            routeName = 'importRecordEdit'
-          }
-        } else if (flag === 'export') {
-          tabName = '出境备案清单'
-          if (operationType === 'look') {
-            routeName = 'exportRecordLook'
-          } else if (operationType === 'edit') {
-            routeName = 'exportRecordEdit'
-          }
-        }
-      }
-      this.$router.push({
-        name: routeName,
-        params: {
-          'pid': pid,
-          'setTitle': tabName + '-' + pid,
-          'setId': routeName + operationType + pid
-        }
-      })
+    skipDecPage (funFlag, flag, operationType, pid = 'new') {
+      decUtil.gotoDecPage(funFlag, flag, operationType, pid, 'dec', {}, this)
     }
   }
 }

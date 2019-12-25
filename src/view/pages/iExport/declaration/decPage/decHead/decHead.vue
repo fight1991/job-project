@@ -225,12 +225,12 @@
               </el-form-item>
             </el-col>
           </el-row>
-            <el-row  v-else>
+          <el-row  v-else>
             <el-col :span="24">
               <el-form-item label="境外收发货人"  v-labelColor>
                 <el-col :span="14">
                   <el-form-item>
-                  <el-input v-inputMax v-model="decHead.overseasConsigneeCode" :maxlength="50"
+                    <el-input v-inputMax v-model="decHead.overseasConsigneeCode" :maxlength="50"
                       ref="overseasConsigneeCode" dataRef = 'overseasConsigneeCode'
                       :class='[aiColors[headAiColor.overseasConsigneeCode], errorColor.overseasConsigneeCode ? "error-color" : "" ]'
                       :readonly="controller.isDisabled"
@@ -240,8 +240,8 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="10">
-                  <el-form-item v-inputMax prop="overseasConsigneeEname" ref="overseasConsigneeEname" >
-                    <el-autocomplete v-model="decHead.overseasConsigneeEname" :maxlength="100" size='mini'
+                  <el-form-item  prop="overseasConsigneeEname" ref="overseasConsigneeEname" >
+                    <el-autocomplete v-inputMax v-model="decHead.overseasConsigneeEname" :maxlength="100" size='mini'
                       dataRef = 'overseasConsigneeEname'
                       :class='[aiColors[headAiColor.overseasConsigneeEname], controller.requireColor ? "require-color" : "" ]'
                       :readonly="controller.isDisabled"
@@ -249,7 +249,6 @@
                       @input='checklen("decHead", "overseasConsigneeEname", 100)'
                       @focus="tipsFillMessage('overseasConsigneeEname')"
                       :fetch-suggestions="queryOverseas"
-                      :popper-append-to-body='false'
                       :trigger-on-focus="false"
                       :select-when-unmatched='true'
                       :highlight-first-item='true'>
@@ -1464,22 +1463,22 @@ import util from '@/common/util'
 import decUtil from '../common/decUtil'
 import decBus from '../common/bus.js'
 import businessUtil from '../common/businessUtil'
+import businessMatters from './components/businessMatters'
+import ciqElements from './components/ciqElements'
+import decUser from './components/decUser'
+import enterpriseQualification from './components/enterpriseQualification'
+import otherFactor from './components/otherFactor'
+import otherPacks from './components/otherPacks'
+import specialBussiness from './components/specialBussiness'
+import decNote from './components/decNote'
+import attachmentUpload from './components/attachmentUpload'
+import decZbook from './components/bookList'
+import shippingBill from './components/shippingBill'
+import priceRemind from './components/priceRemind'
+import customsCode from './components/customsCode'
+import errorTips from '../components/errorTips'
+import shippingDetail from './components/shippingBillDetail'
 
-const businessMatters = () => import(/* webpackChunkName: "dec-page-header" */'./components/businessMatters')
-const ciqElements = () => import(/* webpackChunkName: "dec-page-header" */'./components/ciqElements')
-const decUser = () => import(/* webpackChunkName: "dec-page-header" */'./components/decUser')
-const enterpriseQualification = () => import(/* webpackChunkName: "dec-page-header" */'./components/enterpriseQualification')
-const otherFactor = () => import(/* webpackChunkName: "dec-page-header" */'./components/otherFactor')
-const otherPacks = () => import(/* webpackChunkName: "dec-page-header" */'./components/otherPacks')
-const specialBussiness = () => import(/* webpackChunkName: "dec-page-header" */'./components/specialBussiness')
-const decNote = () => import(/* webpackChunkName: "dec-page-header" */'./components/decNote')
-const attachmentUpload = () => import(/* webpackChunkName: "dec-page-header" */'./components/attachmentUpload')
-const decZbook = () => import(/* webpackChunkName: "dec-page-header" */'./components/bookList')
-const shippingBill = () => import(/* webpackChunkName: "dec-page-header" */'./components/shippingBill')
-const priceRemind = () => import(/* webpackChunkName: "dec-page-header" */'./components/priceRemind')
-const customsCode = () => import(/* webpackChunkName: "dec-page-header" */'./components/customsCode')
-const errorTips = () => import(/* webpackChunkName: "dec-page-header" */'../components/errorTips')
-const shippingDetail = () => import(/* webpackChunkName: "dec-page-header" */'./components/shippingBillDetail')
 export default {
   name: 'dec-head',
   components: {
@@ -2097,13 +2096,13 @@ export default {
     window.localStorage.setItem('FEE_RATE_OHTER', JSON.stringify([{codeField: '1', nameField: '率'}, {codeField: '3', nameField: '总价'}]))
     window.localStorage.setItem('DEC_TYPE', JSON.stringify([{nameField: '有纸报关', codeField: '0'}, {nameField: '无纸带清单报关', codeField: 'D'}, {nameField: '有纸带清单报关', codeField: 'L'}, {nameField: '通关无纸化', codeField: 'M'}, {nameField: '无纸报关', codeField: 'W'}]))
     window.localStorage.setItem('BILL_TYPE', JSON.stringify([{nameField: '一般备案清单', codeField: '1'}, {nameField: '先进区、后报关', codeField: '2'}, {nameField: '3-集报备案清单', codeField: '3'}, {nameField: '两单一审备案清单', codeField: '4'}]))
-    decBus.$on('getHeadCompany', this.getHeadCompany)
-    decBus.$on('resetHeadData', this.resetHeadData)
-    decBus.$on('emsDataHeadBack', this.emsDataHeadBack)
-    decBus.$on('initdutyMode', this.initdutyMode)
-    decBus.$on('initHeadSelect', this.initHeadSelect)
-    decBus.$on('setHeadFieldToSate', this.setHeadFieldToSate)
-    decBus.$on('setHeadAiColor', this.setHeadAiColor)
+    decBus.getBus(this.moduleName).$on('getHeadCompany', this.getHeadCompany)
+    decBus.getBus(this.moduleName).$on('resetHeadData', this.resetHeadData)
+    decBus.getBus(this.moduleName).$on('emsDataHeadBack', this.emsDataHeadBack)
+    decBus.getBus(this.moduleName).$on('initdutyMode', this.initdutyMode)
+    decBus.getBus(this.moduleName).$on('initHeadSelect', this.initHeadSelect)
+    decBus.getBus(this.moduleName).$on('setHeadFieldToSate', this.setHeadFieldToSate)
+    decBus.getBus(this.moduleName).$on('setHeadAiColor', this.setHeadAiColor)
     // this.headAiColor = businessUtil.generateDecAiHeadColor()
   },
   computed: {
@@ -2256,7 +2255,7 @@ export default {
         }
       }
       this.decElementsVisible = false
-      decBus.$emit('focusDecList', null)
+      decBus.getBus(this.moduleName).$emit('focusDecList', null)
     },
     checkHeadValid (rule, value, callback) {
       if (util.isEmpty(value)) {
@@ -2786,14 +2785,15 @@ export default {
       let priceData = {
         dclPlcCuscd: this.decHead.customMaster,
         impexpPortcd: this.decHead.iEPort,
-        tradeCode: this.decHead.tradeCode,
+        // tradeCode: this.decHead.tradeCode,
+        tradeCoScc: this.decHead.tradeCoScc,
         innerNo: this.$route.query.priceInnerNo || '',
         iEFlag: this.decHead.iEFlag
       }
       if (this.controller.isSummary || this.controller.isWholeDec) { // 概要申报，完整申报
         this.sendDecReq(operType, param)
       } else {
-        if (!util.isEmpty(this.decHead.customMaster) && !util.isEmpty(this.decHead.iEPort) && !util.isEmpty(this.decHead.tradeCode)) {
+        if (!util.isEmpty(this.decHead.customMaster) && !util.isEmpty(this.decHead.iEPort) && !util.isEmpty(this.decHead.tradeCoScc)) {
           this.priceRemind(priceData, operType, param)
         } else {
           this.sendDecReq(operType, param)
@@ -2829,7 +2829,7 @@ export default {
     // 备案号的输入事件
     manualNoChange (val) {
       this.isManualNoChange = true
-      if (!val) decBus.$emit('delelteManualNo', null) // 备案号为空 表体备案序号置灰
+      if (!val) decBus.getBus(this.moduleName).$emit('delelteManualNo', null) // 备案号为空 表体备案序号置灰
     },
     // 报关单类型 值改变事件
     entryTypeChange (value) {
@@ -2857,12 +2857,12 @@ export default {
         return false
       }
       if (!this.controller.isWholeDec) {
-        decBus.$emit('HBookClearBody', null)
+        decBus.getBus(this.moduleName).$emit('HBookClearBody', null)
       }
       this.isManualNoChange = false
       if (util.isEmpty(this.decHead.manualNo)) {
         // 如果变化后 备案号为空，则需要清除表体数据
-        decBus.$emit('delelteManualNo', null)
+        decBus.getBus(this.moduleName).$emit('delelteManualNo', null)
         return false
       }
       if (!(/^[^\u4e00-\u9fa5]{12}$/.test(this.decHead.manualNo))) {
@@ -2871,7 +2871,7 @@ export default {
       let char = this.decHead.manualNo.charAt(0).toUpperCase()
       if (!['B', 'C', 'D', 'E', 'F', 'L', 'H', 'Z', 'T'].includes(char)) {
         this.messageTips('备案号:' + this.decHead.manualNo + '不存在', 'error')
-        decBus.$emit('setBodyControllerFieldValue', {
+        decBus.getBus(this.moduleName).$emit('setBodyControllerFieldValue', {
           'importIsDisabled': false,
           'refreshIsDisabled': false,
           'insertIsDisabled': false,
@@ -2911,7 +2911,7 @@ export default {
                 })
               }
               // 设置免表列表的参数 并打开免表弹窗
-              decBus.$emit('setBodyControllerFieldValue', {
+              decBus.getBus(this.moduleName).$emit('setBodyControllerFieldValue', {
                 'importIsDisabled': true,
                 'refreshIsDisabled': true,
                 'insertIsDisabled': true,
@@ -2925,7 +2925,7 @@ export default {
             } else {
               this.messageTips('备案号:' + this.decHead.manualNo + '不存在')
               // 放开 商品列表里的备案序号
-              decBus.$emit('setBodyControllerFieldValue', {
+              decBus.getBus(this.moduleName).$emit('setBodyControllerFieldValue', {
                 'contrItemDisabled': false
               })
             }
@@ -2933,7 +2933,7 @@ export default {
           other: (eror) => {
             this.messageTips('备案号:' + this.decHead.manualNo + '不存在')
             // 放开 商品列表里的备案序号
-            decBus.$emit('setBodyControllerFieldValue', {
+            decBus.getBus(this.moduleName).$emit('setBodyControllerFieldValue', {
               'contrItemDisabled': false
             })
           }
@@ -2981,7 +2981,7 @@ export default {
               this.messageTips('备案号:' + this.decHead.manualNo + '不存在')
             }
             // 导入 新增 插入 重新归类不能操作
-            decBus.$emit('setBodyControllerFieldValue', {
+            decBus.getBus(this.moduleName).$emit('setBodyControllerFieldValue', {
               'importIsDisabled': false,
               'refreshIsDisabled': false,
               'insertIsDisabled': false,
@@ -2993,7 +2993,7 @@ export default {
           other: (res) => {
             this.messageTips(res.message)
             // 导入 新增 插入 重新归类不能操作
-            decBus.$emit('setBodyControllerFieldValue', {
+            decBus.getBus(this.moduleName).$emit('setBodyControllerFieldValue', {
               'importIsDisabled': false,
               'refreshIsDisabled': false,
               'insertIsDisabled': false,
@@ -3361,7 +3361,7 @@ export default {
     backFillDistrictCode () {
       if (this.decHead.ownerCode && this.decHead.ownerCode.length === 10) {
         let str = this.decHead.ownerCode.toString().substring(0, 5)
-        decBus.$emit('initBodySingleSeLect', 'districtCode', str, {obj: 'saasDistrictRel', params: 'SAAS_DISTRICT_REL'})
+        decBus.getBus(this.moduleName).$emit('initBodySingleSeLect', 'districtCode', str, {obj: 'saasDistrictRel', params: 'SAAS_DISTRICT_REL'})
       }
     },
     // 通过公司社会信用代码或者海关编码查询公司在海关的备案信息
@@ -3471,7 +3471,7 @@ export default {
     tradeModeChange (value) {
       if (['0654', '1427', '0657'].includes(value)) {
         // 最终目的国
-        decBus.$emit('initBodySingleSeLect', 'destinationCountry', 'CHN', {obj: 'saasCountry3', params: 'SAAS_COUNTRY'})
+        decBus.getBus(this.moduleName).$emit('initBodySingleSeLect', 'destinationCountry', 'CHN', {obj: 'saasCountry3', params: 'SAAS_COUNTRY'})
         // 运抵国
         this.initHeadSingleSeLect('tradeCountry', 'CHN', {
           obj: 'saasCountry1',
@@ -3492,7 +3492,7 @@ export default {
       _cutMode = this.decHead.cutMode
       let compareStr2 = this.controller.iEFlag + '_' + _tradeMode + '_' + _cutMode
       if (this.dutyModeParam[compareStr2]) {
-        decBus.$emit('initBodySingleSeLect', 'dutyMode', this.dutyModeParam[compareStr2], {obj: 'saasLevymode', params: 'SAAS_LEVYMODE'})
+        decBus.getBus(this.moduleName).$emit('initBodySingleSeLect', 'dutyMode', this.dutyModeParam[compareStr2], {obj: 'saasLevymode', params: 'SAAS_LEVYMODE'})
       }
       this.setCharterDis(value)
     },
@@ -3525,7 +3525,7 @@ export default {
       if (_cutMode && _tradeMode) {
         let compareStr = this.controller.iEFlag + '_' + _tradeMode + '_' + _cutMode
         if (this.dutyModeParam[compareStr]) {
-          decBus.$emit('initBodySingleSeLect', 'dutyMode', this.dutyModeParam[compareStr], {obj: 'saasLevymode', params: 'SAAS_LEVYMODE'})
+          decBus.getBus(this.moduleName).$emit('initBodySingleSeLect', 'dutyMode', this.dutyModeParam[compareStr], {obj: 'saasLevymode', params: 'SAAS_LEVYMODE'})
         }
       }
     },
@@ -3939,7 +3939,7 @@ export default {
           } else if (ref === 'entyPortCode' && this.controller.iEFlag === 'E') {
             this.openOtherPriceFactor()
           } else if (ref === 'markNo' && this.isShow1 === false) { // 标记唛码
-            decBus.$emit('focusDecList', null)
+            decBus.getBus(this.moduleName).$emit('focusDecList', null)
           } else if (ref === 'orgCode') {
             this.$refs['vsaOrgCode'].focus()
             this.$refs['vsaOrgCode'].$children[0].select()
@@ -4035,7 +4035,7 @@ export default {
         this.decHead.markNo = param.note
         this.markNoLength = util.decGetlen(this.decHead.markNo)
         this.decNotevisible = false
-        decBus.$emit('focusDecList', null)
+        decBus.getBus(this.moduleName).$emit('focusDecList', null)
       }
     },
     // 打开 使用人 弹出框
@@ -4112,7 +4112,7 @@ export default {
         this.decHead.promiseItmes = util.simpleClone(param.promiseItmes)
       }
       this.otherPriceFactorVisible = false
-      decBus.$emit('focusContainerNo', null)
+      decBus.getBus(this.moduleName).$emit('focusContainerNo', null)
     },
     // 包装种类为散装或裸装，则件数栏一定填写1
     wrapTypeChange () {
@@ -4169,7 +4169,7 @@ export default {
         this.specDeclFlagValue = util.simpleClone(param.specDeclFlagValue)
       }
       this.specialBusiVisible = false
-      decBus.$emit('focusDecList', null)
+      decBus.getBus(this.moduleName).$emit('focusDecList', null)
     },
     // 打开附件上传
     openAccessory () {
@@ -4192,17 +4192,17 @@ export default {
     // 标记及号码附件信息
     receptionAttachData (param) {
       if (param !== null) {
-        this.decHead.decMarkLobs = util.simpleClone(param.decMarkLobs)
+        this.decHead.decMarkLobs = param.decMarkLobs[0].attachUrl ? util.simpleClone(param.decMarkLobs) : []
       }
       this.attachVisabled = false
     },
     // 接收账册数据
     receptionZBookData (param) {
-      decBus.$emit('setBodyControllerFieldValue', {
+      decBus.getBus(this.moduleName).$emit('setBodyControllerFieldValue', {
         'gUnitReadonly': true
       })
       let goods = util.simpleClone(param.list)
-      decBus.$emit('backZbookList', goods)
+      decBus.getBus(this.moduleName).$emit('backZbookList', goods)
       this.ZBookVisabled = false
     },
     // 选择海关编码接收数据
@@ -4248,7 +4248,7 @@ export default {
       }
       if (!util.isEmpty(mftData.containerInfo)) {
         // 反填集装箱信息
-        decBus.$emit('backContainerList', mftData.containerInfo)
+        decBus.getBus(this.moduleName).$emit('backContainerList', mftData.containerInfo)
       }
       this.mftBillVisible = false
     },
@@ -4259,7 +4259,7 @@ export default {
     // 表头运抵国和表体最终目的国(地区)一致性
     tradeCountryChange (value) {
       if (this.controller.iEFlag === 'E' && value) {
-        decBus.$emit('initBodySingleSeLect', 'destinationCountry', value, {obj: 'saasCountry3', params: 'SAAS_COUNTRY'})
+        decBus.getBus(this.moduleName).$emit('initBodySingleSeLect', 'destinationCountry', value, {obj: 'saasCountry3', params: 'SAAS_COUNTRY'})
       }
     },
     // 境内收发货人、消费使用/生产销售单位则选择企业编号
@@ -4360,10 +4360,14 @@ export default {
       // 防止 用户申报后刷新 引起可编辑的bug
       // 不允许编辑的状态 报关单状态 和操作状态
       let forbiddenStatus = ['002', '005', '2', '4', '5', '7', '8', '9', '10', '11'] // 报关单状态
+      // 提交审核，审核驳回，审核通过
       let forbiddenIsExamine = ['3', 'R', '6'] // 操作状态
       if (forbiddenStatus.includes(this.decHead.status) || forbiddenIsExamine.includes(this.decHead.isExamine)) {
         this.controller.isDisabled = true
         this.controller.initTemplateBtn = true
+      }
+      if (this.controller.fromPage === 'reviewed') {
+        this.controller.isDisabled = false
       }
       // 企业资质信息 需要删除 处理
       let decCopLimits = util.isEmpty(this.decHead.decCopLimits) ? [] : this.decHead.decCopLimits
@@ -4399,7 +4403,7 @@ export default {
       }
       // 如果存在 备案号 则需要放开备案序号
       if (!util.isEmpty(this.decHead.manualNo)) {
-        decBus.$emit('setBodyControllerFieldValue', {
+        decBus.getBus(this.moduleName).$emit('setBodyControllerFieldValue', {
           'contrItemDisabled': false
         })
       }
@@ -4678,7 +4682,7 @@ export default {
         if (this.headColor[key] === '1') {
           if (key === 'docuAndcertCode') {
             let tips = (this.decCheckRec['docuAndcertCodeNote'] ? this.decCheckRec['docuAndcertCodeNote'] : [])
-            decBus.$emit('initDocCheck', true, tips)
+            decBus.getBus(this.moduleName).$emit('initDocCheck', true, tips)
           } else {
             this.errorColor[key] = true
           }
@@ -4748,7 +4752,7 @@ export default {
       }
       if (!util.isEmpty(mftData.containerInfo)) {
         // 反填集装箱信息
-        decBus.$emit('backContainerList', mftData.containerInfo)
+        decBus.getBus(this.moduleName).$emit('backContainerList', mftData.containerInfo)
       }
       this.mftBillDetailVisible = false
     }

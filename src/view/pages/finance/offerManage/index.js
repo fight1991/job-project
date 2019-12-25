@@ -3,10 +3,10 @@ const MENU = [
     path: '/finance/offerManage/list',
     name: 'offerManage-list',
     permissions: 'CCBA21602000000',
-    icon: 'icons-finance-offerManage',
+    icon: 'icons-menu-offerManage',
     hidden: false,
     meta: {
-      component: resolve => require(['./offerList.vue'], resolve),
+      component: () => import(/* webpackChunkName: "offer-list" */ './offerList.vue'),
       title: '报价管理'
     }
   },
@@ -16,7 +16,7 @@ const MENU = [
     permissions: 'CCBA21602000000',
     hidden: true,
     meta: {
-      component: resolve => require(['./offerDetail.vue'], resolve),
+      component: () => import(/* webpackChunkName: "offer-detail" */ './offerDetail.vue'),
       title: '报价详情'
     }
   },
@@ -26,7 +26,7 @@ const MENU = [
     permissions: 'CCBA21602000000',
     hidden: true,
     meta: {
-      component: resolve => require(['./offerAdd.vue'], resolve),
+      component: () => import(/* webpackChunkName: "offer-add" */ './offerAdd.vue'),
       title: '新建报价'
     }
   }

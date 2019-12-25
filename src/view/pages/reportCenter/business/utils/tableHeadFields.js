@@ -154,6 +154,11 @@ export const tableHeadFieldList = {
     fieldName: '备案序号',
     fieldCode: 'contrItem'
   },
+  codeTs: {
+    value: true,
+    fieldName: '商品编号',
+    fieldCode: 'codeTs'
+  },
   gName: {
     value: true,
     fieldName: '商品名称',

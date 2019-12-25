@@ -340,7 +340,7 @@ export default {
         downParams['sccCode'] = this.sccCode // 社会信用代码
         downParams['certNo'] = this.userInfo[0] // 证书号
         downParams['icCode'] = this.userInfo[5] // 卡号
-        downParams['password'] = window.localStorage.getItem(this.userId) // 卡密码
+        downParams['password'] = window.localStorage.getItem(this.$store.state.userLoginInfo.userId) // 卡密码
         this.downLoad(downParams)
       }
     },
@@ -478,7 +478,6 @@ export default {
                 isDisabled: false
               })
               this.$parent.pageList()
-              this.messageTips(msg.Error[0], 'success')
             },
             other: () => {
               this.messageTips(msg.Error[0], 'error')

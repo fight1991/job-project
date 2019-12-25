@@ -1,2 +1,15 @@
+
 import Vue from 'vue'
-export default new Vue()
+
+const summaryBuses = {}
+export default {
+  getBus (moduleName) {
+    if (!summaryBuses[moduleName]) {
+      summaryBuses[moduleName] = new Vue()
+    }
+    return summaryBuses[moduleName]
+  },
+  deleteBus (moduleName) {
+    delete summaryBuses[moduleName]
+  }
+}

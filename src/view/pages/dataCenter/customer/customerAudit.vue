@@ -41,8 +41,8 @@
     <div class='query-table' style="margin:20px;background-color:white;padding:12px 18px;">
       <!-- 按钮 -->
       <el-row class="op-btn" style="margin-bottom:12px;">
-        <el-button size="mini" @click="confirm(true)" class="list-icon-reject" style="font-size:12px;"  :disabled="nowselect.length===0" ><i class="cus-i" ></i>审核通过</el-button>
-        <el-button size="mini" @click="confirm(false)" class="list-icon-check" style="margin-left:6px;font-size:12px;" :disabled="nowselect.length===0"><i class="cus-i" ></i>审核驳回</el-button>
+        <el-button size="mini" @click="confirm(true)" class="list-icon-check" style="font-size:12px;"  :disabled="nowselect.length===0" ><i class="cus-i" ></i>审核通过</el-button>
+        <el-button size="mini" @click="confirm(false)" class="list-icon-reject" style="margin-left:6px;font-size:12px;" :disabled="nowselect.length===0"><i class="cus-i" ></i>审核驳回</el-button>
       </el-row>
       <!-- 列表table开始 -->
       <el-table class='sys-table-table' border highlight-current-row :header-cell-style="{'text-align':'center'}" :height='500' size="mini" :data="queryresult" ref="reference" @select="selectionChange" @row-click='rowclick' @select-all='slectall' >

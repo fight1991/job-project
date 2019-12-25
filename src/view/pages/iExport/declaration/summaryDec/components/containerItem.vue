@@ -29,7 +29,7 @@
       </el-form>
     <!-- </div> -->
     <!-- —商品项号关系组件  -->
-    <goods-gno :goodsGNoVisible.sync="goodsGNoVisible" :goodsNo='decContainer.goodsNo' declareType="summaryType" :isDisabled="controller.isDisabled" @close:goodsGno="backGoodsGNo" :tableList="tableList"></goods-gno>
+    <goods-gno :goodsGNoVisible.sync="goodsGNoVisible" :goodsNo='decContainer.goodsNo' declareType="summaryType" :isDisabled="controller.isDisabled" @close:goodsGno="backGoodsGNo" :tableList="tableList" :moduleName="moduleName"></goods-gno>
   </section>
 </template>
 <script>

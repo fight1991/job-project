@@ -1,7 +1,7 @@
 <template>
   <section class='sys-main expenseDetail'>
-    <div class="topFlag flex" v-if="reconMsg">
-      <img src="@/assets/img/Tips.png" alt="">
+    <div class="topFlag list-icon-Tips flex" v-if="reconMsg">
+      <i></i>
       <div class="one-row">
         <div class="left">对账意见&nbsp;:</div>
         <div class="right">{{reconMsg || '-'}}</div>
@@ -39,7 +39,7 @@
             <!-- 使用报价选项 -->
             <el-dropdown trigger="click" @command="((data) => getOfferReceive(data, index))" placement="bottom-start">
               <el-button size="mini" class="list-btns list-icon-useOffer">
-                <i class="other"></i>使用报价<i class="el-icon-arrow-down el-icon--right"></i>
+                <i></i>使用报价
               </el-button>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item v-for="item in quotationList" :command="item" :key="item.quotationId">{{item.itemName+'-'+item.entrustCompanyName}}</el-dropdown-item>
@@ -236,7 +236,7 @@ export default {
         feeOptionName: '',
         feePrice: '',
         unit: '',
-        curr: '',
+        curr: 'CNY',
         num: '',
         rate: 0,
         taxPrice: '',
@@ -441,6 +441,7 @@ export default {
         this.$confirm('请确认是否删除该账单', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
+          modalAppendToBody: true,
           domMount: this.$el.parentNode,
           type: 'warning'
         }).then(() => {
@@ -757,9 +758,9 @@ export default {
     border: 1px solid #ffc56b;
     background-color: #ffe9c7;
     border-radius: 2px;
-    img {
-      display:block;
+    i {
       margin-right: 8px;
+      padding-left: 1px;
     }
   }
   .flex {

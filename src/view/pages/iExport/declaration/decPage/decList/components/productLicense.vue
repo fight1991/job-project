@@ -187,7 +187,7 @@ export default {
     }
   },
   created () {
-    decBus.$on('setValueForFilingInfoForm', this.setValueForFilingInfoForm)
+    decBus.getBus(this.moduleName).$on('setValueForFilingInfoForm', this.setValueForFilingInfoForm)
   },
   methods: {
     checkValid (rule, value, callback) {

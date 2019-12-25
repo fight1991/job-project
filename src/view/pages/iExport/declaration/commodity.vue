@@ -96,7 +96,7 @@
             <el-dropdown-item command="syncRecord">同步记录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <el-button size="mini" class="list-btns list-icon-listExport" @click="exportList" ><i></i>导出</el-button>
+        <el-button size="mini" class="list-btns list-icon-export" @click="exportList" ><i></i>导出</el-button>
       </el-row>
       <!-- 列表 list -->
       <el-table class='sys-table-table dec-table' :data="resultList"
@@ -121,8 +121,8 @@
         </el-table-column>
         <el-table-column label="操作" align='center' width="80" fixed="right">
           <template slot-scope="scope">
-            <a href="javascript:void(0)" class="list-icon-editH border-0" title="编辑" @click="gotoDetail('edit', scope.row.decListPid)" style="margin-right:10px"><i class='dec-i'></i></a>
-            <a href="javascript:void(0)" class="list-icon-lookH border-0" title="查看" @click="gotoDetail('view', scope.row.decListPid)"><i class='dec-i'></i></a>
+            <el-button type="text" class="table-icon list-icon-edit" title="编辑"   @click="gotoDetail('edit', scope.row.decListPid)"><i></i></el-button>
+            <el-button type="text" class="table-icon list-icon-look" title="查看" @click="gotoDetail('view', scope.row.decListPid)"><i></i></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -518,32 +518,5 @@ export default {
     border: 0px;
     color: #fff;
     padding: 0px 12px;
-  }
-  .border-0 {
-      border: 0;
-      margin-right: 5px;
-    }
-   .list-icon-look:hover i,.list-icon-look:focus i{
-    background-color: #fff
-    }
-    .list-icon-edit:hover i,.list-icon-edit:focus i{
-    background-color: #fff
-    }
-    .dec-i{
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    vertical-align: middle;
-    }
-    .icon-btn-import{
-    background: url('../../../../assets/img/icon-import.png') no-repeat center center;
-    background-size: cover;
-  }
-  .el-col{
-    padding-left: 25px;
-    padding-right: 25px;
-  }
-  .el-autocomplete-suggestion {
-    width: auto!important;
   }
 </style>

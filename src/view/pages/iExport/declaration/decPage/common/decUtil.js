@@ -1,5 +1,6 @@
 import util from '@/common/util'
 import {tipsMessage} from './tipsMessages'
+import storageHandle from '@/common/storageHandle.js'
 // import BigDecimal from 'js-big-decimal'
 
 export default {
@@ -75,6 +76,12 @@ export default {
      @returns 两数相乘的结果
     */
   Mul (arg1, arg2) {
+    if (util.isEmpty(arg1)) {
+      arg1 = 0
+    }
+    if (util.isEmpty(arg2)) {
+      arg2 = 0
+    }
     let r1 = arg1.toString()
     let r2 = arg2.toString()
     let m
@@ -159,7 +166,7 @@ export default {
     e.preventDefault()
     e.stopPropagation()
   },
-  selectSearch (_this, query, type) {
+  selectSearch (_this, query, type, storageParam = 'common') {
     _this[_this.selectObj.obj] = []
     let keyValue = query.toString().trim()
     let list = JSON.parse(window.localStorage.getItem(_this.selectObj.params))
@@ -170,6 +177,9 @@ export default {
       list = list.filter(item => {
         return item.otherField.toUpperCase().indexOf(_this.controller.iEFlag) > -1
       })
+    }
+    if (_this.selectObj.params === 'SAAS_EDOC_CODE') {
+      list = storageHandle.getEdocCodesByRelatedBusiness(list, storageParam)
     }
     let fitlerParmaTable = ['SAAS_CURR', 'SAAS_WRAP', 'SAAS_TRADE', 'SAAS_CONTAINER_MODEL', 'SAAS_COUNTRY', 'SAAS_PORT_LIN']
     if (util.isEmpty(keyValue)) {
@@ -386,6 +396,58 @@ export default {
         return
       }
     }
+  },
+  /**
+   * 跳转 新增、详情、编辑
+   * @param funFlag  功能页面 declaration 报关单   recordList 备案清单
+   * @param flag  进出口标识
+   * @param pid  报关单主键  可不传
+   * @param operationType 操作   add 新增 look 查看  edit 编辑
+   * @param pageType 页面类型 dec 为报关单  whole 为完整申报
+   * @param queryParam 路径参数
+   * @param isCopy 是否为 复制操作
+   */
+  gotoDecPage (funFlag, flag, operationType, pid = 'new', pageType, queryParam = {}, _this, isCopy) {
+    let routeParam = {
+      'declaration@import@add@dec': {tabName: '进口报关单', routeName: 'importDecAdd'},
+      'declaration@import@look@dec': {tabName: '进口报关单', routeName: 'importDecLook'},
+      'declaration@import@edit@dec': {tabName: '进口报关单', routeName: 'importDecEdit'},
+      'declaration@import@look@whole': {tabName: '进口报关单(完整申报)', routeName: 'importDecLook'},
+      'declaration@import@edit@whole': {tabName: '进口报关单(完整申报)', routeName: 'importDecEdit'},
+      'declaration@export@add@dec': {tabName: '出口报关单', routeName: 'exportDecAdd'},
+      'declaration@export@edit@dec': {tabName: '出口报关单', routeName: 'exportDecEdit'},
+      'declaration@export@look@dec': {tabName: '出口报关单', routeName: 'exportDecLook'},
+      'recordList@import@add@dec': {tabName: '进境备案清单', routeName: 'importRecordAdd'},
+      'recordList@import@look@dec': {tabName: '进境备案清单', routeName: 'importRecordLook'},
+      'recordList@import@edit@dec': {tabName: '进境备案清单', routeName: 'importRecordEdit'},
+      'recordList@export@add@dec': {tabName: '出境备案清单', routeName: 'exportRecordAdd'},
+      'recordList@export@look@dec': {tabName: '出境备案清单', routeName: 'exportRecordLook'},
+      'recordList@export@edit@dec': {tabName: '出境备案清单', routeName: 'exportRecordEdit'},
+      'recordList@import@look@whole': {tabName: '进境备案清单(完整申报)', routeName: 'importRecordLook'},
+      'recordList@import@edit@whole': {tabName: '进境备案清单(完整申报)', routeName: 'importRecordEdit'}
+    }
+    let para = `${funFlag}@${flag}@${operationType}@${pageType}`
+    let routeName = routeParam[para].routeName
+    let tabName = routeParam[para].tabName
+    let setId = routeName + operationType + pid
+    // 复制操作的id
+    if (isCopy) {
+      setId = routeName + 'copy' + new Date().getTime()
+    }
+    let setTitle = tabName + '-' + pid
+    // 新增
+    if (operationType === 'add') {
+      setTitle = tabName
+    }
+    _this.$router.push({
+      name: routeName,
+      params: {
+        'pid': pid,
+        'setTitle': setTitle,
+        'setId': setId
+      },
+      query: queryParam
+    })
   }
   // /**
   //  * 四舍六入五成双

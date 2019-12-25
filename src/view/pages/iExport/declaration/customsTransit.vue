@@ -3109,6 +3109,7 @@
 
 <script>
 import util from '@/common/util.js'
+import decUtil from './decPage/common/decUtil'
 import decelementView from './component/decelement.vue'
 import extraNote from './component/extraNote.vue'
 import reviseView from './component/revise.vue'
@@ -3273,12 +3274,12 @@ export default {
         decRoyaltyFeeVO: null // 特许权使用费
       }, // 报关单表头
       controller: {
-        operationType: this.$route.params.operationType, // 记录操作类型  详情 新增  修改
+        operationType: this.$route.meta.operationType, // 记录操作类型  详情 新增  修改
         iEFlag: '', // 记录是进口页面还是出口页面 import export
-        funFlag: this.$route.params.funFlag, // 功能页面 declaration 报关单   recordList 备案清单 template 初始值模板
+        funFlag: this.$route.meta.funFlag, // 功能页面 declaration 报关单   recordList 备案清单 template 初始值模板
         declTrnrel: '', // 0 报关单   2 备案清单
-        pid: this.$route.params.operationType !== 'add' ? this.$route.params.pid : '', // 报关单id
-        isDisabled: this.$route.params.operationType === 'look', // 判断 input button 禁用
+        pid: this.$route.meta.operationType !== 'add' ? this.$route.params.pid : '', // 报关单id
+        isDisabled: this.$route.meta.operationType === 'look', // 判断 input button 禁用
         requireColor: true, // 显示必填的颜色
         otherCurrDisabled: false, // 杂费用币制
         feeMarkDisabled: false, // 运费币制
@@ -4104,10 +4105,10 @@ export default {
       charterVisabled: false, // 特许权弹窗
       charterDis: true, // 特许权按钮是否禁用
       initTransfer: {
-        iEFlag: this.$route.params.iEFlag, // I E
-        operationType: this.$route.params.operationType, // look  edit
+        iEFlag: this.$route.meta.iEFlag, // I E
+        operationType: this.$route.meta.operationType, // look  edit
         pid: '', // 主键
-        funFlag: this.$route.params.funFlag, // 报关单 declaration  备案清单 recordList   二次转关 secondDec
+        funFlag: this.$route.meta.funFlag, // 报关单 declaration  备案清单 recordList   二次转关 secondDec
         isDisabled: false, // 是否是详情
         customMaster: '', // 报关单申报地海关
         statusForm: {
@@ -4174,7 +4175,7 @@ export default {
       this.zoom = 0.7
       this.asideWidth = 20
     }
-    let operation = this.$route.params.operationType
+    let operation = this.$route.meta.operationType
     if (operation === 'look') {
       this.controller.requireColor = false
     }
@@ -4216,43 +4217,44 @@ export default {
   },
   mounted () {
     let type = this.$route.query.type // 取路径的参数
-    let operation = this.$route.params.operationType
-    this.controller.iEFlag = (this.$route.params.iEFlag === 'import' ? 'I' : 'E')
+    let params = this.$route.meta
+    this.controller.iEFlag = (params.iEFlag === 'import' ? 'I' : 'E')
     if (this.controller.iEFlag === 'I') {
       this.controller.iEFlagDisabled = false
     } else {
       this.controller.iEFlagDisabled = true
     }
     // 备案清单、报关单标识
-    if (this.$route.params.funFlag === 'declaration') {
+    if (params.funFlag === 'declaration') {
       this.decHead.declTrnrel = '1'
       this.controller.declTrnrel = '1'
-      if (this.$route.params.iEFlag === 'import') {
+      if (params.iEFlag === 'import') {
         this.tabsLabel = '进口报关单'
       } else {
         this.tabsLabel = '出口报关单'
       }
-    } else if (this.$route.params.funFlag === 'recordList') {
+    } else if (params.funFlag === 'recordList') {
       this.decHead.declTrnrel = '3'
       this.controller.declTrnrel = '3'
-      if (this.$route.params.iEFlag === 'import') {
+      if (params.iEFlag === 'import') {
         this.tabsLabel = '进境备案清单'
       } else {
         this.tabsLabel = '出境备案清单'
       }
-    } else if (this.$route.params.funFlag === 'secondDec') {
+    } else if (params.funFlag === 'secondDec') {
       this.decHead.declTrnrel = '4'
       this.controller.declTrnrel = '4'
-      if (this.$route.params.iEFlag === 'export') {
+      if (params.iEFlag === 'export') {
         this.tabsLabel = '出口报关单'
       }
     }
+    let operation = params.operationType
     if (operation === 'look' || operation === 'edit' || (operation === 'add' && !util.isEmpty(type))) {
       // this.controller.initTemplateBtn = true
       // 这里的初始化不需要反填信息
       this.initHeadData()
     } else if (operation === 'add') {
-      this.decHead.iEFlag = (this.$route.params.iEFlag === 'import' ? 'I' : 'E')
+      this.decHead.iEFlag = (params.iEFlag === 'import' ? 'I' : 'E')
       this.decList.gNo = this.tableList.length + 1
       if (this.controller.funFlag === 'recordList') {
         this.decHead.billtype = '1'
@@ -4675,10 +4677,10 @@ export default {
         if (util.isEmpty(list[i].qty2)) {
           list[i].qty2 = 0
         }
-        sum1 = this.Add(sum1, list[i].declTotal)
-        sum2 = this.Add(sum2, list[i].gQty)
-        sum3 = this.Add(sum3, list[i].qty1)
-        sum4 = this.Add(sum4, list[i].qty2)
+        sum1 = decUtil.Add(sum1, list[i].declTotal)
+        sum2 = decUtil.Add(sum2, list[i].gQty)
+        sum3 = decUtil.Add(sum3, list[i].qty1)
+        sum4 = decUtil.Add(sum4, list[i].qty2)
       }
       this.statisticsData = {
         totalPrice: sum1, // 总价
@@ -4987,10 +4989,10 @@ export default {
       })
       // 清空转关单
       this.initTransfer = {
-        iEFlag: this.$route.params.iEFlag, // I E
-        operationType: this.$route.params.operationType, // look  edit
+        iEFlag: this.$route.meta.iEFlag, // I E
+        operationType: this.$route.meta.operationType, // look  edit
         pid: '', // 主键
-        funFlag: this.$route.params.funFlag, // 报关单 declaration  备案清单 recordList   二次转关 secondDec
+        funFlag: this.$route.meta.funFlag, // 报关单 declaration  备案清单 recordList   二次转关 secondDec
         customMaster: '', // 报关单申报地海关
         isDisabled: false,
         statusForm: {
@@ -5495,23 +5497,23 @@ export default {
         this.tableList.forEach((v, i) => {
           let middle = ''
           if (v.gUnit === '036' && !util.isEmpty(v.gQty)) { // 克
-            listTotalNet = this.Add(listTotalNet, v.gQty)
+            listTotalNet = decUtil.Add(listTotalNet, v.gQty)
           } else if (v.gUnit === '035' && !util.isEmpty(v.gQty)) {
-            middle = this.Mul(v.gQty, 1000)
-            listTotalNet = this.Add(listTotalNet, middle)
+            middle = decUtil.Mul(v.gQty, 1000)
+            listTotalNet = decUtil.Add(listTotalNet, middle)
           } else if (v.unit1 === '036' && !util.isEmpty(v.qty1)) {
-            listTotalNet = this.Add(listTotalNet, v.qty1)
+            listTotalNet = decUtil.Add(listTotalNet, v.qty1)
           } else if (v.unit1 === '035' && !util.isEmpty(v.qty1)) {
-            middle = this.Mul(v.qty1, 1000)
-            listTotalNet = this.Add(listTotalNet, v.middle)
+            middle = decUtil.Mul(v.qty1, 1000)
+            listTotalNet = decUtil.Add(listTotalNet, v.middle)
           } else if (v.unit2 === '036' && !util.isEmpty(v.qty2)) {
-            listTotalNet = this.Add(listTotalNet, v.qty2)
+            listTotalNet = decUtil.Add(listTotalNet, v.qty2)
           } else if (v.unit2 === '035' && !util.isEmpty(v.qty2)) {
-            middle = this.Mul(v.qty2, 1000)
-            listTotalNet = this.Add(listTotalNet, v.middle)
+            middle = decUtil.Mul(v.qty2, 1000)
+            listTotalNet = decUtil.Add(listTotalNet, v.middle)
           }
         })
-        let netWtg = this.Mul(this.decHead.netWt, 1000)
+        let netWtg = decUtil.Mul(this.decHead.netWt, 1000)
         if (netWtg < listTotalNet) {
           mesLen = messageTips.length + 1
           messageTips.push(mesLen + '.' + '表体商品重量需要小于或等于表头总净重')
@@ -6332,7 +6334,7 @@ export default {
     // 打开随附单据 弹出框
     openAccDoc () {
       if (util.isEmpty(this.decHead.customMaster)) {
-        this.messageTips('没有可打印的数据', 'error')
+        this.messageTips('申报地海关不能为空', 'error')
         return false
       }
       this.accDocVisible = true
@@ -6353,7 +6355,7 @@ export default {
     },
     // 查看报关单是否需要审核
     getSwitchCheck () {
-      if (this.$route.params.operationType === 'look') {
+      if (this.$route.meta.operationType === 'look') {
         return
       }
       this.$post({
@@ -6547,7 +6549,7 @@ export default {
         }
         this.checkParamsList('CHN', 'init')
       }
-      let operation = this.$route.params.operationType
+      let operation = this.$route.meta.operationType
       let type = this.$route.query.type // 取路径的参数
       if ((operation === 'look' && util.isEmpty(this.$route.query.type)) || operation === 'edit') {
         this.getDecDetail(this.$route.params.pid)
@@ -7393,7 +7395,7 @@ export default {
       } else if (isNaN(price) || isNaN(num)) { // 判断 数量和单价是否填的是 数字
         return false
       } else {
-        this.decList.declTotal = this.Mul(price, num, 2).toString()
+        this.decList.declTotal = decUtil.Mul(price, num, 2).toString()
         if (value === '1') {
           this.$nextTick(_ => {
             this.$refs['declTotal2'].focus()
@@ -7411,7 +7413,7 @@ export default {
       } else if (isNaN(declTotal) || isNaN(num)) { // 判断 数量和单价是否填的是 数字
         return false
       } else {
-        this.decList.declPrice = this.Div(declTotal, num, 4).toString()
+        this.decList.declPrice = decUtil.Div(declTotal, num, 4).toString()
       }
     },
     // 商品列表
@@ -8346,9 +8348,9 @@ export default {
                   if (res.code === '0000') {
                     if (res.result.list.length > 0) {
                       let data = res.result.list[0]
-                      let declPrice = this.Mul(parseInt(this.decList.declPrice), 100) // 现值
-                      let lowBand = this.Mul(parseInt(data.declPrice), this.Sub(100, parseInt(data.bandArea))) // 参考值最低值
-                      let upperBand = this.Mul(parseInt(data.bandArea) + 100, parseInt(data.declPrice)) // 参考值最高值
+                      let declPrice = decUtil.Mul(parseInt(this.decList.declPrice), 100) // 现值
+                      let lowBand = decUtil.Mul(parseInt(data.declPrice), decUtil.Sub(100, parseInt(data.bandArea))) // 参考值最低值
+                      let upperBand = decUtil.Mul(parseInt(data.bandArea) + 100, parseInt(data.declPrice)) // 参考值最高值
                       if (declPrice < lowBand || declPrice > upperBand) {
                         let mesLen = messgeTips.length + 1
                         messgeTips.push(mesLen + '.' + '成交价格,不在维护的浮动价格区间之内，请核对')
@@ -8688,7 +8690,7 @@ export default {
       if (arr.includes(this.decList.gUnit)) {
         if (this.decList.gUnit !== this.decList.unit1 && this.decList.unit1 === compareMap[this.decList.gUnit].unit) {
           if (this.decList.gQty && this.decList.qty1) {
-            let gQty = this.Mul(parseFloat(this.decList.gQty), compareMap[this.decList.gUnit].rate)
+            let gQty = decUtil.Mul(parseFloat(this.decList.gQty), compareMap[this.decList.gUnit].rate)
             let qty1 = parseFloat(this.decList.qty1)
             if (gQty !== qty1) {
               mesLen = messgeTips.length + 1
@@ -8698,7 +8700,7 @@ export default {
         }
         if (!util.isEmpty(this.decList.unit2) && (this.decList.gUnit !== this.decList.unit2) && (this.decList.unit2 === compareMap[this.decList.gUnit].unit)) {
           if (this.decList.gQty && this.decList.qty2) {
-            let gQty = this.Mul(parseFloat(this.decList.gQty), compareMap[this.decList.gUnit].rate)
+            let gQty = decUtil.Mul(parseFloat(this.decList.gQty), compareMap[this.decList.gUnit].rate)
             let qty2 = parseFloat(this.decList.qty2)
             if (gQty !== qty2) {
               mesLen = messgeTips.length + 1
@@ -8711,7 +8713,7 @@ export default {
         if (this.decList.unit1 !== this.decList.gUnit && (this.decList.gUnit === compareMap[this.decList.unit1].unit)) {
           if (this.decList.qty1 && this.decList.gQty) {
             let gQty = parseFloat(this.decList.gQty)
-            let qty1 = this.Mul(parseFloat(this.decList.qty1), compareMap[this.decList.unit1].rate)
+            let qty1 = decUtil.Mul(parseFloat(this.decList.qty1), compareMap[this.decList.unit1].rate)
             if (gQty !== qty1) {
               mesLen = messgeTips.length + 1
               messgeTips.push(mesLen + '.' + '法定第一单位为' + compareMap[this.decList.unit1].origName + ',成交单位为' + compareMap[this.decList.unit1].compName + ',相对应数量倍率为:' + compareMap[this.decList.unit1].rate)
@@ -8720,7 +8722,7 @@ export default {
         }
         if (!util.isEmpty(this.decList.unit2) && (this.decList.unit1 !== this.decList.unit2) && (this.decList.unit2 === compareMap[this.decList.unit1].unit)) {
           if (this.decList.qty1 && this.decList.qty2) {
-            let qty1 = this.Mul(parseFloat(this.decList.qty1), compareMap[this.decList.gUnit].rate)
+            let qty1 = decUtil.Mul(parseFloat(this.decList.qty1), compareMap[this.decList.gUnit].rate)
             let qty2 = parseFloat(this.decList.qty2)
             if (qty1 !== qty2) {
               mesLen = messgeTips.length + 1
@@ -8733,7 +8735,7 @@ export default {
         if (this.decList.unit2 !== this.decList.gUnit && (this.decList.gUnit === compareMap[this.decList.unit2].unit)) {
           if (this.decList.qty2 && this.decList.gQty) {
             let gQty = parseFloat(this.decList.gQty)
-            let qty2 = this.Mul(parseFloat(this.decList.qty2), compareMap[this.decList.unit2].rate)
+            let qty2 = decUtil.Mul(parseFloat(this.decList.qty2), compareMap[this.decList.unit2].rate)
             if (gQty !== qty2) {
               mesLen = messgeTips.length + 1
               messgeTips.push(mesLen + '.' + '法定第二单位为' + compareMap[this.decList.unit2].origName + ',成交单位为' + compareMap[this.decList.unit2].compName + ',相对应数量倍率为:' + compareMap[this.decList.unit2].rate)
@@ -8743,7 +8745,7 @@ export default {
         if ((this.decList.unit1 !== this.decList.unit2) && (this.decList.unit1 === compareMap[this.decList.unit2].unit)) {
           if (this.decList.qty1 && this.decList.qty2) {
             let qty1 = parseFloat(this.decList.qty1)
-            let qty2 = this.Mul(parseFloat(this.decList.qty2), compareMap[this.decList.unit2].rate)
+            let qty2 = decUtil.Mul(parseFloat(this.decList.qty2), compareMap[this.decList.unit2].rate)
             if (qty1 !== qty2) {
               mesLen = messgeTips.length + 1
               messgeTips.push(mesLen + '.' + '法定第二单位为' + compareMap[this.decList.unit2].origName + ',法定第二单位为' + compareMap[this.decList.unit2].compName + ',应满足倍率为:' + compareMap[this.decList.unit2].rate)
@@ -10464,72 +10466,6 @@ export default {
     closeSupplDec () {
       // 暂未开发
     },
-    /**
-     * @function 加法函数，用来得到精确的加法结果
-     * @description  javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
-     * @param arg1 第一个加数
-     * @param arg2 第二个加数
-     * @param d 要保留的小数位数（可以不传此参数，如果不传则不处理小数位数）
-       @returns 两数相加的结果
-     */
-    Add (arg1, arg2) {
-      let arg1Arr = arg1.toString().split('.')
-      let arg2Arr = arg2.toString().split('.')
-      let d1 = arg1Arr.length === 2 ? arg1Arr[1] : ''
-      let d2 = arg2Arr.length === 2 ? arg2Arr[1] : ''
-      let maxLen = Math.max(d1.length, d2.length)
-      let m = Math.pow(10, maxLen)
-      let result = Number(((arg1 * m + arg2 * m) / m).toFixed(maxLen))
-      let d = arguments[2] // arguments 为获取所有传入的参数 取第三个参数
-      return typeof d === 'number' ? Number((result).toFixed(d)) : result
-    },
-    /**
-     * @function 减法函数，用来得到精确的减法结果
-     * @description 函数返回较为精确的减法结果
-     * @param arg1 第一个加数
-     * @param arg2 第二个加数
-     * @param d 要保留的小数位数（可以不传此参数，如果不传则不处理小数位数）
-       @returns 两数相减的结果
-     */
-    Sub (arg1, arg2) {
-      return this.Add(arg1, -Number(arg2), arguments[2])
-    },
-    /**
-     * @function 精确的乘法运算
-     * @description  函数返回较为精确的乘法结果
-     * @param arg1 第一个乘数
-     * @param arg2 第二个乘数
-     * @param d 要保留的小数位数（可以不传此参数，如果不传则不处理小数位数)
-       @returns 两数相乘的结果
-     */
-    Mul (arg1, arg2) {
-      let r1 = arg1.toString()
-      let r2 = arg2.toString()
-      let m
-      let resultVal
-      let d = arguments[2] // arguments 为获取所有传入的参数 取第三个参数
-      m = (r1.split('.')[1] ? r1.split('.')[1].length : 0) + (r2.split('.')[1] ? r2.split('.')[1].length : 0)
-      resultVal = Number(r1.replace('.', '')) * Number(r2.replace('.', '')) / Math.pow(10, m)
-      return typeof d !== 'number' ? Number(resultVal) : Number(resultVal.toFixed(parseInt(d)))
-    },
-    /**
-     * @function 精确的除法运算
-     * @description  函数返回较为精确的除法结果
-     * @param arg1 除数
-     * @param arg2 被除数
-     * @param d 要保留的小数位数（可以不传此参数，如果不传则不处理小数位数)
-       @returns arg1除于arg2的结果
-     */
-    Div (arg1, arg2) {
-      let r1 = arg1.toString()
-      let r2 = arg2.toString()
-      let m
-      let resultVal
-      let d = arguments[2]
-      m = (r2.split('.')[1] ? r2.split('.')[1].length : 0) - (r1.split('.')[1] ? r1.split('.')[1].length : 0)
-      resultVal = Number(r1.replace('.', '')) / Number(r2.replace('.', '')) * Math.pow(10, m)
-      return typeof d !== 'number' ? Number(resultVal) : Number(resultVal.toFixed(parseInt(d)))
-    },
     // 远程搜索
     checkParamsList (query, type = 'select') {
       this[this.selectObj.obj] = []
@@ -10651,7 +10587,7 @@ export default {
         return
       }
       if (!util.isEmpty(this.decList.declPrice) && !util.isEmpty(this.decList.declTotal)) {
-        if (this.Mul(this.decList.gQty, this.decList.declPrice, 2) !== +this.decList.declTotal) {
+        if (decUtil.Mul(this.decList.gQty, this.decList.declPrice, 2) !== +this.decList.declTotal) {
           this.modifyPriceVisible = true
           return
         }
@@ -11528,7 +11464,7 @@ export default {
       let data = util.simpleClone(res)
       let len = this.tableList.length
       let importLen = data.res.result.length
-      let totalLen = this.Add(len, importLen)
+      let totalLen = decUtil.Add(len, importLen)
       if (totalLen > 50) {
         this.messageTips('导入商品数量超过本单商品不能超过50条限制', 'error')
         return

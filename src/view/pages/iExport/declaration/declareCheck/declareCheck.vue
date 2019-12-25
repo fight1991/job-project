@@ -1,90 +1,94 @@
 <template>
   <!-- 报关单审核组件 -->
   <section class= 'sys-main sys-dec-check sys-dec-class'>
-    <el-tabs v-model="activeName" type="card">
-      <el-tab-pane label="报关单" name="declare">
-        <!-- 表头信息 -->
-        <decHead :headConfig="headConfig" :moduleName="moduleName" :decHead="decHead" :decOther="decOther" :disabledSpecialEle="!tabConfig.declare"></decHead>
-        <!-- 报关单 列表 -->
-        <decList :deCheckList="deCheckList" :moduleName="moduleName" :decCheckConfigs="listConfigs" :disableList="!tabConfig.declare" :decOther="decOther"></decList>
-        <!-- 表尾信息 -->
-        <table>
-          <tr>
-            <checkItem :moduleName="moduleName" colspan="3" :checkData="headConfig['promiseItem1']">
-               <span class='content-font'>{{decOther.promiseItem1}}</span>
-            </checkItem>
-            <checkItem :moduleName="moduleName" colspan="2" :checkData="headConfig['promiseItem2']">
-               <span class='content-font'>{{decOther.promiseItem2}}</span>
-            </checkItem>
-             <checkItem :moduleName="moduleName" colspan="3" :checkData="headConfig['promiseItem3']">
-               <span class='content-font'>{{decOther.promiseItem3}}</span>
-            </checkItem>
-            <checkItem :moduleName="moduleName" colspan="2" :checkData="headConfig['chkPayment']">
-              <span class='content-font'>{{chkPayment}}</span>
-            </checkItem>
-          </tr>
-        </table>
-        <!-- 审批意见 -->
-        <table class="auditTable">
-          <tr>
-            <td width="10%">
-              <span class='title-name'>审批意见</span>
-            </td>
-            <td width="90%">
-              <el-input v-model="auditOpinion" :disabled="isLook"></el-input>
-            </td>
-          </tr>
-        </table>
-      </el-tab-pane>
-      <el-tab-pane label="商检单" name="inspection" :lazy="lazy">
-        <!-- 表头信息 -->
-        <inspectHead :moduleName="moduleName" :headConfig="headConfig" :decHead="decHead" :decOther="decOther" :disabledSpecialEle="!tabConfig.inspection"></inspectHead>
-        <!-- 商检列表 -->
-        <inspectList :moduleName="moduleName" :deCheckList="deCheckList" :decCheckConfigs="listConfigs" :disableList="!tabConfig.inspection"></inspectList>
-        <!-- 审批意见 -->
-        <table>
-          <tr>
-            <td width="10%">
-              <span class='title-name'>审批意见</span>
-            </td>
-            <td width="90%">
-              <el-input v-model="auditOpinion" :disabled="isLook"></el-input>
-            </td>
-          </tr>
-        </table>
-      </el-tab-pane>
-      <el-tab-pane label="商品附加页" name="goods" :lazy="lazy">
-        <goodsHead :moduleName="moduleName" :headConfig="headConfig" :decHead="decHead" :decOther="decOther" :disabledSpecialEle="!tabConfig.goods"></goodsHead>
-        <goodsList :moduleName="moduleName" :deCheckList="deCheckList" :decCheckConfigs="listConfigs" :disableList="!tabConfig.goods"></goodsList>
-        <table>
-          <tr>
-            <td width="10%">
-              <span class='title-name'>审批意见</span>
-            </td>
-            <td width="90%">
-              <el-input v-model="auditOpinion" :disabled="isLook"></el-input>
-            </td>
-          </tr>
-        </table>
-      </el-tab-pane>
-      <el-tab-pane label="集装箱附加页" name="container" :lazy="lazy">
-        <containerList :moduleName="moduleName" v-if="containerListConfigs" :containerList="container" :containerCheckConfigs="containerListConfigs"></containerList>
-        <table>
-          <tr>
-            <td width="10%">
-              <span class='title-name'>审批意见</span>
-            </td>
-            <td width="90%">
-              <el-input v-model="auditOpinion" :disabled="isLook"></el-input>
-            </td>
-          </tr>
-        </table>
-      </el-tab-pane>
-    </el-tabs>
-    <div slot="footer" class="sys-dialog-footer text-center">
-      <el-button class='dialog-primary-btn' @click="checkReject" v-show="!isLook">审核驳回</el-button>
-      <el-button class='dialog-primary-btn' @click="checkPassed"  v-show="!isLook">审核通过</el-button>
+    <div :class="{'check-container': isShowAi}" style="transform:translate(0,0)">
+      <el-tabs v-model="activeName" type="card">
+        <el-tab-pane label="报关单" name="declare">
+          <!-- 表头信息 -->
+          <decHead :headConfig="headConfig" :moduleName="moduleName" @drawArea="drawArea" :isFromAi="isFromAi" :decHead="decHead" :decOther="decOther" :disabledSpecialEle="!tabConfig.declare"></decHead>
+          <!-- 报关单 列表 -->
+          <decList :deCheckList="deCheckList" :moduleName="moduleName" @drawBoyArea="drawBoyArea" :isFromAi="isFromAi" :decCheckConfigs="listConfigs" :disableList="!tabConfig.declare" :decOther="decOther"></decList>
+          <!-- 表尾信息 -->
+          <table>
+            <tr>
+              <checkItem :moduleName="moduleName" colspan="3" :checkData="headConfig['promiseItem1']">
+                <span class='content-font'>{{decOther.promiseItem1}}</span>
+              </checkItem>
+              <checkItem :moduleName="moduleName" colspan="2" :checkData="headConfig['promiseItem2']">
+                <span class='content-font'>{{decOther.promiseItem2}}</span>
+              </checkItem>
+              <checkItem :moduleName="moduleName" colspan="3" :checkData="headConfig['promiseItem3']">
+                <span class='content-font'>{{decOther.promiseItem3}}</span>
+              </checkItem>
+              <checkItem :moduleName="moduleName" colspan="2" :checkData="headConfig['chkPayment']">
+                <span class='content-font'>{{chkPayment}}</span>
+              </checkItem>
+            </tr>
+          </table>
+          <!-- 审批意见 -->
+          <table class="auditTable">
+            <tr>
+              <td width="10%">
+                <span class='title-name'>审批意见</span>
+              </td>
+              <td width="90%">
+                <el-input v-model="auditOpinion" :disabled="isLook"></el-input>
+              </td>
+            </tr>
+          </table>
+        </el-tab-pane>
+        <el-tab-pane label="商检单" name="inspection" :lazy="lazy">
+          <!-- 表头信息 -->
+          <inspectHead :moduleName="moduleName" :headConfig="headConfig" :decHead="decHead" :decOther="decOther" :disabledSpecialEle="!tabConfig.inspection"></inspectHead>
+          <!-- 商检列表 -->
+          <inspectList :moduleName="moduleName" :deCheckList="deCheckList" :decCheckConfigs="listConfigs" :disableList="!tabConfig.inspection"></inspectList>
+          <!-- 审批意见 -->
+          <table>
+            <tr>
+              <td width="10%">
+                <span class='title-name'>审批意见</span>
+              </td>
+              <td width="90%">
+                <el-input v-model="auditOpinion" :disabled="isLook"></el-input>
+              </td>
+            </tr>
+          </table>
+        </el-tab-pane>
+        <el-tab-pane label="商品附加页" name="goods" :lazy="lazy">
+          <goodsHead :moduleName="moduleName" :headConfig="headConfig" :decHead="decHead" :decOther="decOther" :disabledSpecialEle="!tabConfig.goods"></goodsHead>
+          <goodsList :moduleName="moduleName" :deCheckList="deCheckList" :decCheckConfigs="listConfigs" :disableList="!tabConfig.goods"></goodsList>
+          <table>
+            <tr>
+              <td width="10%">
+                <span class='title-name'>审批意见</span>
+              </td>
+              <td width="90%">
+                <el-input v-model="auditOpinion" :disabled="isLook"></el-input>
+              </td>
+            </tr>
+          </table>
+        </el-tab-pane>
+        <el-tab-pane label="集装箱附加页" name="container" :lazy="lazy">
+          <containerList :moduleName="moduleName" v-if="containerListConfigs" :containerList="container" :containerCheckConfigs="containerListConfigs"></containerList>
+          <table>
+            <tr>
+              <td width="10%">
+                <span class='title-name'>审批意见</span>
+              </td>
+              <td width="90%">
+                <el-input v-model="auditOpinion" :disabled="isLook"></el-input>
+              </td>
+            </tr>
+          </table>
+        </el-tab-pane>
+      </el-tabs>
+      <div slot="footer" class="sys-dialog-footer text-center">
+        <el-button class='dialog-primary-btn' @click="checkReject" v-show="!isLook">审核驳回</el-button>
+        <el-button class='dialog-primary-btn' @click="checkPassed"  v-show="!isLook">审核通过</el-button>
+        <el-button class='dialog-primary-btn' @click="directEdit" v-permissions="'CCBA20204010200'">直接编辑</el-button>
+      </div>
     </div>
+    <dec-ai-detail v-if="!isLook" :pageFlag="'check'" :pagePos="pagePos" :isFromAi="isFromAi" :moduleName="moduleName" ref="aiDetail"></dec-ai-detail>
   </section>
 </template>
 
@@ -100,7 +104,9 @@ import goodsHead from './components/goodsHead'
 import goodsList from './components/goodsList'
 import checkItem from './common/checkItem'
 import declareCheckStore from './declareCheckStore'
+import decUtil from '../decPage/common/decUtil'
 
+import decAiDetail from '../decPage/components/decAiDetail'
 export default {
   name: 'declare-check',
   components: {
@@ -111,11 +117,18 @@ export default {
     containerList,
     goodsHead,
     goodsList,
-    checkItem
+    checkItem,
+    decAiDetail
   },
   data () {
     return {
+      pagePos: {
+        totalW: 0,
+        otherW: 0
+      },
+      isShowAi: true,
       moduleName: '',
+      isFromAi: false, // 是否是ai制单
       auditOpinion: '', // 审核意见
       lazy: true,
       headConfig: businessUtil.generateDecHeadCheck(),
@@ -165,13 +178,11 @@ export default {
     // 获取 复核状态
     this.getSwitchCheck()
     this.$store.commit(this.moduleName + '/changeCheckPage', {key: 'isLook', value: this.$route.meta.operationType === 'look'})
+    if (this.$route.meta.operationType === 'look') {
+      this.isShowAi = false
+    }
   },
   computed: {
-    // ...mapState({
-    //   isImport: state => state.checkData.isImport,
-    //   isLook: state => state.checkData.isLook,
-    //   chkPayment: state => state.checkData.chkPayment
-    // }),
     isImport () {
       return this.$store.state[this.moduleName].isImport
     },
@@ -190,8 +201,30 @@ export default {
     }
   },
   mounted () {
+    this.getContainerWith()
+    window.addEventListener('resize', this.getContainerWith)
+  },
+  beforeCreate () {
+    window.removeEventListener('resize', this.getContainerWith)
   },
   methods: {
+    // 获取主要容器的宽度
+    getContainerWith () {
+      let dom = document.querySelector('.check-container')
+      let outHtml = document.querySelector('.sys-main')
+      if (dom) {
+        this.pagePos.otherW = dom.offsetWidth
+      }
+      this.pagePos.totalW = outHtml.offsetWidth
+    },
+    // 框选表头区域
+    drawArea (data) {
+      this.$refs.aiDetail.drawArea(data)
+    },
+    // 框选表体区域
+    drawBoyArea (data) {
+      this.$refs.aiDetail.drawBoyArea(data)
+    },
     // 获取审核数据
     getInitData () {
       let param = {
@@ -209,6 +242,24 @@ export default {
           this.deCheckList = res.result.decListVO // 报关单表体信息
           this.decHead = res.result.decHeadVO // 报关单 表头信息
           this.$store.commit(this.moduleName + '/changeCheckPage', {key: 'chkPayment', value: this.decHead.chkPayment === '1' ? '是' : '否'})
+          this.$store.commit(this.moduleName + '/setCheckPage', {iEFlag: this.decHead.iEFlag})
+          if (!this.isLook) {
+            if (this.decHead.ocrNo) { // 说明是ai制单
+              this.isFromAi = true
+              this.$nextTick(() => {
+                this.$refs.aiDetail.getDecByOcr(this.decHead.ocrNo, false)
+              })
+            } else {
+              this.isFromAi = false
+              if (this.decHead.decEdocRealations && this.decHead.decEdocRealations.length > 0) {
+                this.$nextTick(() => {
+                  this.$refs.aiDetail.setPicData([...this.decHead.decEdocRealations])
+                })
+              } else {
+                this.isShowAi = false
+              }
+            }
+          }
           this.container = res.result.decContainersVO // 报关单集装箱
           let check = res.result.decVerifyVO // 报关单审核信息
           let decListCheckRec
@@ -392,6 +443,21 @@ export default {
           this.$store.dispatch('CloseTab', this.$route.params.setId)
         }
       })
+    },
+    closeTab () {
+      this.$store.dispatch('CloseTab', this.$store.state.TabsStore.currentTab.tabId)
+    },
+    directEdit () {
+      let pageType
+      if (this.decHead.declTrnrel === '0') {
+        pageType = 'declaration'
+      } else if (this.decHead.row.declTrnrel === '2') {
+        pageType = 'recordList'
+      } else {
+        pageType = 'declaration'
+      }
+      this.closeTab()
+      decUtil.gotoDecPage(pageType, this.decHead.iEFlag === 'I' ? 'import' : 'export', 'edit', this.decHead.decPid, 'dec', {fromPage: 'reviewed'}, this)
     }
   }
 }
@@ -458,5 +524,11 @@ export default {
   }
   .text-center {
     text-align: center;
+  }
+  .check-container {
+    width:50%!important;
+    // min-width:815px!important;
+    overflow-y: auto;
+    height: 100%;
   }
 </style>

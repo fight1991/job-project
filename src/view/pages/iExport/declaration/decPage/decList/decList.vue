@@ -41,7 +41,7 @@
           class="table-checkbox">
             <el-table-column min-width="50" label="单选" v-if='!isCheckbox'>
               <template slot-scope="scope">
-                <el-radio v-model="bodyListRadio" @click.native='checkThisBody(scope.$index)' :label="scope.$index">&nbsp;</el-radio>
+                <el-radio v-model="bodyListRadio" @click.native.prevent.stop='checkThisBody(scope.$index)' :label="scope.$index">&nbsp;</el-radio>
               </template>
             </el-table-column>
             <el-table-column type='selection' width="37" align="center" v-else></el-table-column>
@@ -112,7 +112,7 @@
       </el-row>
     </div>
     <!--- table 结束  -->
-    <div class="dec-div dec-page-bottom">
+    <div class="dec-div" :style="'padding-bottom:'+(controller && controller.fromPage === 'reviewed'? '62px' : '24px')">
       <el-form ref="bodyRuleForm" :rules="bodyRuleForm" @keyup.enter.native="switchFoucsByEnter"  :model="decList"  label-width="100px" size="mini">
           <el-row  >
             <el-col :span="6">
@@ -669,20 +669,19 @@ import util from '@/common/util.js'
 import decUtil from '../common/decUtil'
 import decBus from '../common/bus.js'
 import businessUtil from '../common/businessUtil'
-
-const ciqGoods = () => import(/* webpackChunkName: "dec-page-list" */'./components/ciqGoods')
-const goodsAttribute = () => import(/* webpackChunkName: "dec-page-list" */'./components/goodsAttribute')
-const goodsSpecifications = () => import(/* webpackChunkName: "dec-page-list" */'./components/goodsSpecifications')
-const goodsInfo = () => import(/* webpackChunkName: "dec-page-list" */'./components/goodsInfo')
-const productLicense = () => import(/* webpackChunkName: "dec-page-list" */'./components/productLicense')
-const dangerGoods = () => import(/* webpackChunkName: "dec-page-list" */'./components/dangerGoods')
-const decelementView = () => import(/* webpackChunkName: "dec-page-list" */'./components/decelement')
-const modifyPrice = () => import(/* webpackChunkName: "dec-page-list" */'./components/modifyPrice')
-const reviseView = () => import(/* webpackChunkName: "dec-page-list" */'./components/revise')
-const historyGoods = () => import(/* webpackChunkName: "dec-page-list" */'./components/historyGoods')
-const execlImport = () => import(/* webpackChunkName: "dec-page-list" */'../../../declaration/component/execImport.vue')
-const classifyGoods = () => import(/* webpackChunkName: "dec-page-list" */'./components/classifyGoods')
-const errorTips = () => import(/* webpackChunkName: "dec-page-list" */'../components/errorTips')
+import ciqGoods from './components/ciqGoods'
+import goodsAttribute from './components/goodsAttribute'
+import goodsSpecifications from './components/goodsSpecifications'
+import goodsInfo from './components/goodsInfo'
+import productLicense from './components/productLicense'
+import dangerGoods from './components/dangerGoods'
+import decelementView from './components/decelement'
+import modifyPrice from './components/modifyPrice'
+import reviseView from './components/revise'
+import historyGoods from './components/historyGoods'
+import execlImport from '../../../declaration/component/execImport.vue'
+import classifyGoods from './components/classifyGoods'
+import errorTips from '../components/errorTips'
 
 export default {
   name: 'dec-list',
@@ -917,23 +916,23 @@ export default {
     }
   },
   created () {
-    decBus.$on('reresetOpenElement', this.reresetOpenElement)
-    decBus.$on('resetGoodsEnNameList', this.resetGoodsEnNameList)
-    decBus.$on('focusDecList', this.focusDecList)
-    decBus.$on('setManualGoods', this.setManualGoods)
-    decBus.$on('modifyManualGoods', this.modifyManualGoods)
-    decBus.$on('resetBodyForOther', this.resetBodyForOther)
-    decBus.$on('refreshDecList', this.refreshDecList)
-    decBus.$on('modifyDeclGoodsEname', this.modifyDeclGoodsEname)
-    decBus.$on('initBodySingleSeLect', this.initBodySingleSeLect)
-    decBus.$on('backZbookList', this.backZbookList)
-    decBus.$on('HBookClearBody', this.HBookClearBody)
-    decBus.$on('emsDataBack', this.emsDataBack)
-    decBus.$on('emsDataBackAll', this.emsDataBackAll)
-    decBus.$on('setTableListToSate', this.setTableListToSate)
-    decBus.$on('setBodyControllerFieldValue', this.setBodyControllerFieldValue)
-    decBus.$on('delelteManualNo', this.delelteManualNo)
-    decBus.$on('setBodyAiColor', this.setBodyAiColor)
+    decBus.getBus(this.moduleName).$on('reresetOpenElement', this.reresetOpenElement)
+    decBus.getBus(this.moduleName).$on('resetGoodsEnNameList', this.resetGoodsEnNameList)
+    decBus.getBus(this.moduleName).$on('focusDecList', this.focusDecList)
+    decBus.getBus(this.moduleName).$on('setManualGoods', this.setManualGoods)
+    decBus.getBus(this.moduleName).$on('modifyManualGoods', this.modifyManualGoods)
+    decBus.getBus(this.moduleName).$on('resetBodyForOther', this.resetBodyForOther)
+    decBus.getBus(this.moduleName).$on('refreshDecList', this.refreshDecList)
+    decBus.getBus(this.moduleName).$on('modifyDeclGoodsEname', this.modifyDeclGoodsEname)
+    decBus.getBus(this.moduleName).$on('initBodySingleSeLect', this.initBodySingleSeLect)
+    decBus.getBus(this.moduleName).$on('backZbookList', this.backZbookList)
+    decBus.getBus(this.moduleName).$on('HBookClearBody', this.HBookClearBody)
+    decBus.getBus(this.moduleName).$on('emsDataBack', this.emsDataBack)
+    decBus.getBus(this.moduleName).$on('emsDataBackAll', this.emsDataBackAll)
+    decBus.getBus(this.moduleName).$on('setTableListToSate', this.setTableListToSate)
+    decBus.getBus(this.moduleName).$on('setBodyControllerFieldValue', this.setBodyControllerFieldValue)
+    decBus.getBus(this.moduleName).$on('delelteManualNo', this.delelteManualNo)
+    decBus.getBus(this.moduleName).$on('setBodyAiColor', this.setBodyAiColor)
   },
   watch: {
     tableList: 'computedSum',
@@ -1004,26 +1003,28 @@ export default {
     },
     // 设置row 得颜色
     tableRowClassName ({row, rowIndex}) {
-      let gNo = +row.gNo
-      if (gNo > this.bodyAiColorList.length) {
-        return ''
-      }
-      let bodyColor = this.bodyAiColorList[gNo - 1]
-      let red = false
-      let yellow = false
-      for (let key in bodyColor) {
-        if (bodyColor[key] === 0) {
-          red = true
+      if (this.$route.query.aiType && this.$route.query.aiType === 'Intelligent') {
+        let gNo = +row.gNo
+        if (gNo > this.bodyAiColorList.length) {
+          return ''
         }
-        if (bodyColor[key] === 1) {
-          yellow = true
+        let bodyColor = this.bodyAiColorList[gNo - 1]
+        let red = false
+        let yellow = false
+        for (let key in bodyColor) {
+          if (bodyColor[key] === 0) {
+            red = true
+          }
+          if (bodyColor[key] === 1) {
+            yellow = true
+          }
         }
-      }
-      if (red) {
-        return 'ai-row-red'
-      }
-      if (yellow) {
-        return 'ai-row-yellow'
+        if (red) {
+          return 'ai-row-red'
+        }
+        if (yellow) {
+          return 'ai-row-yellow'
+        }
       }
     },
     getGnos (names) {
@@ -1161,7 +1162,7 @@ export default {
       for (let i in this.tableList) {
         gNList.push(this.tableList[i].gNo)
       }
-      decBus.$emit('setHeadFieldToSate', 'manualNo')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'manualNo')
       let manualNo = this.$store.state[this.moduleName].manualNo
       // 设置初始参数
       this.initImport = {
@@ -1223,7 +1224,7 @@ export default {
           obj: 'saasCountry4',
           params: 'SAAS_COUNTRY'
         })
-        decBus.$emit('setHeadFieldToSate', 'tradeCountry')
+        decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'tradeCountry')
         this.decList.destinationCountry = this.$store.state[this.moduleName].tradeCountry
         if (!util.isEmpty(this.decList.destinationCountry)) {
           this.initBodySingleSeLect('destinationCountry', this.decList.destinationCountry, {
@@ -1232,7 +1233,7 @@ export default {
           })
         }
         // 初始化 征免方式
-        decBus.$emit('initdutyMode', null)
+        decBus.getBus(this.moduleName).$emit('initdutyMode', null)
         // 获得焦点
         this.focusDecList()
       }
@@ -1269,7 +1270,7 @@ export default {
     },
     // 自动根据生产/消费使用单位的十位海关编码 反填境内目的地的目的地代码/货源地的货源地代码
     backFillDistrictCode () {
-      decBus.$emit('setHeadFieldToSate', 'ownerCode')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'ownerCode')
       let ownerCode = this.$store.state[this.moduleName].ownerCode
       if (ownerCode.length === 10) {
         let str = ownerCode.toString().substring(0, 5)
@@ -1350,7 +1351,7 @@ export default {
           list.push(this.tableList[i].gNo + '-' + this.tableList[i].declGoodsEname)
         }
       }
-      decBus.$emit('setHeadFieldValue', {gEnName: list.join(',')})
+      decBus.getBus(this.moduleName).$emit('setHeadFieldValue', {gEnName: list.join(',')})
     },
     // 复制 报关单 一条表体数据
     copyDecList () {
@@ -1786,7 +1787,7 @@ export default {
     },
     // 打开历史商品数据组件
     openHistoryGoods () {
-      decBus.$emit('setHeadFieldToSate', 'tradeName')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'tradeName')
       let tradeName = this.$store.state[this.moduleName].tradeName
       this.initHistory = {
         iEFlag: this.controller.iEFlag,
@@ -2011,9 +2012,9 @@ export default {
     modifyGModel () {
       // 用报关单表头的【备案号】、【进出口标志】、【监管方式】及表体的【备案序号】,
       // 到保税商品库中，找到对应的数据，取数据中的【规格型号】内容，反填至报关单对应数据的【规格型号】中去
-      decBus.$emit('setHeadFieldToSate', 'manualNo')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'manualNo')
       let manualNo = this.$store.state[this.moduleName].manualNo
-      decBus.$emit('setHeadFieldToSate', 'tradeMode')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'tradeMode')
       let tradeMode = this.$store.state[this.moduleName].tradeMode
       if (util.isEmpty(manualNo)) {
         this.messageTips('备案号不能为空！')
@@ -2060,7 +2061,7 @@ export default {
     },
     checkPrice () {
       let param = []
-      decBus.$emit('setHeadFieldToSate', 'tradeName')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'tradeName')
       let tradeName = this.$store.state[this.moduleName].tradeName
       if (!tradeName) {
         this.messageTips('境内收发货人名称不能为空！')
@@ -2186,15 +2187,20 @@ export default {
     },
     // 反填 报关单表体信息
     backDeccListInfo (row) {
-      // 更改颜色
-      // 1. 判断gNo 是否超过了智能识别过来的情况
-      let gNo = +row.gNo
-      if (gNo <= this.bodyAiColorList.length) {
-        this.bodyAiColor = util.simpleClone(this.bodyAiColorList[gNo - 1])
-      }
+      this.setAITableColor(+row.gNo)
       this.$refs.decListTable.toggleRowSelection(row, true)
       this.decList = util.simpleClone(row)
       this.formatDecList()
+    },
+    setAITableColor (gNo) {
+      let aiType = this.$route.query.aiType
+      if (aiType && aiType === 'Intelligent') {
+        // 更改颜色
+        // 1. 判断gNo 是否超过了智能识别过来的情况
+        if (gNo <= this.bodyAiColorList.length) {
+          this.bodyAiColor = util.simpleClone(this.bodyAiColorList[gNo - 1])
+        }
+      }
     },
     // 获取选中的报关单 表体 信息
     decListChange (value) {
@@ -2225,18 +2231,16 @@ export default {
         this.$refs['decListTable'].bodyWrapper.lastElementChild.querySelectorAll('input[type="radio"]')[this.bodyListRadio].focus()
         this.checkedTableList[0] = util.simpleClone(this.tableList[this.bodyListRadio])
         this.decList = util.simpleClone(this.checkedTableList[0])
+        // 如果是AI
+        this.setAITableColor(+this.checkedTableList[0].gNo)
         this.formatDecList()
       }
     },
     // 单选选择表体
     checkThisBody (index) {
+      this.bodyListRadio = index
       this.checkedTableList[0] = util.simpleClone(this.tableList[index])
-      // 更改颜色
-      // 1. 判断gNo 是否超过了智能识别过来的情况
-      let gNo = +this.checkedTableList[0].gNo
-      if (gNo <= this.bodyAiColorList.length) {
-        this.bodyAiColor = util.simpleClone(this.bodyAiColorList[gNo - 1])
-      }
+      this.setAITableColor(+this.checkedTableList[0].gNo)
       this.decList = util.simpleClone(this.checkedTableList[0])
       this.formatDecList()
     },
@@ -2249,9 +2253,9 @@ export default {
       // if (this.controller.isWholeDec) {
       //   return false
       // }
-      decBus.$emit('setHeadFieldToSate', 'manualNo')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'manualNo')
       let manualNo = this.$store.state[this.moduleName].manualNo
-      decBus.$emit('setHeadFieldToSate', 'tradeMode')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'tradeMode')
       let tradeMode = this.$store.state[this.moduleName].tradeMode
       if (util.isEmpty(tradeMode)) {
         this.messageTips('监管/贸易方式不能为空')
@@ -2316,7 +2320,7 @@ export default {
               if (!util.isEmpty(res.result.goodsModel)) { // 这个是商品资料库里维护的规格型号
                 this.decList.gModel = res.result.goodsModel // 规格型号
               }
-              decBus.$emit('setHeadFieldToSate', 'manualNo')
+              decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'manualNo')
               let manualNo = this.$store.state[this.moduleName].manualNo
               if (manualNo.charAt(0).toUpperCase() === 'E') {
                 this.decList.districtCode = this.controller.districtCode // 货源地
@@ -2504,9 +2508,9 @@ export default {
           if (checkedgoods.controlMa.indexOf('A') > -1) {
             flag = true
           } else {
-            decBus.$emit('setHeadFieldToSate', 'tradeMode')
+            decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'tradeMode')
             let tradeMode = this.$store.state[this.moduleName].tradeMode
-            decBus.$emit('setHeadFieldToSate', 'tradeAreaCode')
+            decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'tradeAreaCode')
             let tradeAreaCode = this.$store.state[this.moduleName].tradeAreaCode
             if (!util.isEmpty(tradeMode) && (!util.isEmpty(tradeAreaCode) && (!util.isEmpty(checkedgoods.controlMa)))) {
               let districtType = ''
@@ -2516,7 +2520,7 @@ export default {
               // 处理去掉监管要求中的逗号
               let controlMa = checkedgoods.controlMa
               let tradeCondition = JSON.parse(window.localStorage.getItem('CUS_TRADE_MODE'))
-              decBus.$emit('setHeadFieldToSate', 'tradeMode')
+              decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'tradeMode')
               let tradeMode = this.$store.state[this.moduleName].tradeMode
               let index2 = tradeCondition.findIndex((element, i) => {
                 if (element.tradeMode === tradeMode && (districtType === element.districtType.trim())) {
@@ -2587,17 +2591,17 @@ export default {
       // 1.表头“备注”中含有“成套设备”、“废”、“旧”、“成新”
       let noteCondition1 = false
       // 备注中 不包含金关二期为true
-      decBus.$emit('setHeadFieldToSate', 'noteS')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'noteS')
       let noteS = this.$store.state[this.moduleName].noteS
-      decBus.$emit('setHeadFieldToSate', 'tradeMode')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'tradeMode')
       let tradeMode = this.$store.state[this.moduleName].tradeMode
-      decBus.$emit('setHeadFieldToSate', 'tradeAreaCode')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'tradeAreaCode')
       let tradeAreaCode = this.$store.state[this.moduleName].tradeAreaCode
       if (noteS.indexOf('金关二期') === -1) {
         noteCondition1 = true
       }
       let noteCondition2 = true
-      decBus.$emit('setDocFieldToSate', 'licenselist')
+      decBus.getBus(this.moduleName).$emit('setDocFieldToSate', 'licenselist')
       let licenselist = this.$store.state[this.moduleName].licenselist
       let index = licenselist.findIndex((v, i) => {
         return v.docuCode === 'c'
@@ -2670,7 +2674,7 @@ export default {
         }
       }
       // 3.“其它包装”含有“23/33/93”
-      decBus.$emit('setHeadFieldToSate', 'otherPacks')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'otherPacks')
       let otherPacks = this.$store.state[this.moduleName].otherPacks
       let rule3 = ['23', '33', '93']
       if (!flag && !util.isEmpty(otherPacks)) {
@@ -2682,7 +2686,7 @@ export default {
           }
         }
       }
-      decBus.$emit('setHeadFieldToSate', 'tradeCountry')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'tradeCountry')
       let tradeCountry = this.$store.state[this.moduleName].tradeCountry
       // 4.“启运国”在疫区国家参数表： MAPPING_EPIDEMIC_AREA_CODE
       if (!flag && !util.isEmpty(tradeCountry)) {
@@ -2910,7 +2914,7 @@ export default {
         }
         this.$refs['bodyRuleForm'].validate((valid) => {
           if (valid) {
-            decBus.$emit('setHeadFieldToSate', 'tradeName')
+            decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'tradeName')
             let tradeName = this.$store.state[this.moduleName].tradeName
             // 向后端发送请求
             let flag = true // 判断是否需要发送请求查询价格浮动区间
@@ -3066,8 +3070,11 @@ export default {
       for (let i in this.tableList) {
         if (this.tableList[i].gNo === gNo) { // 存在相同的gNo 走修改
           this.tableList[i] = util.simpleClone(this.decList)
-          // 更改颜色
-          this.bodyAiColorList[i] = util.simpleClone(this.bodyAiColor)
+          // 如果是AI制单
+          if (this.$route.query.aiType && this.$route.query.aiType === 'Intelligent') {
+            // 更改颜色
+            this.bodyAiColorList[i] = util.simpleClone(this.bodyAiColor)
+          }
           // 为了刷新列表
           this.tableList.push({})
           this.tableList.pop()
@@ -3114,15 +3121,15 @@ export default {
       // 校验特殊格式
       let messgeTips = []
       let mesLen
-      decBus.$emit('setHeadFieldToSate', 'tradeMode')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'tradeMode')
       let tradeMode = this.$store.state[this.moduleName].tradeMode
-      decBus.$emit('setHeadFieldToSate', 'tradeCountry')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'tradeCountry')
       let tradeCountry = this.$store.state[this.moduleName].tradeCountry
-      decBus.$emit('setHeadFieldToSate', 'manualNo')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'manualNo')
       let manualNo = this.$store.state[this.moduleName].manualNo
-      decBus.$emit('setHeadFieldToSate', 'cutMode')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'cutMode')
       let cutMode = this.$store.state[this.moduleName].cutMode
-      decBus.$emit('setHeadFieldToSate', 'distinatePort')
+      decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'distinatePort')
       let distinatePort = this.$store.state[this.moduleName].distinatePort
       for (let i in this.tableList) {
         // 如果 是修改的话 本条数据就不用与自身比较
@@ -3219,7 +3226,7 @@ export default {
             break
           }
         }
-        decBus.$emit('setDocFieldToSate', 'licenselist')
+        decBus.getBus(this.moduleName).$emit('setDocFieldToSate', 'licenselist')
         let licenselist = this.$store.state[this.moduleName].licenselist
         for (let x in licenselist) {
           for (let y in arr) {
@@ -3819,7 +3826,7 @@ export default {
       })
       this.decList.gNo = this.tableList.length + 1
       // 初始化征免方式 调用子组件的方法
-      decBus.$emit('initdutyMode', null)
+      decBus.getBus(this.moduleName).$emit('initdutyMode', null)
     },
     initBodyData () {
       this.decList = businessUtil.generateDecBody()
@@ -3969,7 +3976,7 @@ export default {
     },
     emsDataBackAll (body, coverFlag) {
       if (body.length !== 0) {
-        decBus.$emit('setHeadFieldToSate', 'ownerCode')
+        decBus.getBus(this.moduleName).$emit('setHeadFieldToSate', 'ownerCode')
         let ownerCode = this.$store.state[this.moduleName].ownerCode
         for (let m in body) {
           if (body[m]['children'] === undefined) {
@@ -4079,7 +4086,7 @@ export default {
       // bodyCheckTips: {} // 存放表体审核意见单条商品
       this.bodyCheck = this.initBodyCheck()
       this.errorColor = this.initErrorColor()
-      if (+this.decList.gNo - 1 < this.tableListOther.length) {
+      if (+this.decList.gNo - 1 < this.tableListOther.length && this.bodyCheckTipsList[+this.decList.gNo - 1] && this.bodyCheckList[+this.decList.gNo - 1]) {
         this.bodyCheckTips = util.simpleClone(this.bodyCheckTipsList[+this.decList.gNo - 1])
         this.bodyCheck = util.simpleClone(this.bodyCheckList[+this.decList.gNo - 1])
         for (let key in this.colorAndCheck) {

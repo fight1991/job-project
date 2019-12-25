@@ -62,7 +62,6 @@
 <script>
 import util from '@/common/util'
 // import pathList from '../../../config/pathList'
-import config from '../../../config/config'
 import eventBus from './eventBus'
 export default {
   data () {
@@ -163,18 +162,29 @@ export default {
       if (column.property === 'statusVal') return
       let flag = column.property === 'iCount' ? 'I' : 'E'
       let [ iEFlag, status, startTime, endTime ] = [flag, row.status, this.dates[0], this.dates[1]]
-      let sysId = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['SYSID']
-      let params = `&iEFlag=${iEFlag}&status=${status}&startTime=${startTime}&endTime=${endTime}`
-      let host = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['HOST']
+      let query = {
+        iEFlag: iEFlag,
+        status: status,
+        startTime: startTime,
+        endTime: endTime
+      }
       // 如果状态为0 跳转到进口接单或出口接单,否则跳转到报关单查询
       if (status === '0') {
+        let routeName
         if (iEFlag === 'I') {
-          window.open(host + `/eImport/receipt/import?${params}&sysId=${sysId}`, '_blank')
+          routeName = 'iOrderReceiving'
         } else {
-          window.open(host + `/eImport/receipt/export?${params}&sysId=${sysId}`, '_blank')
+          routeName = 'eOrderReceiving'
         }
+        this.$router.push({
+          name: routeName,
+          query: query
+        })
       } else {
-        window.open(host + `/eImport/dataQuery/decInfo?${params}&sysId=${sysId}`, '_blank')
+        this.$router.push({
+          name: 'decInfo',
+          query: query
+        })
       }
     },
     // 行点击样式

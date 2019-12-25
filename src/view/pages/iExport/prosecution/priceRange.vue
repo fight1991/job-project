@@ -76,7 +76,7 @@
                 <el-checkbox size="mini" v-model="item.value">{{item.text}}</el-checkbox>
               </li>
             </ul>
-            <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-dropdown" slot="reference"></el-button>
+            <el-button size="mini" class="list-btns list-btn-drop list-icon-dropdown" slot="reference"></el-button>
           </el-popover>
         </div>
           <span class="span-right" style="font-size: 14px; color: #4c4c4c;">
@@ -298,10 +298,12 @@
 <script>
 import util from '@/common/util'
 import commonParam from '@/common/commonParam'
+import historyGoods from './component/historyGoods.vue'
+import temporalInterval from './component/temporalInterval.vue'
 export default {
   components: {
-    'history-goods': resolve => require(['./component/historyGoods.vue'], resolve),
-    'temporal-interval': resolve => require(['./component/temporalInterval.vue'], resolve)
+    'history-goods': historyGoods,
+    'temporal-interval': temporalInterval
   },
   name: 'priceRange',
   data () {

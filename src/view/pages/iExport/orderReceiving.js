@@ -1,10 +1,13 @@
 // 接单
+import abstractComponent from '@/view/common/abstract.vue'
+const receiveOrdersComponent = () => import(/* webpackChunkName: "receive-order" */ './declaration/receiveOrders.vue')
+
 const MENU = {
   path: '/iExport/orderReceiving',
   name: 'orderReceiving',
   icon: 'icons-menu-receipt',
   permissions: 'CCBA20202000000',
-  component: resolve => require(['../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '接单'
   },
@@ -16,7 +19,7 @@ const MENU = {
       permissions: 'CCBA20202010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./declaration/receiveOrders.vue'], resolve),
+        component: receiveOrdersComponent,
         title: '进口接单',
         iEFlag: 'import'
       }
@@ -27,7 +30,7 @@ const MENU = {
       permissions: 'CCBA20202020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./declaration/receiveOrders.vue'], resolve),
+        component: receiveOrdersComponent,
         title: '出口接单',
         iEFlag: 'export'
       }

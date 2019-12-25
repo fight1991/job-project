@@ -63,10 +63,14 @@ export default {
       colorArr: ['c1', 'c2', 'c3']
     }
   },
+  created () {},
   methods: {
     itemClick () {
       this.changeColor()
       this.$emit('itemClick')
+      if (this.$attrs.isFromAi) {
+        this.$emit('drawArea', {value: this.checkData.key})
+      }
     },
     changeColor () {
       if (this.isLook) {

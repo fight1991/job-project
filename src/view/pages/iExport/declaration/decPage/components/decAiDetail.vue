@@ -1,5 +1,5 @@
 <template>
-  <ai-detail v-if="isNeedDisplayCompare" :picDatas="picDatas" :currentPicRefs="currentPicRefs"></ai-detail>
+  <ai-detail v-bind="$attrs" v-if="isNeedDisplayCompare" :picDatas="picDatas" :currentPicRefs="currentPicRefs"></ai-detail>
 </template>
 
 <script>
@@ -71,7 +71,6 @@ export default {
           let decColorInfo = res.result.decColorInfo ? JSON.parse(res.result.decColorInfo) : null
           let initHeadColor = businessUtil.generateDecAiHeadColor()
           let arr = dataResult.fields
-          console.log(arr)
           // 处理表头数据
           let fields = {}
           let headVo = businessUtil.generateDecHead()
@@ -175,11 +174,11 @@ export default {
                 decColorInfo.bodyAiColor[index][bodykey] = +decColorInfo.bodyAiColor[index][bodykey]
               }
             }
-            decBus.$emit('setHeadAiColor', decColorInfo.headAiColor)
-            decBus.$emit('setBodyAiColor', decColorInfo.bodyAiColor)
+            decBus.getBus(this.moduleName).$emit('setHeadAiColor', decColorInfo.headAiColor)
+            decBus.getBus(this.moduleName).$emit('setBodyAiColor', decColorInfo.bodyAiColor)
           } else {
-            decBus.$emit('setHeadAiColor', initHeadColor)
-            decBus.$emit('setBodyAiColor', bodyAiColorList)
+            decBus.getBus(this.moduleName).$emit('setHeadAiColor', initHeadColor)
+            decBus.getBus(this.moduleName).$emit('setBodyAiColor', bodyAiColorList)
           }
           this.orcListFomart = orcBodyList
           this.picDatas = dataResult.picDatas
@@ -199,6 +198,23 @@ export default {
           this.messageTips(res.message, 'error')
         }
       })
+    },
+    // 审单过来非ai制单,取随附单据字段
+    setPicData (arr) {
+      this.picDatas = []
+      if (arr && arr.length > 0) {
+        arr.forEach(v => {
+          this.picDatas.push({
+            originUrl: v.edocUrl,
+            url: v.edocUrl,
+            picId: v.pid,
+            picType: {
+              code: v.edocCode,
+              name: v.edocCodeValue
+            }
+          })
+        })
+      }
     }
   }
 }

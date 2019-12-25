@@ -80,8 +80,8 @@
     </el-row>
     <div class='query-table-financeCommon'>
       <el-row class="table-btn">
-        <el-button size="mini" class="list-btns list-icon-reject" :disabled="fundIdsStatus.length === 0" @click="batchCheck('check')"><i></i>审核通过</el-button>
-        <el-button size="mini" class="list-btns list-icon-check" :disabled="fundIdsStatus.length === 0" @click="batchCheck('reject')"><i></i>审核驳回</el-button>
+        <el-button size="mini" class="list-btns list-icon-check" :disabled="fundIdsStatus.length === 0" @click="batchCheck('check')"><i></i>审核通过</el-button>
+        <el-button size="mini" class="list-btns list-icon-reject" :disabled="fundIdsStatus.length === 0" @click="batchCheck('reject')"><i></i>审核驳回</el-button>
       </el-row>
       <el-table class='sys-table-table' :data="approvalTableList" border highlight-current-row height="530px" ref="fundTable" @select="chooseSelectBox" @row-click="chooseSelectRow" @select-all="chooseSelectBoxAll">
         <el-table-column type="selection" width="40"></el-table-column>

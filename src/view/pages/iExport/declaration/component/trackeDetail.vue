@@ -101,6 +101,7 @@
 
 <script>
 import util from '@/common/util'
+import decUtil from '../decPage/common/decUtil'
 export default {
   name: 'tracke-detail',
   props: {
@@ -183,6 +184,9 @@ export default {
           'pid': row.pkId,
           'setTitle': '报关单审核预览' + '-' + row.pkId,
           'setId': 'decReviewedLook' + 'look' + row.pkId
+        },
+        query: {
+          type: 'checkHistory'
         }
       })
     },
@@ -191,62 +195,60 @@ export default {
       if (util.isEmpty(row.declTrnrel) || util.isEmpty(row.iEFlag)) {
         return
       }
-      let routeName
-      let tabName
       let funFlag = 'declaration'
       let flag = 'import'
       let operationType = 'look'
-      if (row.declTrnrel === '2') {
-        funFlag = 'recordList'
-      } else {
-        funFlag = 'declaration'
-      }
-      if (row.iEFlag === 'I') {
-        flag = 'import'
-      } else {
+      if (row.iEFlag === 'E') {
         flag = 'export'
       }
-      if (funFlag === 'declaration') {
-        if (flag === 'import') {
-          tabName = '进口报关单'
-          if (operationType === 'look') {
-            routeName = 'importDecLook'
-          } else if (operationType === 'edit') {
-            routeName = 'importDecEdit'
-          }
-        } else if (flag === 'export') {
-          tabName = '出口报关单'
-          if (operationType === 'look') {
-            routeName = 'exportDecLook'
-          } else if (operationType === 'edit') {
-            routeName = 'exportDecEdit'
-          }
+      let decPid = row.note
+      if (row.declTrnrel === '2' || row.declTrnrel === '0') { // 报关单或备案清单
+        if (row.declTrnrel === '2') {
+          funFlag = 'recordList'
         }
-      }
-      if (funFlag === 'recordList') {
-        if (flag === 'import') {
-          tabName = '进境备案清单'
-          if (operationType === 'look') {
-            routeName = 'importRecordLook'
-          } else if (operationType === 'edit') {
-            routeName = 'importRecordEdit'
-          }
-        } else if (flag === 'export') {
-          tabName = '出境备案清单'
-          if (operationType === 'look') {
-            routeName = 'exportRecordLook'
-          } else if (operationType === 'edit') {
-            routeName = 'exportRecordEdit'
-          }
+        decUtil.gotoDecPage(funFlag, flag, operationType, decPid, 'dec', {}, this)
+      } else {
+        if (row.declTrnrel === '1') {
+          funFlag = 'declaration'
+        } else if (row.declTrnrel === '3') {
+          funFlag = 'recordList'
+        } else if (row.declTrnrel === '4') {
+          funFlag = 'secondDec'
         }
+        this.gotoTransPage(funFlag, flag, operationType, decPid)
       }
+    },
+    /**
+     * 跳转 新增、详情、编辑
+     * @param funFlag  功能页面 declaration 转关提前报关   recordList 转关提前备案清单 secondDec 出口二次转关
+     * @param flag  进出口标识 import export
+     * @param pid  报关单主键  可不传
+     * @param operationType 操作   add 新增 look 查看  edit 编辑
+     */
+    gotoTransPage (funFlag, flag, operationType, pid = 'new', queryParam = {}) {
+      let routeParam = {
+        'declaration@import@look': {tabName: '进口转关提前报关', routeName: 'importTransitDecLook'},
+        'declaration@import@edit': {tabName: '进口转关提前报关', routeName: 'importTransitDecEdit'},
+        'declaration@export@look': {tabName: '出口转关提前报关', routeName: 'exportTransitDecLook'},
+        'declaration@export@edit': {tabName: '出口转关提前报关', routeName: 'exportTransitDecEdit'},
+        'recordList@import@look': {tabName: '进境转关提前备案清单', routeName: 'importTransitRecordListLook'},
+        'recordList@import@edit': {tabName: '进境转关提前备案清单', routeName: 'importTransitRecordListEdit'},
+        'recordList@export@look': {tabName: '出境转关提前备案清单', routeName: 'exportTransitRecordListLook'},
+        'recordList@export@edit': {tabName: '出境转关提前备案清单', routeName: 'exportTransitRecordListEdit'},
+        'secondDec@export@look': {tabName: '出口转关提前报关', routeName: 'exportTransitSecondDecLook'},
+        'secondDec@export@edit': {tabName: '出口转关提前报关', routeName: 'exportTransitRecordListEdit'}
+      }
+      let para = `${funFlag}@${flag}@${operationType}`
+      let routeName = routeParam[para].routeName
+      let tabName = routeParam[para].tabName
       this.$router.push({
         name: routeName,
         params: {
-          'pid': row.note,
-          'setTitle': tabName + '-' + row.note,
-          'setId': routeName + operationType + row.note
-        }
+          'pid': pid,
+          'setTitle': tabName + '-' + pid,
+          'setId': routeName + operationType + pid
+        },
+        query: queryParam
       })
     },
     // 查看接单
@@ -267,72 +269,35 @@ export default {
     },
     // 查看备份的报关单
     lookDecDetail (row) {
-      row.declTrnrel = '0'
-      if (util.isEmpty(row.declTrnrel) || util.isEmpty(row.iEFlag)) {
+      if (util.isEmpty(row.declTrnrel) || util.isEmpty(row.iEFlag) || util.isEmpty(row.decVo)) {
         return
       }
-      let routeName
-      let tabName
       let funFlag = 'declaration'
       let flag = 'import'
       let operationType = 'look'
-      if (row.declTrnrel === '2') {
-        funFlag = 'recordList'
-      } else {
-        funFlag = 'declaration'
-      }
-      if (row.iEFlag === 'I') {
-        flag = 'import'
-      } else {
+      if (row.iEFlag === 'E') {
         flag = 'export'
       }
-      if (funFlag === 'declaration') {
-        if (flag === 'import') {
-          tabName = '进口报关单'
-          if (operationType === 'look') {
-            routeName = 'importDecLook'
-          } else if (operationType === 'edit') {
-            routeName = 'importDecEdit'
-          }
-        } else if (flag === 'export') {
-          tabName = '出口报关单'
-          if (operationType === 'look') {
-            routeName = 'exportDecLook'
-          } else if (operationType === 'edit') {
-            routeName = 'exportDecEdit'
-          }
-        }
+      let queryParam = {
+        'type': 'lookHistory'
       }
-      if (funFlag === 'recordList') {
-        if (flag === 'import') {
-          tabName = '进境备案清单'
-          if (operationType === 'look') {
-            routeName = 'importRecordLook'
-          } else if (operationType === 'edit') {
-            routeName = 'importRecordEdit'
-          }
-        } else if (flag === 'export') {
-          tabName = '出境备案清单'
-          if (operationType === 'look') {
-            routeName = 'exportRecordLook'
-          } else if (operationType === 'edit') {
-            routeName = 'exportRecordEdit'
-          }
-        }
-      }
-      window.localStorage.setItem('decHistory', row.decVo)
       let decPid = JSON.parse(row.decVo).decHeadVO.decPid
-      this.$router.push({
-        name: routeName,
-        params: {
-          'pid': decPid,
-          'setTitle': tabName + '-' + decPid,
-          'setId': routeName + operationType + decPid
-        },
-        query: {
-          'type': 'lookHistory'
+      window.localStorage.setItem('decHistory', row.decVo)
+      if (row.declTrnrel === '2' || row.declTrnrel === '0') { // 报关单或备案清单
+        if (row.declTrnrel === '2') {
+          funFlag = 'recordList'
         }
-      })
+        decUtil.gotoDecPage(funFlag, flag, operationType, decPid, 'dec', queryParam, this)
+      } else {
+        if (row.declTrnrel === '1') {
+          funFlag = 'declaration'
+        } else if (row.declTrnrel === '3') {
+          funFlag = 'recordList'
+        } else if (row.declTrnrel === '4') {
+          funFlag = 'secondDec'
+        }
+        this.gotoTransPage(funFlag, flag, operationType, decPid, queryParam)
+      }
     },
     // 查看删改单
     lookDecdRegister (row) {

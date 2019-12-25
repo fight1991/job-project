@@ -69,10 +69,25 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="24" style="height: 18px;">
+            <el-form-item label="打印机">
+              <el-select v-model="printerName" filterable>
+                <el-option
+                  v-for="item in printList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
     </div>
     <div slot="footer"  class="sys-dialog-footer" style="text-align:center;">
-      <el-button class='dialog-primary-btn' @click="preview">打印</el-button>
+      <el-button class='dialog-primary-btn' @click="previewPrint">打印预览</el-button>
+      <el-button class='dialog-btn' @click="directPrint">直接打印</el-button>
       <el-button class='dialog-btn' @click="cancleBtn">取消</el-button>
     </div>
   </section>
@@ -100,24 +115,14 @@ export default {
       goods: false,
       container: false,
       signsChapter: ['报关专用章', '报关员章'],
-      operator: []
+      operator: [],
+      printerName: '',
+      printList: []
     }
   },
   mounted () {
     let initData = util.simpleClone(this.initParams)
-    // this.type = initData.type
     this.pidList = initData.pidList
-    // if (this.type === '0') { // 报关单
-    //   this.declaration = false
-    //   this.recordListing = true
-    // } else if (this.type === '2') { // 备案清单
-    //   this.type = '1'
-    //   this.declaration = true
-    //   this.recordListing = false
-    // } else {
-    //   this.declaration = false
-    //   this.recordListing = false
-    // }
     let storeData = JSON.parse(window.localStorage.getItem('decPrint' + this.initParams.userId))
     if (storeData) {
       this.type = storeData.type
@@ -128,6 +133,7 @@ export default {
     if (this.pidList.length === 1) {
       this.getGoodsNum(this.pidList[0])
     }
+    this.getLocalPrinters()
   },
   methods: {
     cancleBtn () {
@@ -163,8 +169,7 @@ export default {
         }
       })
     },
-    // 打印预览
-    preview () {
+    printDecOrTs (type) {
       let copChapter = 0
       let userChapter = 0
       for (let i in this.signsChapter) {
@@ -198,7 +203,20 @@ export default {
       if (this.initParams.pageType !== 'summaryDec') {
         window.localStorage.setItem('decPrint' + this.initParams.userId, JSON.stringify(storeData))
       }
-      let url = this.initParams.pageType === 'summaryDec' ? 'API@/dec-common/dec/ts/printTsPdf' : 'API@/dec-common/dec/common/exportDecPdf'
+      let url = ''
+      if (type === 'print') { // 直接打印
+        url = this.initParams.pageType === 'summaryDec' ? 'API@/dec-common/dec/ts/printTsPdfs' : 'API@/dec-common/dec/common/exportDecPdfs'
+        this.directPrintResult(url, copChapter, userChapter, operator1, operator2, operator3)
+      } else { // 打印预览
+        url = this.initParams.pageType === 'summaryDec' ? 'API@/dec-common/dec/ts/printTsPdf' : 'API@/dec-common/dec/common/exportDecPdf'
+        this.previewPrintResult(url, copChapter, userChapter, operator1, operator2, operator3)
+      }
+    },
+    previewPrint () {
+      this.printDecOrTs('preview')
+    },
+    // 打印预览
+    previewPrintResult (url, copChapter, userChapter, operator1, operator2, operator3) {
       this.$post({
         url: url,
         data: {
@@ -222,57 +240,83 @@ export default {
         }
       })
     },
-    // 获取打印机列表
+    // 判断是否安装了卡控件
     getLocalPrinters () {
-      // 测试是否安装了卡控件
-      // let _this = this
-      // window.EportClient.isInstalled('iKey', (msg) => {
-      //   if (msg.Result) {
-      //     // 获取打印机列表
-      //     _this.getLocalPrinters()
-      //   }
-      // })
       let _this = this
       window.EportClient.getLocalPrinters((msg) => {
         if (msg.Result) {
-          // printerArr = msg.Data
           console.log(msg.Data)
-          _this.getBase64File()
-          // return msg.Data
-        } else {
-          if (msg.Error) {
-            var errMsg = msg.Error
-            if (errMsg.length > 0) {
-              // alert(errMsg[0]);
-            }
+          _this.printList = []
+          for (let i in msg.Data) {
+            _this.printList.push({
+              label: msg.Data[i],
+              value: msg.Data[i]
+            })
           }
+          _this.printerName = msg.Data[0]
+        } else {
+          // if (msg.Error) {
+          //   var errMsg = msg.Error
+          //   if (errMsg.length > 0) {
+          //     alert(errMsg[0])
+          //   }
+          // }
         }
       })
     },
-    getBase64File () {
-      // Vue.prototype.$getStreamFile({
-      //   url: 'https://test.5itrade.cn/files/longshine/document/ocr/upload/2599299a-ee5e-4b63-bfce-d4d872b12d2d.pdf',
-      //   successCallBack: (res) => {
-      //     console.log(res)
-      //     this.directPrint(res.data)
-      //   }
-      // })
-      // this.directPrint(str)
-    },
     // 直接打印
-    directPrint (stream) {
-      // let printPdfUrl = 'data:application/pdf;base64,' + pdfBase64.encode(stream)
-      // console.log(printPdfUrl)
-      // let printPdfUrl = pdfBase64.encode(stream)
-      let printPdfUrl = stream
-      let printerName = 'ADC225'
-      let ranges = ''
-      let marginLeft = ''
-      let marginTop = ''
-      window.EportClient.printPdf(printPdfUrl, printerName, ranges, marginLeft, marginTop, 60000, (msg) => {
+    directPrint () {
+      let _this = this
+      window.EportClient.isInstalled('iKey', (msg) => {
+        if (msg.Result) {
+          if (_this.printList.length === 0) {
+            _this.messageTips('打印机列表列表还未加载', 'error')
+            return
+          }
+          if (!_this.printerName) {
+            _this.messageTips('请选择打印机', 'error')
+            return
+          }
+          _this.printDecOrTs('print')
+        } else {
+          // 测试是否安装了卡控件
+          _this.messageTips('未安装单一卡控件,请先安装后,才能直接打印', 'error')
+        }
+      })
+    },
+    directPrintResult (url, copChapter, userChapter, operator1, operator2, operator3) {
+      for (let i in this.pidList) {
+        this.$post({
+          url: url,
+          data: {
+            'decPids': [this.pidList[i]], // 主键单个
+            'printSorts': this.printSorts,
+            'printType': this.type,
+            'copChapter': copChapter,
+            'userChapter': userChapter,
+            'operator': operator1 + operator2 + operator3
+          },
+          success: (res) => {
+            // 还需要修改
+            let printPdf = res.result[0]
+            let ranges = ''
+            let marginLeft = ''
+            let marginTop = ''
+            for (let i in res.result) {
+              printPdf = res.result[i]
+              this.singleDirectPrint(printPdf, this.printerName, ranges, marginLeft, marginTop)
+            }
+            this.messageTips('已发往打印机,请耐心等待！')
+            this.$emit('cancLeData')
+          }
+        })
+      }
+    },
+    singleDirectPrint (printPdf, printerName, ranges, marginLeft, marginTop) {
+      window.EportClient.printPdf(printPdf, printerName, ranges, marginLeft, marginTop, 60000, (msg) => {
         if (msg.Result) {
           let message = msg.Data
-          this.messageTips('打印' + message[0])
+          console.log('打印' + message[0])
         } else {
           if (msg.Error) {
             let errMsg = msg.Error

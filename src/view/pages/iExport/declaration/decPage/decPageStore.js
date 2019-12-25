@@ -3,6 +3,7 @@ export default {
   state () {
     return {
       controller: {
+        fromPage: 'self',
         operationType: 'add', // 记录操作类型  详情 新增  修改
         iEFlag: 'I', // 记录是进口页面还是出口页面 I E
         funFlag: 'declaration', // 功能页面 declaration 报关单 recordList 备案清单 summary 概要申报的完整申报

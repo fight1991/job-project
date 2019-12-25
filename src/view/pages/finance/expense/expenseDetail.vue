@@ -1,7 +1,7 @@
 <template>
   <section class='sys-main expenseDetail' ref="container">
-    <div class="topFlag flex" v-if="optionsType === 'look' && decCommon.verifyMsg">
-      <img src="@/assets/img/Tips.png" alt="">
+    <div class="topFlag list-icon-Tips flex" v-if="optionsType === 'look' && decCommon.verifyMsg">
+      <i></i>
       <div class="one-row">
         <div class="left">审核意见&nbsp;:</div>
         <div class="right">{{decCommon.verifyMsg}}</div>
@@ -165,7 +165,7 @@
         <!-- 使用报价选项 -->
         <el-dropdown trigger="click" @command="getOfferReceive" placement="bottom-start">
           <el-button size="mini" class="list-btns list-icon-useOffer">
-            <i class="other"></i>使用报价<i class="el-icon-arrow-down el-icon--right"></i>
+            <i></i>使用报价
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <div class="item-scroll">
@@ -587,6 +587,7 @@ export default {
     return {
       iEFlag: '',
       isNeed: false,
+      isValid: false,
       optionsType: 'look', // 记录当前操作类型
       payablefeeOptions: {},
       businessType: '', // 类型
@@ -1646,9 +1647,9 @@ export default {
     border: 1px solid #ffc56b;
     background-color: #ffe9c7;
     border-radius: 2px;
-    img {
-      display:block;
+    i {
       margin-right: 8px;
+      padding-left: 1px;
     }
   }
   .flex {

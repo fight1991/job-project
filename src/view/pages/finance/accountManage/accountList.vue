@@ -130,13 +130,13 @@
     <!-- 列表表格开始 -->
     <div class='query-table-financeCommon'>
       <el-row class="table-btn">
-        <el-button size="mini" class="list-btns list-icon-checkP" v-permissions="'CCBA21604010000'" :disabled="accountBillIdsStatus.length === 0" @click="accountCheck('verifys')"><i></i>批量审核确认</el-button>
-        <el-button size="mini" class="list-btns list-icon-check" v-permissions="'CCBA21604020000'" :disabled="accountBillIdsStatus.length === 0" @click="accountCheck('rejects')"><i></i>批量审核驳回</el-button>
+        <el-button size="mini" class="list-btns list-icon-check" v-permissions="'CCBA21604010000'" :disabled="accountBillIdsStatus.length === 0" @click="accountCheck('verifys')"><i></i>批量审核确认</el-button>
+        <el-button size="mini" class="list-btns list-icon-reject" v-permissions="'CCBA21604020000'" :disabled="accountBillIdsStatus.length === 0" @click="accountCheck('rejects')"><i></i>批量审核驳回</el-button>
         <el-button size="mini" class="list-btns list-icon-accountPass" v-permissions="'CCBA21604040000'" :disabled="reconStatusId.length === 0" @click="accountCheck('ensure')"><i></i>批量对账确认</el-button>
         <!-- 对账单导出选项 -->
         <el-dropdown trigger="click" @command="getAccountItem" placement="bottom-start">
-          <el-button size="mini" :disabled="accountBillIds.length === 0" class="list-btns list-icon-exportO">
-            <i class="other"></i>对账单导出<i class="el-icon-arrow-down el-icon--right"></i>
+          <el-button size="mini" :disabled="accountBillIds.length === 0" class="list-btns list-icon-export">
+            <i></i>对账单导出
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item :command="1" :key="'1'">普通Excel样式导出</el-dropdown-item>
@@ -146,7 +146,7 @@
         <!-- 开票选项 -->
         <el-dropdown trigger="click" @command="getInvoiceItem" placement="bottom-start">
           <el-button size="mini" class="list-btns list-icon-invoice" :disabled="optionIds.data.length === 0 || !optionIds.isHas">
-            <i class="other"></i>开票<i class="el-icon-arrow-down el-icon--right"></i>
+            <i></i>开票
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item :command="1" :key="'1'">增值税普通发票</el-dropdown-item>
@@ -245,7 +245,7 @@
               <el-button type="text" title="账单查看" class="table-icon list-icon-look" @click.stop="goToAccountDetail('look', scope.row.accountBillId)"><i></i></el-button>
               <el-button type="text" title="账单审核" class="table-icon list-icon-subimtCheck" v-if="scope.row.reconStatus === 1" v-permissions="'CCBA21604030000'" @click.stop="goToAccountDetail('check', scope.row.accountBillId)"><i></i></el-button>
               <el-button type="text" title="驳回编辑" class="table-icon list-icon-edit" v-if="scope.row.reconStatus === 4" @click.stop="goToAccountCheck(scope.row.accountBillId, scope.row.feeFlag)"><i></i></el-button>
-              <el-button type="text" title="开票" class="table-icon list-icon-invoice" v-if="scope.row.reconStatus === 5 && scope.row.invoiceStatus === 0" @click.stop="showDialog(scope.row.accountBillOptionPageVOs)"><i class="other"></i></el-button>
+              <el-button type="text" title="开票" class="table-icon list-icon-invoice" v-if="scope.row.reconStatus === 5 && scope.row.invoiceStatus === 0" @click.stop="showDialog(scope.row.accountBillOptionPageVOs)"><i></i></el-button>
               <el-button type="text" title="对账" class="table-icon list-icon-accountPass" v-if="scope.row.reconStatus === 3" @click.stop="goToAccountDetail('pass', scope.row.accountBillId)"><i></i></el-button>
             </div>
           </template>
@@ -260,10 +260,6 @@
     <!-- 发票选择 -->
     <el-dialog title="请选择开票类型" :modal-append-to-body="false" @close="resetDialog" :visible.sync="ticketIsShow" :close-on-click-modal='false' width="360px">
       <div  class="dec-div">
-        <!-- <div class="topFlag flex">
-          <img src="@/assets/img/warning.png" alt="">
-          <div class="text">请选择开票类型</div>
-        </div> -->
         <el-form size="mini" :label-width="labelFormWidth.four">
           <el-row class="selectTicket">
            <el-radio-group v-model="ticketValue">
@@ -433,7 +429,6 @@ export default {
     this.getAccountList(this.$store.state.pagination)
   },
   beforeDestroy () {
-    console.log('哈哈')
     this.$store.unregisterModule('finance-module')
   },
   methods: {

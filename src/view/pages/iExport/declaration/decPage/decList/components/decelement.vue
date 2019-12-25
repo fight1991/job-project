@@ -160,14 +160,14 @@
         <el-row>
            <el-col :span="24">
               <el-form-item label="规格型号" label-width="150px">
-                <el-input style="width:75%"  v-model="specModle" :disabled="datas.opeType === 'look'?true:false" enter='no' ref='specModle' @keyup.enter.native='splitSpecModle' @focus="specModleFocus"></el-input>
+                <el-input style="width:65%"  v-model="specModle" :disabled="datas.opeType === 'look'?true:false" enter='no' ref='specModle' @keyup.enter.native='splitSpecModle' @focus="specModleFocus"></el-input>
                 <span>{{"（"+specModleLen+"/255字节）"}}</span>
               </el-form-item>
            </el-col>
         </el-row>
       </el-form>
     </div>
-    <div slot="footer"  class="sys-dialog-footer" style="text-align:center;">
+    <div slot="footer"  class="sys-dialog-footer" style="text-align:center;" v-if="btnIsShow">
       <el-button class="dialog-primary-btn" @click='submitdata()'>确定</el-button>
       <el-button class="dialog-btn" @click="closedecele()">取消</el-button>
     </div>
@@ -191,6 +191,9 @@ export default {
           gtin: '' // gtin码
         }
       }
+    },
+    btnIsShow: {
+      default: true
     }
   },
   data () {

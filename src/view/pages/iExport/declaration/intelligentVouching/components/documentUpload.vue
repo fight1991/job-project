@@ -32,7 +32,7 @@
                 <el-table-column label="压缩包名" align='left' prop="files[0].fileName" min-width="130"></el-table-column>
                 <el-table-column label="申报截止时间" align='center' width="195">
                   <template slot="header" slot-scope="scope">
-                    <div>申报截止时间<i class="table-head-icon" @click="copyColumn(scope)"></i></div>
+                    <div class="table-head-icon list-icon-copy">申报截止时间<i @click="copyColumn(scope)"></i></div>
                   </template>
                   <template slot-scope="scope">
                     <el-date-picker v-model="scope.row.demandDate" size="mini" type="datetime" placeholder="" value-format="yyyy-MM-dd HH:mm" format="yyyy-MM-dd HH:mm" default-time="23:59:59" style="width:100%;"></el-date-picker>
@@ -40,7 +40,7 @@
                 </el-table-column>
                 <el-table-column label="委托客户" align='left' min-width="150">
                   <template slot="header" slot-scope="scope">
-                    <div>委托客户<i class="table-head-icon" @click="copyColumn(scope)"></i></div>
+                    <div class="table-head-icon list-icon-copy">委托客户<i @click="copyColumn(scope)"></i></div>
                   </template>
                   <template slot-scope="scope">
                     <el-select v-model="scope.row.entrustCompanyName" style="width:100%" size="mini"
@@ -53,7 +53,7 @@
                 </el-table-column>
                 <el-table-column label="备注" align='left' min-width="150">
                   <template slot="header" slot-scope="scope">
-                    <div>备注<i class="table-head-icon" @click="copyColumn(scope)"></i></div>
+                    <div class="table-head-icon list-icon-copy">备注<i @click="copyColumn(scope)"></i></div>
                   </template>
                   <template slot-scope="scope">
                     <el-input size="mini" v-model="scope.row.note" maxlength="100" clearable></el-input>
@@ -161,6 +161,16 @@
             <el-col :span="8">
               <el-form-item label="备注:" label-width="42px">
                 <div class="break-word">{{ocrInfo.note}}</div>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" v-if="ocrInfo.backReason">
+              <el-form-item label="退回原因:" label-width="69px">
+                <div class="break-word">{{ocrInfo.backReason}}</div>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12" v-if="ocrInfo.frozenReason">
+              <el-form-item label="冻结原因:" label-width="69px">
+                <div class="break-word">{{ocrInfo.frozenReason}}</div>
               </el-form-item>
             </el-col>
           </el-form>
@@ -271,7 +281,6 @@ export default {
     },
     // 上传文件
     beforeUpload (file, type) {
-      console.log(file)
       let allow = type === 'single' ? ['image/png', 'image/jpeg', 'application/pdf', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'] : ['application/x-zip-compressed', 'application/zip']
       let message = type === 'single' ? '上传文件只支持pdf,word,excel,jpg,png格式' : '上传文件只支持zip格式'
       let fileName = file.name.substring(file.name.lastIndexOf('.') + 1).toLowerCase()
@@ -288,11 +297,7 @@ export default {
       } else {
         let param = new FormData()
         param.append('multiFile', file, file.name)
-        if (type === 'single') {
-          param.append('filePath', '/longshine/document/ocr/upload')
-        } else {
-          param.append('filePath', '/download')
-        }
+        param.append('filePath', '/longshine/document/ocr/upload')
         if (type === 'single') {
           this.singleTableList[0].files.push({
             fileName: file.name,
@@ -485,15 +490,10 @@ export default {
   cursor: pointer;
 }
 .table-head-icon{
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  background: url('../../../../../../assets/img/icon-copy.png') no-repeat;
-  vertical-align: middle;
-  margin: -2px 0 0 5px;
-  cursor: pointer;
-  &:hover,&:focus {
-    background: url('../../../../../../assets/img/icon-copyH.png') no-repeat;
+  i{
+    vertical-align: middle;
+    margin-left: 4px;
+    cursor: pointer;
   }
 }
 </style>

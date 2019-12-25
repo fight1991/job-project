@@ -40,6 +40,7 @@
   </section>
 </template>
 <script>
+import decUtil from '../decPage/common/decUtil'
 export default {
   props: {
     selectedRow: {
@@ -105,68 +106,9 @@ export default {
     },
     // 报关单详情
     gotoDetail (row) {
-      let funFlag = 'declaration'
-      if (row.declTrnrel === '2') {
-        funFlag = 'recordList'
-      }
-      this.gotoDecPage(funFlag, this.selectedRow.iEFlag === 'I' ? 'import' : 'export', 'look', row.decPid.toString())
-    },
-    /**
-     * 跳转 新增、详情、编辑
-     * @param funFlag  功能页面 declaration 报关单   recordList 备案清单 decTemplate 初始值模板
-     * @param flag  进出口标识
-     * @param pid  报关单主键  可不传
-     * @param operationType 操作   add 新增 look 查看  edit 编辑
-     */
-    gotoDecPage (funFlag, flag, operationType, pid = 'new') {
-      let routeName
-      let tabName
-      if (funFlag === 'declaration') {
-        if (flag === 'import') {
-          if (operationType === 'look') {
-            tabName = '进口报关单'
-            routeName = 'importDecLook'
-          } else if (operationType === 'edit') {
-            tabName = '进口报关单'
-            routeName = 'importDecEdit'
-          }
-        } else if (flag === 'export') {
-          if (operationType === 'look') {
-            tabName = '出口报关单'
-            routeName = 'exportDecLook'
-          } else if (operationType === 'edit') {
-            tabName = '出口报关单'
-            routeName = 'exportDecEdit'
-          }
-        }
-      }
-      if (funFlag === 'recordList') {
-        if (flag === 'import') {
-          if (operationType === 'look') {
-            tabName = '进境备案清单'
-            routeName = 'importRecordLook'
-          } else if (operationType === 'edit') {
-            tabName = '进境备案清单'
-            routeName = 'importRecordEdit'
-          }
-        } else if (flag === 'export') {
-          if (operationType === 'look') {
-            tabName = '出境备案清单'
-            routeName = 'exportRecordLook'
-          } else if (operationType === 'edit') {
-            tabName = '出境备案清单'
-            routeName = 'exportRecordEdit'
-          }
-        }
-      }
-      this.$router.push({
-        name: routeName,
-        params: {
-          'pid': pid,
-          'setTitle': tabName + '-' + pid,
-          'setId': routeName + operationType + pid
-        }
-      })
+      let funFlag = row.declTrnrel === '2' ? 'recordList' : 'declaration'
+      let flag = this.selectedRow.iEFlag === 'I' ? 'import' : 'export'
+      decUtil.gotoDecPage(funFlag, flag, 'look', row.decPid.toString(), 'dec', {}, this)
     }
   }
 }

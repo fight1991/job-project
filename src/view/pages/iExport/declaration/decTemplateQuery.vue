@@ -47,7 +47,7 @@
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
-                :picker-options="pickerOptions2">
+                :picker-options="pickerOptions">
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -99,8 +99,10 @@
 
 <script>
 import util from '@/common/util'
+import pickerOptions from '@/common/mixin/pickerOptions'
 export default {
   name: 'decTemplateQuery',
+  mixins: [pickerOptions],
   data () {
     return {
       QueryDecForm: {
@@ -125,52 +127,7 @@ export default {
         }, {
           code: 'I',
           name: '进口'
-        }],
-      pickerOptions2: {
-        shortcuts: [{
-          text: '当天',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '本周',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            let week = start.getDay()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * week)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '最近7天',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '本月',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            let monthDay = start.getDate() - 1
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * monthDay)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '最近一月',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            picker.$emit('pick', [start, end])
-          }
-        }
-        ]
-      }
+        }]
     }
   },
   created () {
@@ -242,7 +199,7 @@ export default {
         this.messageTips('只能选择一条需要查看的数据')
       } else {
         let row = this.checkedTemplate[0]
-        this.gotoDecPage(row.iEFlag === 'I' ? 'import' : 'export', 'look', row.decPid.toString())
+        this.gotoDecTemplatePage(row.iEFlag === 'I' ? 'import' : 'export', 'look', row.decPid.toString())
       }
     },
     // 跳转编辑页面
@@ -254,12 +211,12 @@ export default {
         this.messageTips('只能选择一条需要编辑的数据')
       } else {
         let row = this.checkedTemplate[0]
-        this.gotoDecPage(row.iEFlag === 'I' ? 'import' : 'export', 'edit', row.decPid.toString())
+        this.gotoDecTemplatePage(row.iEFlag === 'I' ? 'import' : 'export', 'edit', row.decPid.toString())
       }
     },
     // 新增报关单
     addTemplate (iEFlag) {
-      this.gotoDecPage(iEFlag, 'add')
+      this.gotoDecTemplatePage(iEFlag, 'add')
     },
     /**
      * 跳转 新增、详情、编辑
@@ -267,7 +224,7 @@ export default {
      * @param pid  报关单主键  可不传
      * @param operationType 操作   add 新增 look 查看  edit 编辑
      */
-    gotoDecPage (flag, operationType, pid = 'new') {
+    gotoDecTemplatePage (flag, operationType, pid = 'new') {
       let routeName
       let tabName
       if (flag === 'import') {

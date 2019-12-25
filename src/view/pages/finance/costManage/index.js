@@ -2,11 +2,11 @@ const MENU = [
   {
     path: '/finance/cost/list',
     name: 'cost-list',
-    icon: 'icons-finance-costManage',
+    icon: 'icons-menu-account-finance-manage',
     permissions: 'CCBA21601000000',
     hidden: false,
     meta: {
-      component: resolve => require(['./costList.vue'], resolve),
+      component: () => import(/* webpackChunkName: "cost-list" */ './costList.vue'),
       title: '费用项管理'
     }
   }

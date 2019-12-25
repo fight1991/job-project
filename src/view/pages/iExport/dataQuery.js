@@ -1,10 +1,15 @@
 // 业务数据查询
+import abstractComponent from '@/view/common/abstract.vue'
+const decQueryComponent = () => import(/* webpackChunkName: "dec-query" */ './declaration/decQueryList/index.vue')
+const summaryDecQueryComponent = () => import(/* webpackChunkName: "summary-dec-query" */ './declaration/summaryDecQuery.vue')
+const businessTrackeComponent = () => import(/* webpackChunkName: "dec-business-trackå" */ './declaration/businessTracke.vue')
+
 const MENU = {
   path: '/iExport/dataQuery',
   name: 'dataQuery',
-  icon: 'icons-menu-dataQuery',
+  icon: 'icons-menu-data-search',
   permissions: 'CCBA20205000000',
-  component: resolve => require(['../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '业务数据查询'
   },
@@ -16,7 +21,7 @@ const MENU = {
       permissions: 'CCBA20205010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./declaration/decQueryList/index.vue'], resolve),
+        component: decQueryComponent,
         title: '报关数据查询'
       }
     },
@@ -27,7 +32,7 @@ const MENU = {
       permissions: 'CCBA20205040000',
       hidden: false,
       meta: {
-        component: resolve => require(['./declaration/summaryDecQuery.vue'], resolve),
+        component: summaryDecQueryComponent,
         title: '概要申报数据查询'
       }
     },
@@ -49,7 +54,7 @@ const MENU = {
       permissions: 'CCBA20205030000',
       hidden: false,
       meta: {
-        component: resolve => require(['./declaration/businessTracke.vue'], resolve),
+        component: businessTrackeComponent,
         title: '业务跟踪台帐'
       }
     }

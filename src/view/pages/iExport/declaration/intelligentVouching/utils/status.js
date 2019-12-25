@@ -26,6 +26,9 @@ export const taskTypeList = [{
 }, {
   codeField: '1',
   nameField: '委托'
+}, {
+  codeField: '2',
+  nameField: '接单上传'
 }]
 export const entrustTypeList = [{
   codeField: '',
@@ -42,4 +45,7 @@ export const entrustTypeList = [{
 }, {
   codeField: '3',
   nameField: '委托方撤回'
+}, {
+  codeField: '4',
+  nameField: '处理中'
 }]

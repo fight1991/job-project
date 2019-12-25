@@ -8,7 +8,6 @@
       :close-on-press-escape='false'
       @opened='openClassifyGoodsAfter'
       :before-close='closeCompnent'
-      v-loading="$store.state.loading"
       v-dialogDrag
       width="800px">
       <el-table
@@ -50,7 +49,7 @@
         </el-table-column>
         <el-table-column label="操作" fixed="right" align='center' min-width="70" >
           <template slot-scope="scope">
-            <a href="javascript:void(0)" class="list-icon-sureH border-0" title="使用" @click.stop="useData(scope.row)"><i class='dec-i'></i></a>
+            <a href="javascript:void(0)" class="list-icon-useH border-0" title="使用" @click.stop="useData(scope.row)"><i class='dec-i'></i></a>
             <a href="javascript:void(0)" class="list-icon-lookH border-0" title="查看" @click.stop="lookTax(scope.row)"><i class='dec-i'></i></a>
           </template>
         </el-table-column>

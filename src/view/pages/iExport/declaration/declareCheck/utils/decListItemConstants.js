@@ -1,100 +1,132 @@
 export const decListItems = [{
   key: 'gNo',
-  label: '项号'
+  label: '项号',
+  relatedFields: ['gNo']
 }, {
   key: 'gNoAll',
-  label: '项号及备案序号'
+  label: '项号及备案序号',
+  relatedFields: ['gNo', 'contrItem']
 }, {
   key: 'contrItem',
-  label: '备案序号'
+  label: '备案序号',
+  relatedFields: ['contrItem']
 }, {
   key: 'codeTs',
-  label: '商品编号'
+  label: '商品编号',
+  relatedFields: ['codeTs']
 }, {
   key: 'priceAndTotal',
-  label: '单价/总价/币制'
+  label: '单价/总价/币制',
+  relatedFields: ['declPrice', 'declTotal', 'tradeCurrValue']
 }, {
   key: 'ciqName',
-  label: '检验检疫名称'
+  label: '检验检疫名称',
+  relatedFields: ['ciqName']
 }, {
   key: 'goodsSpec',
   label: '检验检疫货物规格'
 }, {
   key: 'gName',
-  label: '商品名称'
+  label: '商品名称',
+  relatedFields: ['gName']
 }, {
   key: 'gModel',
-  label: '规格型号'
+  label: '规格型号',
+  relatedFields: ['gModel']
 }, {
   key: 'gQty',
-  label: '成交数量'
+  label: '成交数量',
+  relatedFields: ['gQty']
 }, {
   key: 'gUnit',
-  label: '成交计量单位'
+  label: '成交计量单位',
+  relatedFields: ['gUnit']
 }, {
   key: 'declPrice',
-  label: '单价'
+  label: '单价',
+  relatedFields: ['declPrice']
 }, {
   key: 'declTotal',
-  label: '总价'
+  label: '总价',
+  relatedFields: ['declTotal']
 }, {
   key: 'tradeCurr',
-  label: '币制'
+  label: '币制',
+  relatedFields: ['tradeCurr']
 }, {
   key: 'qty1',
-  label: '法定第一数量'
+  label: '法定第一数量',
+  relatedFields: ['qty1']
 }, {
   key: 'unit1',
-  label: '法定第一计量单位'
+  label: '法定第一计量单位',
+  relatedFields: ['unit1Value']
 }, {
   key: 'exgVersion',
-  label: '加工成品单耗版本号'
+  label: '加工成品单耗版本号',
+  relatedFields: ['exgVersion']
 }, {
   key: 'exgNo',
-  label: '货号'
+  label: '货号',
+  relatedFields: ['exgNo']
 }, {
   key: 'destinationCountry',
-  label: '最终目的国（地区）'
+  label: '最终目的国（地区）',
+  relatedFields: ['destinationCountryValue']
 }, {
   key: 'qty2',
-  label: '法定第二数量'
+  label: '法定第二数量',
+  relatedFields: ['qty2']
 }, {
   key: 'unit2',
-  label: '法定第二计量单位'
+  label: '法定第二计量单位',
+  relatedFields: ['unit2Value']
 }, {
   key: 'originCountry',
-  label: '原产国（地区）'
+  label: '原产国（地区）',
+  relatedFields: ['originCountryValue']
 }, {
   key: 'districtCode',
-  label: '境内目的地'
+  label: '境内目的地',
+  relatedFields: ['districtCode']
 }, {
   key: 'destCode',
-  label: ''
+  label: '',
+  relatedFields: ['destCode']
 }, {
   key: 'dutyMode',
-  label: '征免方式'
+  label: '征免方式',
+  relatedFields: ['dutyModeValue']
 }, {
   key: 'ciqCode',
-  label: '检验检疫编码及名称'
+  label: '检验检疫编码及名称',
+  relatedFields: ['ciqCode', 'ciqName']
 }, {
   key: 'goodsSpec',
-  label: '检验检疫货物规格'
+  label: '检验检疫货物规格',
+  relatedFields: ['goodsSpec']
 }, {
   key: 'showGoodsAttrValue',
-  label: '货物属性'
+  label: '货物属性',
+  relatedFields: ['goodsAttr']
 }, {
   key: 'purpose',
-  label: '用途'
+  label: '用途',
+  relatedFields: ['purpose']
 }, {
   key: 'licenseTypeNo',
-  label: '许可证类别及编号'
+  label: '许可证类别及编号',
+  relatedFields: ['licenseTypeNo']
 }, {
   key: 'dangerGoodsInfo',
-  label: '危险货物信息'
+  label: '危险货物信息',
+  relatedFields: ['dangerGoodsInfo']
 }, {
   key: 'gNameAndModel',
-  label: '商品名称、规格型号'
+  label: '商品名称、规格型号',
+  relatedFields: ['gName', 'gModel']
 }, {
   key: 'gQtyAndUnit',
-  label: '数量及单位'
+  label: '数量及单位',
+  relatedFields: ['gQty', 'gUnitValue', 'qty1', 'unit1Value', 'qty2', 'unit2Value']
 }]

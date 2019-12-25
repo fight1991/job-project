@@ -219,10 +219,6 @@
       :modal-append-to-body="false"
       :close-on-click-modal='false' width="460px">
       <div  class="dec-div">
-        <!-- <div class="topFlag flex">
-          <img src="@/assets/img/warning.png" alt="">
-          <div class="text">请填写对应的入账日期</div>
-        </div> -->
         <el-form size="mini" :label-width="labelFormWidth.five" ref="dialogForm" :model="submitForm">
           <el-row class="accountDate">
             <el-col :span="24">
@@ -698,6 +694,7 @@ export default {
       this.$confirm('请确认是否要撤销平账?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
+        modalAppendToBody: true,
         domMount: this.$el.parentNode,
         type: 'warning'
       }).then(() => {

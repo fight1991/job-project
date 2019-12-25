@@ -2,7 +2,7 @@ const MENU = [
   {
     path: '/finance/summary',
     name: 'flatManage-list',
-    icon: 'icons-finance-summary',
+    icon: 'icons-menu-summary',
     permissions: 'CCBA21607000000',
     component: () => import('@/view/common/abstract.vue'),
     meta: {
@@ -16,7 +16,7 @@ const MENU = [
         permissions: 'CCBA21607010000',
         hidden: true,
         meta: {
-          component: () => import('./payDetail.vue'),
+          component: () => import(/* webpackChunkName: "pay-detail" */ './payDetail.vue'),
           title: '收付明细详情'
         }
       },
@@ -27,7 +27,7 @@ const MENU = [
         permissions: 'CCBA21607010000',
         hidden: false,
         meta: {
-          component: () => import('./payList.vue'),
+          component: () => import(/* webpackChunkName: "pay-list" */ './payList.vue'),
           title: '收付明细'
         }
       }

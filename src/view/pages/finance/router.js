@@ -6,13 +6,15 @@ import bill from './billManage/index'
 import flat from './flatManage/index'
 import approval from './fundsApproval/index'
 import summary from './summary/index'
+import indexComponent from '@/view/pages/index.vue'
+
 const MENU = [
   {
     path: '/finance/index',
     name: 'sea-index',
     hidden: false,
     permissions: 'WF000000',
-    component: resolve => require(['./index.vue'], resolve),
+    component: indexComponent,
     meta: {
       title: '首页'
     }

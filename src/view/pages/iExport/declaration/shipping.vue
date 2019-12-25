@@ -23,7 +23,7 @@
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
-                :picker-options="pickerOptions2">
+                :picker-options="pickerOptions">
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -57,7 +57,7 @@
           </el-dropdown-menu>
         </el-dropdown>
         <el-button size="mini" class="list-btns list-icon-delete" @click="deleteFun"><i></i>删除</el-button>
-        <el-button size="mini" class="list-btns list-icon-createBill" @click="createDeclare"><i></i>生成报关单</el-button>
+        <el-button size="mini" class="list-btns list-icon-create" @click="createDeclare"><i></i>生成报关单</el-button>
         <div class="airvehicle-list-drop">
           <el-popover popper-class="airvehicle-table-popper">
             <ul>
@@ -65,7 +65,7 @@
                 <el-checkbox size="mini" v-model="item.value" @change="columnFieldChange">{{item.text}}</el-checkbox>
               </li>
             </ul>
-            <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-dropdown" slot="reference"></el-button>
+            <el-button size="mini" class="list-btns list-btn-drop list-icon-dropdown" slot="reference"></el-button>
           </el-popover>
         </div>
       </el-row>
@@ -126,8 +126,10 @@
 
 <script>
 import util from '@/common/util'
+import pickerOptions from '@/common/mixin/pickerOptions'
 export default {
   name: 'shippingQuery',
+  mixins: [pickerOptions],
   data () {
     return {
       queryShippingForm: {
@@ -141,50 +143,6 @@ export default {
       ShippingList: [], // 报关单模板存放列表
       checkedShipping: [], // 被选中的模板
       fileList: [], // 存放上传文件
-      pickerOptions2: {
-        shortcuts: [{
-          text: '当天',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '本周',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            let week = start.getDay()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * week)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '最近7天',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '本月',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            let monthDay = start.getDate() - 1
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * monthDay)
-            picker.$emit('pick', [start, end])
-          }
-        }, {
-          text: '最近一月',
-          onClick (picker) {
-            let end = new Date()
-            let start = new Date()
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            picker.$emit('pick', [start, end])
-          }
-        }]
-      },
       fieldList: [{
         value: true,
         text: '接单编号'

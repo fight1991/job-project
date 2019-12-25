@@ -3,39 +3,51 @@
   <section class='sys-main sys-dec-class dec-section-edit'>
     <el-header class= 'topDiv'>
       <!-- 操作按钮-->
-      <el-row style='margin-right:54px' v-if = 'pageType == "dec"'>
-        <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-plus" @click="addDecHead" :disabled="controller.isDisabled || queryEntrust || controller.isWholeDec" v-if='!controller.isSummary'>&nbsp;新增</el-button>
-        <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-save" @click="saveDecHead" :disabled="controller.isDisabled || queryEntrust">&nbsp;暂存</el-button>
-        <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-copy" @click="copyDecHead" :disabled="queryEntrust || controller.isWholeDec" v-if='!controller.isSummary'>&nbsp;复制</el-button>
-        <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-print" @click="printDecHead" >&nbsp;打印</el-button>
-        <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-trash-o" @click="delDecHead" :disabled="controller.isDisabled || queryEntrust" v-if='!controller.isSummary'>&nbsp;删除</el-button>
-        <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-paste" :disabled="controller.isDisabled || controller.initTemplateBtn || queryEntrust || controller.isWholeDec" v-if='!controller.isSummary' @click="initTemplateVisible = true">&nbsp;初始值模板</el-button>
-        <!-- <el-button type="primary" size="mini" icon="fa fa-file-text" :disabled="controller.isDisabled">&nbsp;资质查询</el-button> -->
-        <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-file" :disabled="controller.isDisabled || queryEntrust" @click="openAdditionInfo">&nbsp;附注</el-button>
-        <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-file-pdf-o" @click="openAccDoc" :disabled="controller.accDocDisabled">&nbsp;随附单据</el-button>
-        <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-dollar" v-if="controller.iEFlag=='I'" :disabled="charterDis || queryEntrust" @click="charterRight" >特许权使用费</el-button>
-        <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-upload" @click="sumbitCheck" :disabled="queryEntrust || controller.isDisabled" v-if='!controller.isSummary' >&nbsp;提交审核</el-button>
-        <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-cloud-download" :disabled="controller.isDisabled || queryEntrust" v-if="controller.iEFlag=='E'" @click="eleBillShow">&nbsp;引用电子底账</el-button>
-        <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-upload" v-show='controller.ocrShow' :disabled="queryEntrust" @click="lookOCR" v-if='!controller.isSummary'>&nbsp;查看OCR单证</el-button>
-        <el-button type="primary" class="dec-h-24" size="mini" v-if="controller.iEFlag=='I'&&!controller.isSummary" @click="switchFeeEstimate" :disabled="this.feeEstimateState">&nbsp;税费预估</el-button>
-        <el-button type="primary" class="dec-h-24" size="mini" v-if="controller.isSummary || controller.isWholeDec" @click="gotoSummaryDec" >&nbsp;查看概要申报</el-button>
-        <el-button type="primary" class="dec-h-24" size="mini" v-if='controller.isGenerModel' @click='generModel'>&nbsp;生成模板</el-button>
-        <el-dropdown @command="OCRMadeCert"  >
-          <el-button type="primary" class="dec-h-24" size="mini" :disabled="!controller.pid &&['2','4','3','R','6'].indexOf(isExamine) < 0" >&nbsp;智能制单</el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="upload" :disabled="['3','R','6'].indexOf(isExamine) >= 0">上传文件</el-dropdown-item>
-            <el-dropdown-item command="record">识别记录</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        <!-- <el-button type="primary" size="mini" icon="fa fa-upload" :disabled="controller.isDisabled">&nbsp;税单查看</el-button> -->
-        <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-paper-plane-o" @click="declareData('G')" style='float: right;' :disabled="controller.isSendDisabled || queryEntrust" v-if='!controller.isSummary'>&nbsp;发送</el-button>
-        <el-button type="primary" title="仅上海地区可用" class='dec-h-24' size="mini" icon="fa fa-paper-plane-o" @click="declareData('C')" style='float: right;margin-right:5px' :disabled="controller.isDisabled || isDisabledDec || queryEntrust" v-if='!controller.isSummary'>&nbsp;申报</el-button>
-      </el-row>
-      <el-row style='margin-right:54px' v-if = 'pageType == "ai"'>
-        <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-save" @click="saveAI" >&nbsp;保存</el-button>
-        <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-save" @click="saveDec" >&nbsp;校验并生成报关单</el-button>
-        <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-trash-o" @click="deleteAI" >&nbsp;删除</el-button>
-      </el-row>
+      <template v-if="controller && controller.fromPage === 'reviewed'">
+        <!-- <el-row class='reviewTip list-icon-Tips dec-h-24'>
+          <i></i>
+          请注意，您可在此界面进行报关单的编辑，完成后，无需再审核，点击确认编辑，数据状态变为审核通过，可直接进行后续操作。
+        </el-row> -->
+        <div class="reviewTip list-icon-Tips flex">
+          <i></i>
+          <div class="text">请注意，您可在此界面进行报关单的编辑，完成后，无需再审核，点击确认编辑，数据状态变为审核通过，可直接进行后续操作。</div>
+        </div>
+      </template>
+      <template v-else>
+        <el-row style='margin-right:54px' v-if = 'pageType == "dec"'>
+          <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-plus" @click="addDecHead" :disabled="controller.isDisabled || queryEntrust || controller.isWholeDec" v-if='!controller.isSummary'>&nbsp;新增</el-button>
+          <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-save" @click="saveDecHead" :disabled="controller.isDisabled || queryEntrust">&nbsp;暂存</el-button>
+          <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-copy" @click="copyDecHead" :disabled="queryEntrust || controller.isWholeDec" v-if='!controller.isSummary'>&nbsp;复制</el-button>
+          <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-print" @click="printDecHead" >&nbsp;打印</el-button>
+          <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-trash-o" @click="delDecHead" :disabled="controller.isDisabled || queryEntrust" v-if='!controller.isSummary'>&nbsp;删除</el-button>
+          <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-paste" :disabled="controller.isDisabled || controller.initTemplateBtn || queryEntrust || controller.isWholeDec" v-if='!controller.isSummary' @click="initTemplateVisible = true">&nbsp;初始值模板</el-button>
+          <!-- <el-button type="primary" size="mini" icon="fa fa-file-text" :disabled="controller.isDisabled">&nbsp;资质查询</el-button> -->
+          <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-file" :disabled="controller.isDisabled || queryEntrust" @click="openAdditionInfo">&nbsp;附注</el-button>
+          <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-file-pdf-o" @click="openAccDoc" :disabled="controller.accDocDisabled">&nbsp;随附单据</el-button>
+          <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-dollar" v-if="controller.iEFlag=='I'" :disabled="charterDis || queryEntrust" @click="charterRight" >特许权使用费</el-button>
+          <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-upload" @click="sumbitCheck" :disabled="queryEntrust || controller.isDisabled" v-if='!controller.isSummary' >&nbsp;提交审核</el-button>
+          <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-cloud-download" :disabled="controller.isDisabled || queryEntrust" v-if="controller.iEFlag=='E'" @click="eleBillShow">&nbsp;引用电子底账</el-button>
+          <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-upload" v-show='controller.ocrShow' :disabled="queryEntrust" @click="lookOCR" v-if='!controller.isSummary'>&nbsp;查看OCR单证</el-button>
+          <el-button type="primary" class="dec-h-24" size="mini" v-if="controller.iEFlag=='I'&&!controller.isSummary" @click="switchFeeEstimate" :disabled="this.feeEstimateState">&nbsp;税费预估</el-button>
+          <el-button type="primary" class="dec-h-24" size="mini" v-if="controller.isSummary || controller.isWholeDec" @click="gotoSummaryDec" >&nbsp;查看概要申报</el-button>
+          <el-button type="primary" class="dec-h-24" size="mini" v-if='controller.isGenerModel' @click='generModel'>&nbsp;生成模板</el-button>
+          <el-dropdown @command="OCRMadeCert"  >
+            <el-button type="primary" class="dec-h-24" size="mini" :disabled="!controller.pid &&['2','4','3','R','6'].indexOf(isExamine) < 0" >&nbsp;智能制单</el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="upload" :disabled="['3','R','6'].indexOf(isExamine) >= 0">上传文件</el-dropdown-item>
+              <el-dropdown-item command="record">识别记录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <!-- <el-button type="primary" size="mini" icon="fa fa-upload" :disabled="controller.isDisabled">&nbsp;税单查看</el-button> -->
+          <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-paper-plane-o" @click="declareData('G')" style='float: right;' :disabled="controller.isSendDisabled || queryEntrust" v-if='!controller.isSummary'>&nbsp;发送</el-button>
+          <el-button type="primary" title="仅上海地区可用" class='dec-h-24' size="mini" icon="fa fa-paper-plane-o" @click="declareData('C')" style='float: right;margin-right:5px' :disabled="controller.isDisabled || isDisabledDec || queryEntrust" v-if='!controller.isSummary'>&nbsp;申报</el-button>
+        </el-row>
+        <el-row style='margin-right:54px' v-if = 'pageType == "ai"'>
+          <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-save" @click="saveAI" >&nbsp;保存</el-button>
+          <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-save" @click="saveDec" >&nbsp;校验并生成报关单</el-button>
+          <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-trash-o" @click="deleteAI" >&nbsp;删除</el-button>
+        </el-row>
+      </template>
     </el-header>
     <div class='dec-container-div' :style="{ width: aiWidth }">
       <el-container>
@@ -48,7 +60,7 @@
             <dec-list ref='decList' @drawBoyArea='drawBoyArea' @backStatisticsData='backStatisticsData' :moduleName="moduleName"></dec-list>
           </el-main>
         </el-container>
-        <el-aside style="width: 20%; padding-top: 3px;">
+        <el-aside style="padding-top: 3px;width: 245px;">
           <!-- 集装箱信息 开始-->
           <dec-container ref='decContainer' :moduleName="moduleName"></dec-container>
           <!-- 集装箱信息 结束-->
@@ -124,7 +136,14 @@
           </div>
           <!-- 统计 结束 -->
         </el-aside>
-        <div class='bottomDiv' v-show="tipsNoteShow"><span>{{tipsNote}}</span></div>
+        <div v-if="controller && controller.fromPage === 'reviewed'" class="operDiv">
+          <div v-show="tipsNoteShow" class="tipShow"> {{tipsNote}} </div>
+          <div class="operButton" :style='"margin-top:"+(tipsNoteShow?"":"17px")'>
+            <el-button style="width:52px;margin-right:30px" type="primary" class='dec-h-24' size="mini" @click="toReviewEdit" v-show="!isLook">取消</el-button>
+            <el-button type="primary" class='dec-h-24' size="mini" @click="directEdit"  v-show="!isLook">确认编辑</el-button>
+          </div>
+        </div>
+        <div class='bottomDiv' v-show="tipsNoteShow" v-else><span>{{tipsNote}}</span></div>
       </el-container>
       <!-- 弹出框 附注信息 开始 -->
       <el-dialog :modal-append-to-body='false'
@@ -219,15 +238,17 @@
       <dec-ai-detail :moduleName="moduleName" ref="aiDetail" @ai:formatedData="aiDataHandle"></dec-ai-detail>
       <!-- ai 校验结果 -->
       <ai-valid :validResult = 'validResult' :aiValidVisable.sync="aiValidVisable"></ai-valid>
+      <!-- 发送时 自报自缴的提示 -->
+      <send-Tips :sendTipsVisable.sync="sendTipsVisable" :operType='sendTipsOperType' @close:sendTipsClose="sendTipsClose" ></send-Tips>
     </div>
   </section>
 </template>
 
 <script>
 import util from '@/common/util.js'
+import businessUtil from '../declareCheck/utils/businessUtil'
 import decUtil from './common/decUtil'
 import decBus from './common/bus'
-import config from '@/config/config'
 import decHead from '../decPage/decHead/decHead'
 import decList from '../decPage/decList/decList'
 import decContainer from '../decPage/container/container'
@@ -236,16 +257,17 @@ import accompanyingDocuments from './components/accompanyingDocuments'
 import decAiDetail from './components/decAiDetail'
 import aiValid from './components/aiValid'
 import decPageStore from './decPageStore'
-const extraNote = () => import(/* webpackChunkName: "dec-page-main" */'./components/extraNote')
-const smartOrc = () => import(/* webpackChunkName: "dec-page-main" */'./components/smartOrc')
-const ocrRecord = () => import(/* webpackChunkName: "dec-page-main" */'./components/ocrRecord')
-const decprintView = () => import(/* webpackChunkName: "dec-page-main" */'./components/decPrint')
-const initTemplate = () => import(/* webpackChunkName: "dec-page-main" */'./components/initTemplate')
-const supplementDeclare = () => import(/* webpackChunkName: "dec-page-main" */'../../declaration/component/supplementDeclare.vue')
-const compareTemplate = () => import(/* webpackChunkName: "dec-page-main" */'./components/compareTemplate')
-const decCharter = () => import(/* webpackChunkName: "dec-page-main" */'./components/charteredRight')
-const feeEstimate = () => import(/* webpackChunkName: "dec-page-main" */'./components/feeEstimate')
-const electricBill = () => import(/* webpackChunkName: "dec-page-main" */'./components/electricBill')
+import sendTips from './components/sendTips'
+import extraNote from './components/extraNote'
+import smartOrc from './components/smartOrc'
+import ocrRecord from './components/ocrRecord'
+import decprintView from './components/decPrint'
+import initTemplate from './components/initTemplate'
+import supplementDeclare from '../../declaration/component/supplementDeclare.vue'
+import compareTemplate from './components/compareTemplate'
+import decCharter from './components/charteredRight'
+import feeEstimate from './components/feeEstimate'
+import electricBill from './components/electricBill'
 
 export default {
   components: {
@@ -265,10 +287,12 @@ export default {
     feeEstimate,
     electricBill,
     decAiDetail,
-    aiValid
+    aiValid,
+    sendTips
   },
   data () {
     return {
+      originalResult: '',
       isExamine: '',
       moduleName: '',
       tabId: '',
@@ -284,6 +308,7 @@ export default {
       noteCompnentVisible: false,
       samrtOrcVisable: false,
       aiValidVisable: false,
+      sendTipsVisable: false,
       validResult: [],
       orcRecordVisable: false,
       charterVisabled: false,
@@ -293,6 +318,7 @@ export default {
       feeEstimateData: null,
       feeEstimateState: true,
       electricVisible: false,
+      sendTipsOperType: '',
       datasFormDate: {
         relId: '',
         relManno: '',
@@ -343,7 +369,8 @@ export default {
       this.pageType = 'ai'
       this.moduleName = params.funFlag + '-' + params.iEFlag + '-' + params.operationType + '-' + params.pid + 'AI'
     } else {
-      this.moduleName = meta.funFlag + '-' + meta.iEFlag + '-' + meta.operationType + '-' + params.pid
+      let id = params.pid ? params.pid : 'new'
+      this.moduleName = meta.funFlag + '-' + meta.iEFlag + '-' + meta.operationType + '-' + id
     }
     if (this.$route.query.aiType) {
       this.aiWidth = '1000px'
@@ -358,11 +385,15 @@ export default {
       entQualifTypeGNo: '' // 企业资质编号 gNo
     }
     this.$store.commit(this.moduleName + '/changeDecPage', {key: 'showFied', value: showFied})
+    if (this.$route.query.fromPage) {
+      this.controller.fromPage = this.$route.query.fromPage
+    }
     // 如果路径参数存在summary 则证明 这条数据为概要申报之前的完整申报数据
     if (this.$route.query.summary) {
       this.controller.isSummary = true
     }
     if (this.$route.query.aiType && this.$route.query.operation) {
+      // 智能制单的 新增界面
       this.controller.operationType = this.$route.params.operationType
       this.controller.funFlag = this.$route.params.funFlag
       this.controller.iEFlag = (this.$route.params.iEFlag === 'import' ? 'I' : 'E')
@@ -450,9 +481,7 @@ export default {
     }
     // 备案清单、报关单标识
     if (this.controller.funFlag === 'declaration') {
-      // this.$nextTick(_ => {
       this.$refs.decHead.decHead.declTrnrel = '0'
-      // })
       this.controller.declTrnrel = '0'
     } else if (this.controller.funFlag === 'recordList') {
       this.$refs.decHead.decHead.declTrnrel = '2'
@@ -482,7 +511,39 @@ export default {
       })
     }
   },
+  destroyed () {
+    decBus.deleteBus(this.moduleName)
+  },
   methods: {
+    toReviewEdit () {
+      this.closeTab()
+      let pid = this.controller.pid
+      let tabName = '报关单可视化审核编辑'
+      let routeName = 'decReviewedEdit'
+      this.$router.push({
+        name: routeName,
+        params: {
+          'pid': pid,
+          'setTitle': tabName + '-' + pid,
+          'setId': routeName + 'edit' + pid
+        },
+        query: {
+          decType: 'dec'
+        }
+      })
+    },
+    directEdit () {
+      this.$confirm('您是否确认要保存当前的审核直接编辑？若确认，系统将保存当前报关单变更内容，审核状态将直接变为审核通过。若您开通了【审核通过直接发送】功能，那么，报关单将直接进行发送。', '提示', {
+        confirmButtonText: '是的,我确认',
+        cancelButtonText: '稍等,我再想想',
+        modalAppendToBody: true,
+        domMount: this.$el.parentNode,
+        type: 'warning'
+      }).then(() => {
+        this.saveDecHead()
+      }).catch(() => {
+      })
+    },
     drawArea (data) {
       this.$refs.aiDetail.drawArea(data)
     },
@@ -539,6 +600,9 @@ export default {
         }
       })
     },
+    closeTab () {
+      this.$store.dispatch('CloseTab', this.$store.state.TabsStore.currentTab.tabId)
+    },
     // 验证并保存到报关单
     saveDec () {
       // 直接保存decVo和 颜色
@@ -562,38 +626,16 @@ export default {
             return
           }
           // 先关闭当前页签
-          this.$store.dispatch('CloseTab', this.$store.state.TabsStore.currentTab.tabId)
+          this.closeTab()
           // 跳到报关单页面
           this.controller.pid = res.result.data.decPid
-          let routeName
-          let tabName
-          if (this.controller.iEFlag === 'I' && this.controller.declTrnrel === '0') { // 进口报关单
-            tabName = '进口报关单'
-            routeName = 'importDecEdit'
-          } else if (this.controller.iEFlag === 'E' && this.controller.declTrnrel === '0') {
-            tabName = '出口报关单'
-            routeName = 'exportDecEdit'
-          } else if (this.controller.iEFlag === 'I' && this.controller.declTrnrel === '2') {
-            tabName = '进境备案清单'
-            routeName = 'importRecordEdit'
-          } else if (this.controller.iEFlag === 'E' && this.controller.declTrnrel === '2') {
-            tabName = '出境备案清单'
-            routeName = 'exportRecordEdit'
+          let funFlag = this.controller.declTrnrel === '0' ? 'declaration' : 'recordList'
+          let flag = this.controller.iEFlag === 'I' ? 'import' : 'export'
+          let queryParam = {
+            'aiType': 'Intelligent',
+            'taskId': taskId // 智能制单流水号
           }
-          // 再跳转到编辑页面
-          this.$router.push({
-            name: routeName,
-            params: {
-              'pid': this.controller.pid,
-              'operationType': 'edit',
-              'setTitle': tabName + '-' + this.controller.pid,
-              'setId': routeName + 'edit' + this.controller.pid
-            },
-            query: {
-              aiType: 'Intelligent',
-              taskId: taskId
-            }
-          })
+          decUtil.gotoDecPage(funFlag, flag, 'edit', this.controller.pid, '', queryParam, this)
         },
         other: (res) => {
           if (res.result) {
@@ -624,7 +666,7 @@ export default {
           data: [this.$route.params.pid],
           success: (res) => {
             // 先关闭当前页签
-            this.$store.dispatch('CloseTab', this.$store.state.TabsStore.currentTab.tabId)
+            this.closeTab()
           }
         })
       }).catch(() => {
@@ -701,7 +743,6 @@ export default {
         }
       })
       let flag = this.$refs.decHead.saveDecHeadFieldVerify()
-      // let flag = this.$store.state[this.moduleName].headValidResult
       if (!flag) {
         return false
       }
@@ -1039,13 +1080,13 @@ export default {
       // 表体下的 产品资质
       let filingInfoForm = []
       if (licFlag && this.$refs.decList.decList.decGoodsLimits.length === 1) {
-        decBus.$emit('setValueForFilingInfoForm', this.$refs.decList.decList.decGoodsLimits[0])
+        decBus.getBus(this.moduleName).$emit('setValueForFilingInfoForm', this.$refs.decList.decList.decGoodsLimits[0])
         filingInfoForm = this.$refs.decList.decList.decGoodsLimits[0]
         vinFlag = true
       }
       // 标题下 的产品资质 的 许可证vin
       if (vinFlag && filingInfoForm.decGoodsLimitvins.length === 1) {
-        decBus.$emit('setValueForlicVINForm', filingInfoForm.decGoodsLimitvins[0])
+        decBus.getBus(this.moduleName).$emit('setValueForlicVINForm', filingInfoForm.decGoodsLimitvins[0])
       }
       this.$refs.decList.decList.decGoodsLimits = []
       // 随附单证
@@ -1062,18 +1103,24 @@ export default {
         url: 'API@/dec-common/dec/initSetting/saveDecInit',
         data: param,
         success: (res) => {
-          let flag = 'import'
-          if (this.controller.iEFlag === 'E') {
-            flag = 'export'
+          let tabName
+          let routeName
+          if (this.controller.iEFlag === 'I') {
+            routeName = 'iDecTemplateEdit'
+            tabName = '进口报关单模板'
+          } else {
+            routeName = 'eDecTemplateEdit'
+            tabName = '出口报关单模板'
           }
-          let url = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev'].HOST + `/declaration/decTemplate/${flag}/edit/${res.result.decPid}`
-          let title = '核注清单编辑'
+          // 关闭新增界面
+          this.closeTab()
+          // 打开编辑界面
           this.$router.push({
-            name: 'iExport-ems',
-            query: {
-              url: encodeURIComponent(url),
-              setTitle: title + '-' + res.result.decPid,
-              setId: 'iExport-ems' + 'edit' + res.result.decPid
+            name: routeName,
+            params: {
+              'pid': res.result.decPid,
+              'setTitle': tabName + '-' + res.result.decPid,
+              'setId': routeName + 'edit' + res.result.decPid
             }
           })
         }
@@ -1138,6 +1185,10 @@ export default {
         decLicensesVO: this.$refs.decDocuments.licenselist,
         decListVO: this.$refs.decList.tableList
       }
+      if (this.controller && this.controller.fromPage === 'reviewed') {
+        this.saveDesReqAndReviewedLog(param)
+        return
+      }
       this.$post({
         url: url,
         data: param,
@@ -1151,37 +1202,35 @@ export default {
               'statusValue': result.statusValue
             })
             this.controller.pid = result.decPid
-            let routeName
-            let tabName
-            if (this.controller.iEFlag === 'I' && this.controller.declTrnrel === '0') { // 进口报关单
-              tabName = '进口报关单'
-              routeName = 'importDecEdit'
-            } else if (this.controller.iEFlag === 'E' && this.controller.declTrnrel === '0') {
-              tabName = '出口报关单'
-              routeName = 'exportDecEdit'
-            } else if (this.controller.iEFlag === 'I' && this.controller.declTrnrel === '2') {
-              tabName = '进境备案清单'
-              routeName = 'importRecordEdit'
-            } else if (this.controller.iEFlag === 'E' && this.controller.declTrnrel === '2') {
-              tabName = '出境备案清单'
-              routeName = 'exportRecordEdit'
-            }
             // 先关闭当前页签
-            this.$store.dispatch('CloseTab', this.$store.state.TabsStore.currentTab.tabId)
+            this.closeTab()
             // 再跳转到编辑页面
-            this.$router.push({
-              name: routeName,
-              params: {
-                'pid': this.controller.pid,
-                'operationType': 'edit',
-                'setTitle': tabName + '-' + this.controller.pid,
-                'setId': routeName + 'edit' + this.controller.pid
-              }
-            })
+            let flag = this.controller.iEFlag === 'I' ? 'import' : 'export'
+            let funFlag = this.controller.declTrnrel === '0' ? 'declaration' : 'recordList'
+            decUtil.gotoDecPage(funFlag, flag, 'edit', this.controller.pid, 'dec', {}, this)
           }
           this.$refs.decHead.setHeadFieldValue({ // 编辑的时候更新firstSaveFlag
             'firstSaveFlag': result.firstSaveFlag
           })
+        },
+        other: (res) => {
+          this.messageTips(res.message, 'error')
+        }
+      })
+    },
+    saveDesReqAndReviewedLog (param) {
+      let decVerifySaveVO = businessUtil.generateReviewedLog(util.simpleClone(param), this.originalResult)
+      let url = 'API@/dec-common/dec/common/decPass'
+      let postParam = {
+        decVO: param,
+        decVerifySaveVO: decVerifySaveVO
+      }
+      this.$post({
+        url: url,
+        data: postParam,
+        success: (res) => {
+          this.messageTips(res.message, 'success')
+          this.closeTab()
         },
         other: (res) => {
           this.messageTips(res.message, 'error')
@@ -1238,6 +1287,22 @@ export default {
         this.$refs.decHead.focusCustomMaster()
       }
     },
+    digitFormat () {
+      let decHead = this.originalResult.decHeadVO
+      decHead.netWt = decUtil.removeZero(decHead.netWt)
+      decHead.grossWt = decUtil.removeZero(decHead.grossWt)
+      decHead.feeRate = decUtil.removeZero(decHead.feeRate)
+      decHead.insurRate = decUtil.removeZero(decHead.insurRate)
+      decHead.otherRate = decUtil.removeZero(decHead.otherRate)
+      let decListVO = this.originalResult.decListVO
+      decListVO.forEach(decList => {
+        decList.declPrice = decUtil.removeZero(decList.declPrice)
+        decList.gQty = decUtil.removeZero(decList.gQty)
+        decList.qty1 = decUtil.removeZero(decList.qty1)
+        decList.qty2 = decUtil.removeZero(decList.qty2)
+        decList.declTotal = decUtil.removeZero(decList.declTotal)
+      })
+    },
     // 调取报关单数据
     getDecByCommon (pid) {
       let url = 'API@/dec-common/dec/common/getDec'
@@ -1252,6 +1317,8 @@ export default {
         },
         success: (res) => {
           if (res.result) {
+            this.originalResult = util.simpleClone(res.result)
+            this.digitFormat()
             // 表头
             this.isExamine = res.result.decHeadVO.isExamine
             this.setFeildByDecVo(res.result)
@@ -1472,34 +1539,12 @@ export default {
       }
       // 缓存数据
       window.localStorage.setItem('copyDec', JSON.stringify(decVo))
-      // 重开页签
-      let routeName
-      let tabName
-      if (this.controller.iEFlag === 'I' && this.$refs.decHead.decHead.declTrnrel === '0') { // 进口报关单
-        routeName = 'importDecAdd'
-        tabName = '进口报关单'
-      } else if (this.controller.iEFlag === 'E' && this.$refs.decHead.decHead.declTrnrel === '0') {
-        routeName = 'exportDecAdd'
-        tabName = '出口报关单'
-      } else if (this.controller.iEFlag === 'I' && this.$refs.decHead.decHead.declTrnrel === '2') {
-        routeName = 'importRecordAdd'
-        tabName = '进口备案清单'
-      } else if (this.controller.iEFlag === 'E' && this.$refs.decHead.decHead.declTrnrel === '2') {
-        routeName = 'exportRecordAdd'
-        tabName = '出口备案清单'
+      let flag = this.controller.iEFlag === 'I' ? 'import' : 'export'
+      let funFlag = this.$refs.decHead.decHead.declTrnrel === '0' ? 'declaration' : 'recordList'
+      let queryParam = {
+        'type': 'copy'
       }
-      if (routeName) {
-        this.$router.push({
-          name: routeName,
-          params: {
-            'setTitle': tabName,
-            'setId': routeName + 'copy' + new Date().getTime()
-          },
-          query: {
-            'type': 'copy'
-          }
-        })
-      }
+      decUtil.gotoDecPage(funFlag, flag, 'add', this.controller.pid, 'dec', queryParam, this, 'copy')
     },
     // 打印 报关单
     printDecHead () {
@@ -1574,13 +1619,13 @@ export default {
       // 表体下的 产品资质
       let filingInfoForm = []
       if (licFlag && this.$refs.decList.decList.decGoodsLimits.length === 1) {
-        decBus.$emit('setValueForFilingInfoForm', this.$refs.decList.decList.decGoodsLimits[0])
+        decBus.getBus(this.moduleName).$emit('setValueForFilingInfoForm', this.$refs.decList.decList.decGoodsLimits[0])
         filingInfoForm = this.$refs.decList.decList.decGoodsLimits[0]
         vinFlag = true
       }
       // 标题下 的产品资质 的 许可证vin
       if (vinFlag && filingInfoForm.decGoodsLimitvins.length === 1) {
-        decBus.$emit('setValueForlicVINForm', filingInfoForm.decGoodsLimitvins[0])
+        decBus.getBus(this.moduleName).$emit('setValueForlicVINForm', filingInfoForm.decGoodsLimitvins[0])
       }
       this.$refs.decList.decList.decGoodsLimits = []
       // 随附单证
@@ -1624,8 +1669,7 @@ export default {
             },
             success: (res) => {
               this.messageTips(res.message, 'success')
-              // 刷新报关单
-              this.addDecHead()
+              this.closeTab()
             },
             other: (res) => {
               this.messageTips(res.message, 'error')
@@ -1712,54 +1756,69 @@ export default {
      * operType G 为发送到单一窗口暂存  C 为发送到单一窗口申报
      */
     declareData (operType) {
+      // 2.21 判断 自报自缴是否选择
       let tips = ''
-      if (operType === 'G') {
-        tips = '是否确认发送？'
+      if (this.$refs.decHead.decHead.chkPayment === '1') {
+        if (operType === 'G') {
+          tips = '是否确认发送？'
+        } else {
+          tips = '是否确认申报？'
+        }
+        this.$confirm(tips, '提示', {
+          modalAppendToBody: true,
+          domMount: this.$el.parentNode,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.saveAndDeclare(operType)
+        }).catch(() => {
+        })
       } else {
-        tips = '是否确认申报？'
+        this.sendTipsOperType = operType
+        this.sendTipsVisable = true
       }
-      this.$confirm(tips, '提示', {
-        modalAppendToBody: true,
-        domMount: this.$el.parentNode,
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        // TODO 先调用暂存
-        // 校验
-        let flag = this.$refs.decHead.saveDecHeadFieldVerify()
-        if (!flag) {
-          return false
-        }
-        let cropLimit = this.$refs.decHead.cropLimit
-        let tableDecContainerlist = this.$refs.decContainer.tableDecContainerlist
-        for (let i in tableDecContainerlist) {
-          tableDecContainerlist[i].decPid = ''
-        }
-        let decHeadVo = util.simpleClone(this.$refs.decHead.decHead)
-        //
-        decHeadVo['relId'] = this.datasFormDate.relId
-        decHeadVo['relManno'] = this.datasFormDate.relManno
-        decHeadVo['bonNo'] = this.datasFormDate.bonNo
-        decHeadVo['cusFie'] = this.datasFormDate.cusFie
-        // 判断企业资质里面有没有 合格
-        if (!util.isEmpty(cropLimit.entQualiftypeCode)) {
-          decHeadVo.decCopLimits.push(cropLimit)
-        }
-        // 后端要求清除的
-        delete decHeadVo.createTime
-        delete decHeadVo.createUser
-        delete decHeadVo.inputName
-        delete decHeadVo.inputerName
-        let param = {
-          decContainersVO: tableDecContainerlist,
-          decHeadVO: decHeadVo,
-          decLicensesVO: this.$refs.decDocuments.licenselist,
-          decListVO: this.$refs.decList.tableList
-        }
-        this.$refs.decHead.sendDec(operType, param)
-      }).catch(() => {
-      })
+    },
+    sendTipsClose (param) {
+      if (param.checked) {
+        this.$refs.decHead.decHead.chkPayment = '1'
+      }
+      this.saveAndDeclare(param.operType)
+      this.sendTipsVisable = false
+    },
+    saveAndDeclare (operType) {
+      // 校验
+      let flag = this.$refs.decHead.saveDecHeadFieldVerify()
+      if (!flag) {
+        return false
+      }
+      let cropLimit = this.$refs.decHead.cropLimit
+      let tableDecContainerlist = this.$refs.decContainer.tableDecContainerlist
+      for (let i in tableDecContainerlist) {
+        tableDecContainerlist[i].decPid = ''
+      }
+      let decHeadVo = util.simpleClone(this.$refs.decHead.decHead)
+      //
+      decHeadVo['relId'] = this.datasFormDate.relId
+      decHeadVo['relManno'] = this.datasFormDate.relManno
+      decHeadVo['bonNo'] = this.datasFormDate.bonNo
+      decHeadVo['cusFie'] = this.datasFormDate.cusFie
+      // 判断企业资质里面有没有 合格
+      if (!util.isEmpty(cropLimit.entQualiftypeCode)) {
+        decHeadVo.decCopLimits.push(cropLimit)
+      }
+      // 后端要求清除的
+      delete decHeadVo.createTime
+      delete decHeadVo.createUser
+      delete decHeadVo.inputName
+      delete decHeadVo.inputerName
+      let param = {
+        decContainersVO: tableDecContainerlist,
+        decHeadVO: decHeadVo,
+        decLicensesVO: this.$refs.decDocuments.licenselist,
+        decListVO: this.$refs.decList.tableList
+      }
+      this.$refs.decHead.sendDec(operType, param)
     },
     // 提交审核
     sumbitCheck () {
@@ -1881,7 +1940,7 @@ export default {
     receptionAccDocData (param) {
       let data = util.simpleClone(param)
       this.$refs.decHead.setHeadFieldValue({'decEdocRealations': data.accDocList})
-      this.$refs.decHead.setHeadFieldValue({'decMarkLobs': data.decMarkLobs})
+      this.$refs.decHead.setHeadFieldValue({'decMarkLobs': data.decMarkLobs[0].attachUrl ? util.simpleClone(data.decMarkLobs) : []})
       this.accDocVisible = false
     },
     // 随附单据组件  取消传输数据的操作
@@ -1966,13 +2025,13 @@ export default {
         // 表体下的 产品资质
         let filingInfoForm = []
         if (licFlag && this.$refs.decList.decList.decGoodsLimits.length === 1) {
-          decBus.$emit('setValueForFilingInfoForm', this.$refs.decList.decList.decGoodsLimits[0])
+          decBus.getBus(this.moduleName).$emit('setValueForFilingInfoForm', this.$refs.decList.decList.decGoodsLimits[0])
           filingInfoForm = this.$refs.decList.decList.decGoodsLimits[0]
           vinFlag = true
         }
         // 标题下 的产品资质 的 许可证vin
         if (vinFlag && filingInfoForm.decGoodsLimitvins.length === 1) {
-          decBus.$emit('setValueForlicVINForm', filingInfoForm.decGoodsLimitvins[0])
+          decBus.getBus(this.moduleName).$emit('setValueForlicVINForm', filingInfoForm.decGoodsLimitvins[0])
         }
         this.$refs.decList.decList.decGoodsLimits = []
       }
@@ -2177,4 +2236,40 @@ export default {
 
 <style scoped lang="less">
 @import './common/decCss';
+.reviewTip{
+    &.flex {
+      display: flex;
+      align-items: center;
+    }
+    box-sizing: border-box;
+    height: 24px;
+    border-bottom: unset;
+    background-color: #ffe9c7;
+    border: 1px solid #ffc56b;
+    i {
+      margin-right: 8px;
+      padding-left: 1px;
+    }
+}
+.operDiv{
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+  min-width: 954px;
+  background: #e8ebed;
+  bottom: 0;
+  height: 43px;
+  font-size: 12px;
+  padding: 7px 0;
+  .tipShow{
+    color:red
+  }
+  .operButton {
+    height: 24px;
+    text-align: center;
+    .el-button--primary {
+      width: 60px;
+    }
+  }
+}
 </style>

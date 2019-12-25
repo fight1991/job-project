@@ -109,7 +109,7 @@ export default {
     }
   },
   created () {
-    summaryBus.$on('setDocFieldToSate', this.setDocFieldToSate)
+    summaryBus.getBus(this.moduleName).$on('setDocFieldToSate', this.setDocFieldToSate)
   },
   computed: {
     controller () {
@@ -257,7 +257,7 @@ export default {
       }
       if (isFlag) {
         // TODO
-        summaryBus.$emit('setTableListToSate', null)
+        summaryBus.getBus(this.moduleName).$emit('setTableListToSate', null)
         this.tableListLength = this.$store.state.summaryData.tableList.length
         this.originRelVisible = true
       } else {

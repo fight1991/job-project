@@ -92,6 +92,9 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 .mg-l-10{
   margin-left: 10px;
 }
+.mg-l-20{
+  margin-left: 20px;
+}
 // 兼容1024 1280显示屏
 // 小于1030的屏占一整行
 @media only screen and(max-width:1030px) {
@@ -1890,6 +1893,15 @@ table.form-table{
       padding: 0 8px;
   }
 }
+.el-table.nocolor-table{
+  thead tr th{
+    background-color: #fff;
+    padding: 6px 0;
+  }
+  tbody tr td{
+    padding: 6px 0;
+  }
+}
 // 两步申报样式
 .sys-summary-class{
   .summary-head-form{
@@ -2887,17 +2899,4 @@ table.form-table{
   .el-progress-bar__inner{
     border-radius: 0;
   }
-}
-
-.table-icon{
-    margin: 0;
-    padding: 0;
-    i{
-      display: inline-block;
-      width: 14px;
-      height: 14px;
-      margin-right: 6px;
-      vertical-align: middle;
-      margin-top: -2px;
-    }
 }

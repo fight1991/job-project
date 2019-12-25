@@ -13,7 +13,7 @@
       class="sys-dec-class"
       width="640px">
       <div style="text-align: center;font-size: 13px;">
-        <span class='tips-warning ems-tips'></span>
+        <span class='list-icon-tips-warning ems-tips' style="margin-right: 10px;"><i></i></span>
         <span class=''>请注意，当前报关单与关联的核注清单并不匹配，请跟换关联核注清单或更改报关单内容。</span>
       </div>
       <div class='ems-title'>

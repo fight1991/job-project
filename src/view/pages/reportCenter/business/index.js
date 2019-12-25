@@ -28,6 +28,15 @@ const MENU = {
         title: '单量统计'
       }
     }, {
+      path: '/reportCenter/business/advanceSt',
+      name: 'advanceSt',
+      permissions: 'CCBA20601020000',
+      hidden: false,
+      meta: {
+        component: resolve => require(['./advanceSt.vue'], resolve),
+        title: '提前申报'
+      }
+    }, {
       path: '/reportCenter/business/trendSt',
       name: 'trendSt',
       permissions: 'CCBA20601030000',

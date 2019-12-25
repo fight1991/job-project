@@ -54,6 +54,9 @@ export default {
     },
     tableList: {
       type: Array
+    },
+    moduleName: {
+      type: String
     }
   },
   data () {
@@ -69,9 +72,9 @@ export default {
         goodsNoArr = this.goodsNo.split(',')
       }
       if (this.declareType) {
-        summaryBus.$emit('setTableListToSate', null)
+        summaryBus.getBus(this.moduleName).$emit('setTableListToSate', null)
       } else {
-        decBus.$emit('setTableListToSate', null)
+        decBus.getBus(this.moduleName).$emit('setTableListToSate', null)
       }
       if (this.tableList.length === 0) {
         return

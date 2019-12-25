@@ -14,7 +14,7 @@
       <el-row class="borderN">
         <el-col :span="19" :offset="3">
           <div class="remind-flex">
-            <div class="remind-flexL"><i></i></div>
+            <div class="remind-flexL list-icon-tips-warning"><i></i></div>
             <div class="remind-flexR">检测到您当前有多个报价符合使用条件，请确认当前业务使用哪个报价。</div>
           </div>
         </el-col>

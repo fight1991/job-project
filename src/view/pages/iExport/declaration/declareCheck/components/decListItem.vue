@@ -212,6 +212,9 @@ export default {
       this.listItem['priceAndTotalColor'] = this.judgeColor(['declPrice', 'declTotal', 'tradeCurr'])
       this.itemConfig['priceAndTotal']['color'] = this.judgeColor(['declPrice', 'declTotal', 'tradeCurr'])
       this.$emit('changeColor')
+      if (this.$attrs.isFromAi) {
+        this.$emit('drawBoyArea', {value: name, gNo: this.listItem.gNo})
+      }
     },
     judgeColor (arr) {
       let arr0 = []
