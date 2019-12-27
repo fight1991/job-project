@@ -165,7 +165,7 @@
             </el-col>
         </el-row>
       </div>
-      <batch-upload :decPid = 'decPid' :openPath='openPath' :batchUploadVisabled.sync='batchUploadVisabled' :pageType="'license'"></batch-upload>
+      <batch-upload :decPid = 'decPid' :openPath='openPath' :batchUploadVisabled.sync='batchUploadVisabled' :pageType="'license'" @close:batchlist="backData"></batch-upload>
   </section>
 </template>
 
@@ -359,6 +359,9 @@ export default {
           ownerCodeScc: row.ownerCodeScc
         }
       })
+    },
+    backData () {
+      this.search()
     }
   }
 }

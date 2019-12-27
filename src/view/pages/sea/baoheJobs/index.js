@@ -1,10 +1,13 @@
 // 加工贸易账册-核销核算
+import abstractComponent from '@/view/common/abstract.vue'
+import seaBaoheJobsIndexComponent from './index.vue'
+
 const MENU = {
   path: '/sea/baoheJobs',
   name: 'sea-baoheJobs',
   icon: 'icons-menu-baoheJobs',
   permissions: 'CCBA20903000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '核销核算'
   },
@@ -15,7 +18,7 @@ const MENU = {
       permissions: 'CCBA20903010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaBaoheJobsIndexComponent,
         title: '加工贸易账册报核'
       }
     },
@@ -25,7 +28,7 @@ const MENU = {
       permissions: 'CCBA20903020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaBaoheJobsIndexComponent,
         title: '加工贸易账册报核查询'
       }
     },
@@ -35,7 +38,7 @@ const MENU = {
       permissions: 'CCBA20903030000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaBaoheJobsIndexComponent,
         title: '物流账册平衡表'
       }
     }

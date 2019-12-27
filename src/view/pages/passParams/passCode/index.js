@@ -1,10 +1,12 @@
 // 通关参数-通关代码
+import abstractComponent from '@/view/common/abstract.vue'
+
 const MENU = {
   path: '/passParams/passCode',
   name: 'passParams-passCode',
   icon: 'icons-menu-passCode',
   permissions: 'CCBA21201000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '通关代码'
   },
@@ -15,7 +17,7 @@ const MENU = {
       permissions: 'CCBA21201010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./customs.vue'], resolve),
+        component: () => import(/* webpackChunkName: "customs" */ './customs.vue'),
         title: '关区'
       }
     },
@@ -25,7 +27,7 @@ const MENU = {
       permissions: 'CCBA21201020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./country.vue'], resolve),
+        component: () => import(/* webpackChunkName: "country" */ './country.vue'),
         title: '国别（地区）'
       }
     },
@@ -35,7 +37,7 @@ const MENU = {
       permissions: 'CCBA21201030000',
       hidden: false,
       meta: {
-        component: resolve => require(['./money.vue'], resolve),
+        component: () => import(/* webpackChunkName: "money" */ './money.vue'),
         title: '币制'
       }
     },
@@ -45,7 +47,7 @@ const MENU = {
       permissions: 'CCBA21201040000',
       hidden: false,
       meta: {
-        component: resolve => require(['./unit.vue'], resolve),
+        component: () => import(/* webpackChunkName: "unit" */ './unit.vue'),
         title: '计量单位'
       }
     },
@@ -55,7 +57,7 @@ const MENU = {
       permissions: 'CCBA21201050000',
       hidden: false,
       meta: {
-        component: resolve => require(['./controlMode.vue'], resolve),
+        component: () => import(/* webpackChunkName: "control-mode" */ './controlMode.vue'),
         title: '监管方式'
       }
     },
@@ -65,7 +67,7 @@ const MENU = {
       permissions: 'CCBA21201060000',
       hidden: false,
       meta: {
-        component: resolve => require(['./transport.vue'], resolve),
+        component: () => import(/* webpackChunkName: "transport" */ './transport.vue'),
         title: '运输方式'
       }
     },
@@ -75,7 +77,7 @@ const MENU = {
       permissions: 'CCBA21201070000',
       hidden: false,
       meta: {
-        component: resolve => require(['./redemp.vue'], resolve),
+        component: () => import(/* webpackChunkName: "redemp" */ './redemp.vue'),
         title: '征免性质'
       }
     },
@@ -85,7 +87,7 @@ const MENU = {
       permissions: 'CCBA21201080000',
       hidden: false,
       meta: {
-        component: resolve => require(['./port.vue'], resolve),
+        component: () => import(/* webpackChunkName: "port" */ './port.vue'),
         title: '港口'
       }
     },
@@ -95,7 +97,7 @@ const MENU = {
       permissions: 'CCBA21201090000',
       hidden: false,
       meta: {
-        component: resolve => require(['./pakageKinds.vue'], resolve),
+        component: () => import(/* webpackChunkName: "pakage-kinds" */ './pakageKinds.vue'),
         title: '包装种类'
       }
     },
@@ -105,7 +107,7 @@ const MENU = {
       permissions: 'CCBA21201100000',
       hidden: false,
       meta: {
-        component: resolve => require(['./bargain.vue'], resolve),
+        component: () => import(/* webpackChunkName: "bargain" */ './bargain.vue'),
         title: '成交方式'
       }
     },
@@ -115,7 +117,7 @@ const MENU = {
       permissions: 'CCBA21201110000',
       hidden: false,
       meta: {
-        component: resolve => require(['./regulate.vue'], resolve),
+        component: () => import(/* webpackChunkName: "regulate" */ './regulate.vue'),
         title: '监管证件'
       }
     },
@@ -125,7 +127,7 @@ const MENU = {
       permissions: 'CCBA21201120000',
       hidden: false,
       meta: {
-        component: resolve => require(['./license.vue'], resolve),
+        component: () => import(/* webpackChunkName: "license" */ './license.vue'),
         title: '随附单据'
       }
     },
@@ -135,7 +137,7 @@ const MENU = {
       permissions: 'CCBA21201130000',
       hidden: false,
       meta: {
-        component: resolve => require(['./tradePro.vue'], resolve),
+        component: () => import(/* webpackChunkName: "trade-pro" */ './tradePro.vue'),
         title: '优惠贸易协定'
       }
     },
@@ -145,7 +147,7 @@ const MENU = {
       permissions: 'CCBA21201140000',
       hidden: false,
       meta: {
-        component: resolve => require(['./inLandArea.vue'], resolve),
+        component: () => import(/* webpackChunkName: "in-land-area" */ './inLandArea.vue'),
         title: '国内地区'
       }
     },
@@ -155,7 +157,7 @@ const MENU = {
       permissions: 'CCBA21201150000',
       hidden: false,
       meta: {
-        component: resolve => require(['./taxFree.vue'], resolve),
+        component: () => import(/* webpackChunkName: "tax-free" */ './taxFree.vue'),
         title: '征减免税方式'
       }
     },
@@ -165,7 +167,7 @@ const MENU = {
       permissions: 'CCBA21201160000',
       hidden: false,
       meta: {
-        component: resolve => require(['./inLandPort.vue'], resolve),
+        component: () => import(/* webpackChunkName: "in-land-port" */ './inLandPort.vue'),
         title: '国内口岸'
       }
     }

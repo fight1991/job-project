@@ -153,7 +153,7 @@ const companys = {
     {
       'name': '朗新科技股份有限公司(总部)',
       'value': ['120.373395', '31.498462'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     }
   ],
   // 分公司
@@ -161,37 +161,37 @@ const companys = {
     {
       'name': '朗新科技股份有限公司-上海分公司',
       'value': ['121.446376', '31.195572'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '朗新科技股份有限公司-北京分公司',
       'value': ['116.413136', '39.997136'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '朗新科技股份有限公司-武汉分公司',
       'value': ['114.365689', '30.579686'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '朗新科技股份有限公司-杭州分公司',
       'value': ['120.182258', '30.278674'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '朗新科技股份有限公司-厦门分公司',
       'value': ['118.193496', '24.495074'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '朗新科技股份有限公司-广州分公司',
       'value': ['113.319156', '23.106554'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '朗新科技股份有限公司-广西分公司',
       'value': ['108.368265', '22.813474'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     }
   ],
   // 中国报关协会
@@ -199,7 +199,7 @@ const companys = {
     {
       'name': '中国报关协会',
       'value': ['116.457266', '39.877787'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     }
   ],
   // 地方报关协会
@@ -207,137 +207,137 @@ const companys = {
     {
       'name': '北京报关协会',
       'value': ['116.483818', '39.840802'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '天津报关协会',
       'value': ['117.187915', '39.159085'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '河北报关协会',
       'value': ['114.533971', '38.034818'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '大连报关协会',
       'value': ['121.663736', '38.931289'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '沈阳报关协会',
       'value': ['123.469574', '41.752739'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '吉林省报关协会',
       'value': ['125.379398', '43.85735'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '上海市报关协会',
       'value': ['121.517708', '31.255821'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '江苏报关协会',
       'value': ['118.808792', '32.0331'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '浙江省报关协会',
       'value': ['120.135085', '30.283535'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '宁波报关协会',
       'value': ['121.545949', '29.87306'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '安徽报关协会',
       'value': ['117.216807', '31.784659'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '福建省福州报关协会',
       'value': ['119.420255', '26.021603'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '福建省厦门报关协会',
       'value': ['118.087707', '24.496796'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '江西报关协会',
       'value': ['115.860585', '28.641061'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '山东报关协会',
       'value': ['120.392881', '36.071335'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '湖北省报关协会',
       'value': ['114.210945', '30.642946'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '湖南报关协会',
       'value': ['113.023824', '28.183798'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '广东广州报关协会',
       'value': ['113.344259', '23.133948'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '广东深圳报关协会',
       'value': ['113.924213', '22.498888'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '广东汕头报关协会',
       'value': ['116.753794', '23.380472'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '广东黄埔报关协会',
       'value': ['113.538053', '23.067817'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '广西报关协会',
       'value': ['108.343952', '22.805057'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '重庆报关协会',
       'value': ['106.503631', '29.606273'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '四川报关协会',
       'value': ['103.974185', '30.575784'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '云南报关协会',
       'value': ['102.675924', '24.986791'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '陕西省报关协会',
       'value': ['108.94587', '34.23046'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     },
     {
       'name': '惠州市报关协会',
       'value': ['114.359009', '23.026894'],
-      'iconPath': require('@/assets/www-img/images/location/Location.png')
+      'iconPath': 'https://www.5itrade.cn/files/CCBA/Location.png'
     }
   ]
 
@@ -346,61 +346,61 @@ const linkList = {
   dev: [
     {
       id: '1',
-      icon: require('@/assets/www-img/images/star.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/star.png',
       text: '<div style="text-align:center">金关之星</div><div style="text-align:center">(GS-CMS)</div>',
       link: 'https://test.51aeo.com/Login/AuthCallBack'
     },
     {
       id: '2',
-      icon: require('@/assets/www-img/images/SAAS.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/SAAS.png',
       text: '赛吉思货代SAAS',
       link: 'http://ops.cargoyun.com/access'
     },
     {
       id: '3',
-      icon: require('@/assets/www-img/images/decDelegate.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/decDelegate.png',
       text: '通关委托',
       link: 'https://test.5itrade.cn/ccba2/entrust/index'
     },
     {
       id: '4',
-      icon: require('@/assets/www-img/images/contract.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/contract.png',
       text: '合同管理',
       link: 'https://test.5itrade.cn/ccba2/contract/index'
     },
     {
       id: '5',
-      icon: require('@/assets/www-img/images/logistics.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/logistics.png',
       text: '物流费用管理系统',
       link: 'https://test.5itrade.cn/fin2'
     },
     {
       id: '6',
-      icon: require('@/assets/www-img/images/expert.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/expert.png',
       text: '专家答疑',
       link: 'https://test.5itrade.cn/ccba2/userAnswer/userList'
     },
     {
       id: '7',
-      icon: require('@/assets/www-img/images/vip.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/vip.png',
       text: '会员服务系统',
       link: 'https://test.5itrade.cn/zvip'
     },
     {
       id: '8',
-      icon: require('@/assets/www-img/images/Rating.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/Rating.png',
       text: '双优评比系统',
       link: 'https://test.5itrade.cn/zquestion'
     },
     {
       id: '9',
-      icon: require('@/assets/www-img/images/Operate.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/Operate.png',
       text: '运营管理平台',
       link: 'https://test.5itrade.cn/op'
     },
     {
       id: '10',
-      icon: require('@/assets/www-img/images/passParams.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/passParams.png',
       text: '通关参数',
       link: 'https://test.5itrade.cn/ccba2/passParams/index'
     }
@@ -408,61 +408,61 @@ const linkList = {
   prod: [
     {
       id: '1',
-      icon: require('@/assets/www-img/images/star.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/star.png',
       text: '<div style="text-align:center">金关之星</div><div style="text-align:center">(GS-CMS)</div>',
       link: 'https://www.51aeo.com/Login/AuthCallBack'
     },
     {
       id: '2',
-      icon: require('@/assets/www-img/images/SAAS.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/SAAS.png',
       text: '赛吉思货代SAAS',
       link: 'http://ops.cargoyun.com/access'
     },
     {
       id: '3',
-      icon: require('@/assets/www-img/images/decDelegate.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/decDelegate.png',
       text: '通关委托',
       link: 'https://www.5itrade.cn/ccba2/entrust/index'
     },
     {
       id: '4',
-      icon: require('@/assets/www-img/images/contract.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/contract.png',
       text: '合同管理',
       link: 'https://www.5itrade.cn/ccba2/contract/index'
     },
     {
       id: '5',
-      icon: require('@/assets/www-img/images/logistics.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/logistics.png',
       text: '物流费用管理系统',
       link: 'https://www.5itrade.cn/fin2'
     },
     {
       id: '6',
-      icon: require('@/assets/www-img/images/expert.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/expert.png',
       text: '专家答疑',
       link: 'https://www.5itrade.cn/ccba2/userAnswer/userList'
     },
     {
       id: '7',
-      icon: require('@/assets/www-img/images/vip.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/vip.png',
       text: '会员服务系统',
       link: 'https://www.5itrade.cn/zvip'
     },
     {
       id: '8',
-      icon: require('@/assets/www-img/images/Rating.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/Rating.png',
       text: '双优评比系统',
       link: 'https://www.5itrade.cn/zquestion'
     },
     {
       id: '9',
-      icon: require('@/assets/www-img/images/Operate.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/Operate.png',
       text: '运营管理平台',
       link: 'https://www.5itrade.cn/op'
     },
     {
       id: '10',
-      icon: require('@/assets/www-img/images/passParams.png'),
+      icon: 'https://www.5itrade.cn/files/CCBA/passParams.png',
       text: '通关参数',
       link: 'https://www.5itrade.cn/ccba2/passParams/index'
     }
@@ -470,92 +470,92 @@ const linkList = {
 }
 const partner = [
   {
-    icon: require('@/assets/www-img/images/partner/danyichuangkou.png'),
+    iconClass: 'icon-danyichuangkou',
     name: '中国国际贸易单一窗口',
     url: 'https://www.singlewindow.cn/'
   },
   {
-    icon: require('@/assets/www-img/images/partner/ruikumaoyi.png'),
+    iconClass: 'icon-ruikumaoyi',
     name: '北京睿库贸易安全及便利化研究中心',
     url: 'https://www.re-code.org/'
   },
   {
-    icon: require('@/assets/www-img/images/partner/yatai.png'),
+    iconClass: 'icon-yatai',
     name: '亚太示范电子口岸网络运营中心',
     url: 'javascript:;'
   },
   {
-    icon: require('@/assets/www-img/images/partner/beijing.png'),
+    iconClass: 'icon-beijing',
     name: '北京报关协会',
     url: 'http://www.bjcustoms.com/bcba/'
   },
   {
-    icon: require('@/assets/www-img/images/partner/tianjing.png'),
+    iconClass: 'icon-tianjing',
     name: '天津报关协会',
     url: 'http://www.tcba.org.cn'
   },
   {
-    icon: require('@/assets/www-img/images/partner/shanghai.png'),
+    iconClass: 'icon-shanghai',
     name: '上海市报关协会',
     url: 'http://www.scba.com.cn/'
   },
   {
-    icon: require('@/assets/www-img/images/partner/jiangsu.png'),
+    iconClass: 'icon-jiangsu',
     name: '江苏报关协会',
     url: 'http://www.jscba.org'
   },
   {
-    icon: require('@/assets/www-img/images/partner/zhejiang.png'),
+    iconClass: 'icon-zhejiang',
     name: '浙江省报关协会',
     url: 'javascript:;'
   },
   {
-    icon: require('@/assets/www-img/images/partner/anhui.png'),
+    iconClass: 'icon-anhui',
     name: '安徽报关协会',
     url: 'http://www.ahcba.org/'
   },
   {
-    icon: require('@/assets/www-img/images/partner/hunan.png'),
+    iconClass: 'icon-hunan',
     name: '湖南省报关协会',
     url: 'http://www.hncba.org/'
   },
   {
-    icon: require('@/assets/www-img/images/partner/hubei.png'),
+    iconClass: 'icon-hubei',
     name: '湖北省报关协会',
     url: 'http://www.hbcba.cn'
   },
   {
-    icon: require('@/assets/www-img/images/partner/guangxi.png'),
+    iconClass: 'icon-guangxi',
     name: '广西报关协会',
     url: 'http://www.gxcba.org.cn/'
   },
   {
-    icon: require('@/assets/www-img/images/partner/ningbo.png'),
+    iconClass: 'icon-ningbo',
     name: '宁波报关协会',
     url: 'javascript:;'
   },
   {
-    icon: require('@/assets/www-img/images/partner/dalian.png'),
+    iconClass: 'icon-dalian',
     name: '大连报关协会',
     url: 'javascript:;'
   },
   {
-    icon: require('@/assets/www-img/images/partner/shandong.png'),
+    iconClass: 'icon-shandong',
     name: '山东报关协会',
     url: 'http://www.sdcba.org.cn/'
   },
   {
-    icon: require('@/assets/www-img/images/partner/guangdongshenzhen.png'),
+    iconClass: 'icon-guangdongshenzhen',
     name: '广东深圳报关协会',
     url: 'http://www.gscba.org/'
   },
   {
-    icon: require('@/assets/www-img/images/partner/guangdonghuangpu.png'),
+    iconClass: 'icon-guangdonghuangpu',
     name: '广东黄埔报关协会',
     url: 'http://www.hpcba.org.cn'
   },
   {
-    icon: require('@/assets/www-img/images/partner/guangdongguangzhou.png'),
+    iconClass: 'icon-guangdongguangzhou',
     name: '广东广州报关协会',
     url: 'javascript:;'
   }

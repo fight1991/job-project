@@ -29,7 +29,7 @@
           <el-row :gutter="20">
             <el-col :md="12" :lg="12" v-for="(item,index) in submitData.licenseList" :key="index">
               <el-card class="license-card">
-                <i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i>
+                <span class="list-icon-delete_all"><i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i></span>
                 <el-row>
                   <el-col :md="12" :lg="12">
                     <el-form-item label="单据类型" :prop="'licenseList.'+index+'.documentType'" :rules="rules.documentType">
@@ -61,9 +61,9 @@
                     :on-preview="showfileUrl"
                     :on-remove="(e)=>{handleDelete(e,item)}">
                     <img v-if="item.isImg  && !item.fileType" :src="item.documentUrl" class="detail-img">
-                    <img v-if="item.isPdf  && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
-                    <img v-if="item.isWord  && !item.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.documentUrl)" class="detail-img">
-                    <img v-if="item.isExcel  && !item.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
+                    <img v-if="item.isPdf  && !item.fileType" src="https://www.5itrade.cn/files/CCBA/pdf.png" @click="showfile(item.documentUrl)" class="detail-img">
+                    <img v-if="item.isWord  && !item.fileType" src="https://www.5itrade.cn/files/CCBA/word.png" @click="showfile(item.documentUrl)" class="detail-img">
+                    <img v-if="item.isExcel  && !item.fileType" src="https://www.5itrade.cn/files/CCBA/excel.png" @click="showfile(item.documentUrl)" class="detail-img">
                     <el-button size="mini" type="primary" v-if="item.fileType">上传附件</el-button>
                     </el-upload>
                   </el-form-item>
@@ -72,7 +72,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-button size="mini" @click="addLicense"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/>&nbsp;&nbsp;上传更多业务单据</el-button>
+            <el-button class="list-icon-btn-add" size="mini" @click="addLicense"><i></i>&nbsp;&nbsp;上传更多业务单据</el-button>
           </el-row>
           <el-row class="query-btn">
             <el-button type="primary" size="mini" @click="submit">确认</el-button>
@@ -86,6 +86,7 @@
 <script>
 import util from '@/common/util'
 import commonParam from '@/common/commonParam'
+import storageHandle from '@/common/storageHandle'
 export default {
   data () {
     return {
@@ -352,11 +353,11 @@ export default {
           router: this.$router,
           success: (res) => {
             commonParam.saveParams(res.result)
-            this.saasEdocCode = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE'))
+            this.saasEdocCode = storageHandle.getEdocCodesByRelatedBusiness(JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE')), 'common')
           }
         })
       } else {
-        this.saasEdocCode = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE'))
+        this.saasEdocCode = storageHandle.getEdocCodesByRelatedBusiness(JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE')), 'common')
       }
     }
   }
@@ -388,7 +389,6 @@ export default {
       width: 20px;
       height: 20px;
       display: inline-block;
-      background: url('../../../../assets/img/icon/close.png') no-repeat;
       position: absolute;
       right: 0;
       top: 0;

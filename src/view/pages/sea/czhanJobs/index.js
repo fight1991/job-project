@@ -1,10 +1,13 @@
 // 海关监管-场站业务
+import abstractComponent from '@/view/common/abstract.vue'
+import seaCzhanJobsIndexComponent from './index.vue'
+
 const MENU = {
   path: '/sea/czhanJobs',
   name: 'sea-czhanJobs',
   icon: 'icons-menu-czjb',
   permissions: 'CCBA20904000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '场站作业'
   },
@@ -15,7 +18,7 @@ const MENU = {
       permissions: 'CCBA20904010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaCzhanJobsIndexComponent,
         title: '业务申报表'
       }
     },
@@ -25,7 +28,7 @@ const MENU = {
       permissions: 'CCBA20904020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaCzhanJobsIndexComponent,
         title: '出入库单'
       }
     },
@@ -35,7 +38,7 @@ const MENU = {
       permissions: 'CCBA20904030000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaCzhanJobsIndexComponent,
         title: '核放单'
       }
     },
@@ -45,7 +48,7 @@ const MENU = {
       permissions: 'CCBA20904040000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaCzhanJobsIndexComponent,
         title: '车辆信息'
       }
     }

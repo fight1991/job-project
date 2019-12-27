@@ -5,7 +5,7 @@
       <!-- 返回按钮 -->
       <el-row>
         <el-col :span="18">
-          <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
+          <span @click="back" class="sys-back-btn list-icon-back"><i></i>返回</span>
         </el-col>
       </el-row>
       <!-- 返回按钮 end-->
@@ -36,7 +36,7 @@
           </el-row>
           <el-row>
             <el-card class="license-card" v-for="(item,index) in addForm.submitDataList" :key="index">
-              <i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i>
+              <span class="list-icon-delete_all"><i class="license-close-icon" v-if="index !== 0" @click="delLicense(index)"></i></span>
               <el-row :gutter="50">
                 <el-col :span="12">
                 <el-form-item label="许可证类型" :prop="'submitDataList.'+index+'.info.licenseType'" :rules="rules.licenseType">
@@ -64,9 +64,9 @@
                       :on-preview="showfileUrl"
                       :on-remove="(e)=>{handleDelete(e,item)}">
                       <img v-if="item.info.isImg  && !item.info.fileType" :src="item.info.licenseUrl" class="detail-img">
-                      <img v-if="item.info.isPdf  && !item.info.fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
-                      <img v-if="item.info.isWord  && !item.info.fileType" src="../../../../assets/img/icon/word.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
-                      <img v-if="item.info.isExcel  && !item.info.fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
+                      <img v-if="item.info.isPdf  && !item.info.fileType" src="https://www.5itrade.cn/files/CCBA/pdf.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
+                      <img v-if="item.info.isWord  && !item.info.fileType" src="https://www.5itrade.cn/files/CCBA/word.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
+                      <img v-if="item.info.isExcel  && !item.info.fileType" src="https://www.5itrade.cn/files/CCBA/excel.png" @click="showfile(item.info.licenseUrl)" class="detail-img">
                       <el-button size="mini" class="longButton" type="primary" v-if="item.info.fileType">上传附件</el-button>
                     </el-upload>
                   </el-form-item>
@@ -104,7 +104,7 @@
             </el-card>
           </el-row>
           <el-row>
-            <el-button size="mini" @click="addLicense"><img class="pointer" src="../../../../assets/img/icon/btn-add.png"/>&nbsp;&nbsp;上传更多许可证</el-button>
+            <el-button size="mini list-icon-btn-add" @click="addLicense"><i></i>&nbsp;&nbsp;上传更多许可证</el-button>
           </el-row>
           <el-row class="query-btn">
             <el-button type="primary"  size="mini" @click="submit">确认</el-button>
@@ -638,7 +638,6 @@ export default {
       width: 20px;
       height: 20px;
       display: inline-block;
-      background: url('../../../../assets/img/icon/close.png') no-repeat;
       position: absolute;
       right: 0;
       top: 0;
@@ -653,22 +652,6 @@ export default {
     height: 88px;
     cursor: pointer;
   }
-.sys-back-btn{
-    display: inline-block;
-    font-size: 13px;
-    color: @font-color-main;
-    vertical-align: middle;
-    cursor: pointer;
-    .back-btn{
-        display: inline-block;
-        width: 18px;
-        height: 18px;
-        margin-right: 5px;
-        background: url('../../../../assets/img/icon/back.png') no-repeat center center;
-        background-size: 100%;
-        vertical-align: middle;
-    }
-}
 .layer-btn-primary {
       height: 32px;
       line-height: 32px;

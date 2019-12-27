@@ -43,7 +43,7 @@
           </el-table-column>
           <el-table-column label="问题" min-width="180">
             <template slot-scope="scope">
-              <div class='sys-td-l text-over-hid' :title="scope.row.questionTitle"><i class="jing-img" v-if="scope.row.recommendFlag === 'true'"></i>{{scope.row.questionTitle}}</div>
+              <div class='user-answer-line sys-td-l text-over-hid list-icon-answer-jing' :title="scope.row.questionTitle"><i v-if="scope.row.recommendFlag === 'true'"></i>{{scope.row.questionTitle}}</div>
             </template>
           </el-table-column>
           <el-table-column label="问题分类" min-width="100">
@@ -150,13 +150,11 @@ export default {
 }
 </script>
 <style scoped lang="less">
-.jing-img{
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  background: url('../../../assets/img/answer-jing.png') no-repeat;
-  vertical-align: middle;
-  margin-right: 5px;
+.user-answer-line{
+  i{
+    vertical-align: middle;
+    margin-right: 5px;
+  }
 }
 .query-condition {
   background-color: #fff;

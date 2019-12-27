@@ -2,7 +2,7 @@
   <section class='sys-main'>
     <el-row class = "query-condition">
       <el-row>
-        <el-button type="primary" size="mini" style="margin: 10px 0px;width:70px;" @click="upload(decPid, ownerCodeScc)">导入</el-button>
+        <el-button type="primary" size="mini" style="margin: 10px 0px;" @click="upload(decPid, ownerCodeScc)">批量导入</el-button>
       </el-row>
       <el-row style="color:#287fca">
         <p>注意：</p>
@@ -13,7 +13,7 @@
           <el-row :gutter="5">
             <el-col :md="12" :lg="12" v-for="(item,index) in submitData.licenseList" :key="index">
               <el-card class="license-card">
-                <i class="license-close-icon" @click="delLicense(index)"></i>
+                <span class="list-icon-delete_all"><i class="license-close-icon" @click="delLicense(index)"></i></span>
                 <el-row>
                   <el-col :span="8">
                     <el-upload
@@ -24,9 +24,9 @@
                     :on-preview="showfileUrl"
                     :on-remove="(e)=>{handleDelete(e,item)}">
                       <img v-if="item.isImg && !item.fileType" :src="item.documentUrl" @click.stop="showfile(item.documentUrl)" class="detail-img">
-                      <img v-if="item.isPdf && !item.fileType" src="../../../../assets/img/icon/pdf.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
-                      <img v-if="item.isWord && !item.fileType" src="../../../../assets/img/icon/word.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
-                      <img v-if="item.isExcel && !item.fileType" src="../../../../assets/img/icon/excel.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
+                      <img v-if="item.isPdf && !item.fileType" src="https://www.5itrade.cn/files/CCBA/pdf.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
+                      <img v-if="item.isWord && !item.fileType" src="https://www.5itrade.cn/files/CCBA/word.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
+                      <img v-if="item.isExcel && !item.fileType" src="https://www.5itrade.cn/files/CCBA/excel.png" @click.stop="showfile(item.documentUrl)" class="detail-img">
                       <el-row>
                         <el-button size="mini" type="primary">重新上传</el-button>
                       </el-row>
@@ -59,13 +59,19 @@
           <el-button size="mini" @click="toDetail(ownerCodeScc)">取消</el-button>
         </el-col>
     </el-row>
+    <batch-upload :decPid = 'decPid' :openPath='openPath' :batchUploadVisabled.sync='batchUploadVisabled' :pageType="'licenseEdit'" @close:batchEdit="backData"></batch-upload>
   </section>
 </template>
 
 <script>
 import util from '@/common/util'
 import commonParam from '@/common/commonParam'
+import storageHandle from '@/common/storageHandle'
+import batchUpload from '../../component/batchUpload'
 export default {
+  components: {
+    batchUpload
+  },
   data () {
     return {
       rules: {
@@ -89,7 +95,9 @@ export default {
           isExcel: false
         }]
       },
-      saasEdocCode: []
+      saasEdocCode: [],
+      batchUploadVisabled: false,
+      openPath: 'dataCenter'
     }
   },
   created () {
@@ -327,22 +335,23 @@ export default {
           router: this.$router,
           success: (res) => {
             commonParam.saveParams(res.result)
-            this.saasEdocCode = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE'))
+            this.saasEdocCode = storageHandle.getEdocCodesByRelatedBusiness(JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE')), 'common')
           }
         })
       } else {
-        this.saasEdocCode = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE'))
+        this.saasEdocCode = storageHandle.getEdocCodesByRelatedBusiness(JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE')), 'common')
       }
     },
     // 导入
     upload (decPid, ownerCodeScc) {
-      this.$router.push({
-        path: '/dataCenter/jobsLicense/importLicense',
-        query: {
-          decPid: decPid,
-          ownerCodeScc: ownerCodeScc
-        }
-      })
+      // this.$router.push({
+      //   path: '/dataCenter/jobsLicense/importLicense',
+      //   query: {
+      //     decPid: decPid,
+      //     ownerCodeScc: ownerCodeScc
+      //   }
+      // })
+      this.batchUploadVisabled = true
     },
     // 跳转到详情页面
     toDetail (ownerCodeScc) {
@@ -353,6 +362,9 @@ export default {
           ownerCodeScc: ownerCodeScc
         }
       })
+    },
+    backData () {
+      this.querylist()
     }
   }
 }
@@ -375,7 +387,6 @@ export default {
       width: 20px;
       height: 20px;
       display: inline-block;
-      background: url('../../../../assets/img/icon/close.png') no-repeat;
       position: absolute;
       right: 0;
       top: 0;

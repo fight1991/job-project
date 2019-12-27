@@ -1,4 +1,7 @@
-import abstractComponent from '../common/abstract.vue'
+import abstractComponent from '@/view/common/abstract.vue'
+import notFoundComponent from './404.vue'
+import serverErrorComponent from './500.vue'
+import systemMaintainComponent from './wait.vue'
 
 const MENU = {
   path: '/error',
@@ -12,7 +15,7 @@ const MENU = {
     path: '/error/404',
     name: '页面错误',
     hidden: true,
-    component: resolve => require(['./404.vue'], resolve),
+    component: notFoundComponent,
     meta: {
       title: '页面错误'
     }
@@ -20,7 +23,7 @@ const MENU = {
     path: '/error/500',
     name: '系统错误',
     hidden: true,
-    component: resolve => require(['./500.vue'], resolve),
+    component: serverErrorComponent,
     meta: {
       title: '系统错误'
     }
@@ -28,7 +31,7 @@ const MENU = {
     path: '/error/wait',
     name: '系统维护',
     hidden: true,
-    component: resolve => require(['./wait.vue'], resolve),
+    component: systemMaintainComponent,
     meta: {
       title: '系统维护'
     }

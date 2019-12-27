@@ -112,7 +112,7 @@
                     </template>
                   </el-table-column>
                 </el-table>
-                <el-button size="mini" @click="addRelatedGoods" v-if="!isDetail" style="margin-top:18px;"><img src="../../../../assets/img/icon/btn-add.png"/>&nbsp;&nbsp;增加涉证商品</el-button>
+                <el-button class="list-icon-btn-add" size="mini" @click="addRelatedGoods" v-if="!isDetail" style="margin-top:18px;"><i></i>&nbsp;&nbsp;增加涉证商品</el-button>
               </el-form-item>
             </el-col>
           </el-row>
@@ -124,9 +124,9 @@
               :file-list="fileLists"
               :show-file-list="fileType">
               <img v-if="isImg  && !fileType" :src="subData.info.licenseUrl" class="detail-img" @click.stop="showfile(subData.info.licenseUrl)">
-              <img v-if="isPdf  && !fileType" src="../../../../assets/img/icon/pdf.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
-              <img v-if="isWord  && !fileType" src="../../../../assets/img/icon/word.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
-              <img v-if="isExcel  && !fileType" src="../../../../assets/img/icon/excel.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
+              <img v-if="isPdf  && !fileType" src="https://www.5itrade.cn/files/CCBA/pdf.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
+              <img v-if="isWord  && !fileType" src="https://www.5itrade.cn/files/CCBA/word.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
+              <img v-if="isExcel  && !fileType" src="https://www.5itrade.cn/files/CCBA/excel.png" @click.stop="showfile(subData.info.licenseUrl)" class="detail-img">
               <el-row>
                <el-button size="mini" type="primary" v-if="!isDetail">重新上传</el-button>
               </el-row>
@@ -552,16 +552,6 @@ export default {
     text-align: center;
     margin: 12px 0;
   }
-  .license-close-icon{
-      width: 20px;
-      height: 20px;
-      display: inline-block;
-      background: url('../../../../assets/img/icon/close.png') no-repeat;
-      position: absolute;
-      right: 0;
-      top: 0;
-      cursor: pointer;
-    }
   .license-card{
     position: relative;
     margin-bottom: 20px;
@@ -575,20 +565,4 @@ export default {
     height: 88px;
     cursor: pointer;
   }
-.sys-back-btn{
-    display: inline-block;
-    font-size: 13px;
-    color: @font-color-main;
-    vertical-align: middle;
-    cursor: pointer;
-    .back-btn{
-        display: inline-block;
-        width: 18px;
-        height: 18px;
-        margin-right: 5px;
-        background: url('../../../../assets/img/icon/back.png') no-repeat center center;
-        background-size: 100%;
-        vertical-align: middle;
-    }
-}
 </style>

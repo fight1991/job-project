@@ -4,7 +4,7 @@
     <el-row class='sys-header'>
       <!-- 返回按钮 -->
       <el-col :span="18">
-        <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
+        <span @click="back" class="sys-back-btn list-icon-back"><i></i>返回</span>
       </el-col>
       <!-- 返回按钮 end-->
     </el-row>
@@ -50,9 +50,9 @@
               :on-preview="showfileUrl"
               :on-remove="handleDelete">
               <img v-if="isImg  && !fileType" :src="addForm.certificateUrl" class="detail-img">
-              <img v-if="isPdf  && !fileType" src="../../../../assets/img/icon/pdf.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
-              <img v-if="isWord  && !fileType" src="../../../../assets/img/icon/word.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
-              <img v-if="isExcel  && !fileType" src="../../../../assets/img/icon/excel.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
+              <img v-if="isPdf  && !fileType" src="https://www.5itrade.cn/files/CCBA/pdf.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
+              <img v-if="isWord  && !fileType" src="https://www.5itrade.cn/files/CCBA/word.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
+              <img v-if="isExcel  && !fileType" src="https://www.5itrade.cn/files/CCBA/excel.png" @click="showfile(addForm.certificateUrl)" class="detail-img">
               <el-row>
                <el-button size="mini" class="longButton" type="primary">上传附件</el-button>
               </el-row>
@@ -426,20 +426,4 @@ export default {
     height: 88px;
     cursor: pointer;
   }
-.sys-back-btn{
-    display: inline-block;
-    font-size: 13px;
-    color: @font-color-main;
-    vertical-align: middle;
-    cursor: pointer;
-    .back-btn{
-        display: inline-block;
-        width: 18px;
-        height: 18px;
-        margin-right: 5px;
-        background: url('../../../../assets/img/icon/back.png') no-repeat center center;
-        background-size: 100%;
-        vertical-align: middle;
-    }
-}
 </style>

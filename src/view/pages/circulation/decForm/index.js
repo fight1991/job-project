@@ -1,10 +1,13 @@
 // 保税获取流转-申报表
+import abstractComponent from '@/view/common/abstract.vue'
+import circulationDecFormIndexComponent from './index.vue'
+
 const MENU = {
   path: '/circulation/decForm',
   name: 'circulation-decForm',
   icon: 'icons-menu-decForm',
   permissions: 'CCBA21101000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '申报表'
   },
@@ -15,7 +18,7 @@ const MENU = {
       permissions: 'CCBA21101010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: circulationDecFormIndexComponent,
         title: '转出申报'
       }
     },
@@ -25,7 +28,7 @@ const MENU = {
       permissions: 'CCBA21101020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: circulationDecFormIndexComponent,
         title: '转入申报'
       }
     },
@@ -35,7 +38,7 @@ const MENU = {
       permissions: 'CCBA21101030000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: circulationDecFormIndexComponent,
         title: '申报表查询'
       }
     }

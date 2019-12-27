@@ -1,10 +1,12 @@
 // 通关参数-商品申报参数
+import abstractComponent from '@/view/common/abstract.vue'
+
 const MENU = {
   path: '/passParams/productParams',
   name: 'passParams-productParams',
   icon: 'icons-menu-productParams',
   permissions: 'CCBA21202000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '商品申报参数'
   },
@@ -15,7 +17,7 @@ const MENU = {
       permissions: 'CCBA21202010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./taxRule.vue'], resolve),
+        component: () => import(/* webpackChunkName: "tax-rule" */ './taxRule.vue'),
         title: '税则'
       }
     },
@@ -24,7 +26,7 @@ const MENU = {
       name: 'taxRuleInfo',
       hidden: true,
       meta: {
-        component: resolve => require(['./taxRuleInfo.vue'], resolve),
+        component: () => import(/* webpackChunkName: "tax-rule-info" */ './taxRuleInfo.vue'),
         title: '税则详情'
       }
     },
@@ -34,7 +36,7 @@ const MENU = {
       permissions: 'CCBA21202070000',
       hidden: false,
       meta: {
-        component: resolve => require(['./calculatedRate.vue'], resolve),
+        component: () => import(/* webpackChunkName: "calculated-rate" */ './calculatedRate.vue'),
         title: '计征汇率'
       }
     },
@@ -44,7 +46,7 @@ const MENU = {
       permissions: 'CCBA21202080000',
       hidden: false,
       meta: {
-        component: resolve => require(['./favoredCountry.vue'], resolve),
+        component: () => import(/* webpackChunkName: "favored-country" */ './favoredCountry.vue'),
         title: '最惠国'
       }
     },
@@ -54,7 +56,7 @@ const MENU = {
       permissions: 'CCBA21202020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./productCate.vue'], resolve),
+        component: () => import(/* webpackChunkName: "product-cate" */ './productCate.vue'),
         title: '统计商品目录'
       }
     },
@@ -64,7 +66,7 @@ const MENU = {
       permissions: 'CCBA21202030000',
       hidden: false,
       meta: {
-        component: resolve => require(['./declareEle.vue'], resolve),
+        component: () => import(/* webpackChunkName: "declare-ele" */ './declareEle.vue'),
         title: '规范申报要素'
       }
     },
@@ -74,7 +76,7 @@ const MENU = {
       permissions: 'CCBA21202040000',
       hidden: false,
       meta: {
-        component: resolve => require(['./checkCate.vue'], resolve),
+        component: () => import(/* webpackChunkName: "check-cate" */ './checkCate.vue'),
         title: '法检目录'
       }
     },
@@ -84,7 +86,7 @@ const MENU = {
       permissions: 'CCBA21202050000',
       hidden: false,
       meta: {
-        component: resolve => require(['./treeCate.vue'], resolve),
+        component: () => import(/* webpackChunkName: "tree-cate" */ './treeCate.vue'),
         title: '3C目录'
       }
     },
@@ -94,7 +96,7 @@ const MENU = {
       permissions: 'CCBA21202060000',
       hidden: false,
       meta: {
-        component: resolve => require(['./CIQCode.vue'], resolve),
+        component: () => import(/* webpackChunkName: "ciq-code" */ './CIQCode.vue'),
         title: 'CIQ编码'
       }
     }

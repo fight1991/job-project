@@ -24,6 +24,26 @@ export const tableHeadFieldList = {
     fieldName: '境内收发货人',
     fieldCode: 'tradeName'
   },
+  overseasConsignorEname: {
+    value: false,
+    fieldName: '境外收发货人',
+    fieldCode: 'overseasConsignorEname'
+  },
+  overseasConsigneeEname: {
+    value: false,
+    fieldName: '境外收发货人',
+    fieldCode: 'overseasConsigneeEname'
+  },
+  ownerName: {
+    value: true,
+    fieldName: '消费使用单位',
+    fieldCode: 'ownerName'
+  },
+  agentName: {
+    value: true,
+    fieldName: '申报单位',
+    fieldCode: 'agentName'
+  },
   customMasterValue: {
     value: true,
     fieldName: '申报地海关',
@@ -36,7 +56,7 @@ export const tableHeadFieldList = {
   },
   iEPortValue: {
     value: true,
-    fieldName: '出境关别',
+    fieldName: '进境关别',
     fieldCode: 'iEPortValue'
   },
   manualNo: {
@@ -143,6 +163,11 @@ export const tableHeadFieldList = {
     value: true,
     fieldName: '净重(KG)',
     fieldCode: 'netWt'
+  },
+  noteS: {
+    value: false,
+    fieldName: '备注',
+    fieldCode: 'noteS'
   },
   declPrice: {
     value: true,

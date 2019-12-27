@@ -368,7 +368,7 @@
             <el-row class="info-content link-dialog-content">
                 <el-col :span="4" class="link-person-name">
                     <el-form-item>
-                        <img src="../../../../assets/img/defaultPic.png" v-if="detailForm.headPhoto === null || detailForm.headPhoto === ''" />
+                        <img src="https://www.5itrade.cn/files/CCBA/defaultPic.png" v-if="detailForm.headPhoto === null || detailForm.headPhoto === ''" />
                         <img :src="detailForm.headPhoto" v-else>
                         <span class="fs-18">{{detailForm.userName}}</span>
                     </el-form-item>

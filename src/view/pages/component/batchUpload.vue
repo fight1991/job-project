@@ -121,30 +121,17 @@ export default {
         // url = 'API@/saas-document-center/business/uploadFileSaveSystem'
       } else if (this.uploadType === '3') { // 混合上传
         url = 'API@/dec-common/dec/common/uploadFileMixture'
-      //   this.tableList = [{
-      //     edocCode: '00000009',
-      //     fileName: '发票',
-      //     edocSize: '1232',
-      //     note: '无'
-      //   }, {
-      //     edocCode: '',
-      //     fileName: '装箱单',
-      //     edocSize: '1232',
-      //     note: '无'
-      //   }, {
-      //     edocCode: '',
-      //     fileName: '提运单',
-      //     edocSize: '1232',
-      //     note: '无'
-      //   }, {
-      //     edocCode: '',
-      //     fileName: '发票',
-      //     edocSize: '1232',
-      //     note: '无'
-      //   }]
-      //   this.mixUploadVisible = true
       }
       this.sumbitVo.decPid = this.decPid
+      if (this.pageType === 'documents') {
+        if (util.isEmpty(this.sumbitVo.decPid)) {
+          this.$message({
+            type: 'error',
+            message: '请先暂存报关单'
+          })
+          return false
+        }
+      }
       if (util.isEmpty(this.sumbitVo.url)) {
         this.$message({
           type: 'error',
@@ -155,14 +142,14 @@ export default {
       let param = [this.sumbitVo]
       if (this.uploadType === '3') {
         param = this.sumbitVo
-        let type = param.edocCode.substring(param.edocCode.lastIndexOf('.') + 1).toLowerCase()
-        if (!['zip'].includes(type)) {
-          this.$message({
-            type: 'error',
-            message: '混合上传只能上传zip压缩包！'
-          })
-          return false
-        }
+        // let type = param.edocCode.substring(param.edocCode.lastIndexOf('.') + 1).toLowerCase()
+        // if (!['zip'].includes(type)) {
+        //   this.$message({
+        //     type: 'error',
+        //     message: '混合上传只能上传zip压缩包'
+        //   })
+        //   return false
+        // }
       }
       this.$post({
         url: url,
@@ -185,7 +172,14 @@ export default {
           } else {
             this.closeCompnent()
             if (this.pageType === 'license') {
-              this.refreshList()
+              this.$emit('close:batchlist')
+            } else if (this.pageType === 'documents') {
+              this.$message({
+                type: 'success',
+                message: '上传已完成，上传成功。请刷新报关单界面后，前往随附单据中查看详情。'
+              })
+            } else if (this.pageType === 'licenseEdit') {
+              this.$emit('close:batchEdit')
             }
           }
         },
@@ -206,11 +200,15 @@ export default {
       this.$emit('update:batchUploadVisabled', false)
     },
     refreshList () {
-      this.$parent.search()
+      if (this.pageType === 'license') {
+        this.$emit('close:batchlist')
+      } else if (this.pageType === 'licenseEdit') {
+        this.$emit('close:batchEdit')
+      }
     },
     // 上传图片前的格式及大小判断
     beforeAvatarUpload (file) {
-      let computFileType = '' // 存在 自己计算出来的 文件类型
+      // let computFileType = '' // 存在 自己计算出来的 文件类型
       if (util.isEmpty(file.type)) { // 解决部分电脑的excel文件没法获取文件类型的情况
         let fileName = file.name
         let type = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase()
@@ -219,17 +217,17 @@ export default {
           this.$emit('closeEditUpload')
           return
         }
-        computFileType = util.getFileTypeByName(type)
+        // computFileType = util.getFileTypeByName(type)
       } else {
-        computFileType = file.type
+        // computFileType = file.type
       }
-      if (this.uploadType === '3') { // 混合上传
-        if (!['application/x-zip-compressed', 'application/zip'].includes(computFileType)) {
-          this.messageTips('混合上传只能上传zip压缩包！', 'error')
-          this.$emit('closeEditUpload')
-          return
-        }
-      }
+      // if (this.uploadType === '3') { // 混合上传
+      //   if (!['application/x-zip-compressed', 'application/zip'].includes(computFileType)) {
+      //     this.messageTips('混合上传只能上传zip压缩包！', 'error')
+      //     this.$emit('closeEditUpload')
+      //     return
+      //   }
+      // }
       if (!(Math.ceil(file.size / 1024) <= 20480)) {
         this.messageTips('上传文件大小不能超过20MB', 'error')
         this.$emit('closeEditUpload')

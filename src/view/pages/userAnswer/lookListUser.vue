@@ -38,7 +38,7 @@
           </el-table-column>
           <el-table-column label="问题" min-width="180">
             <template slot-scope="scope">
-              <div class='sys-td-l text-over-hid' :title="scope.row.questionTitle"><i class="jing-img" v-if="scope.row.recommendFlag === 'true'"></i>{{scope.row.questionTitle}}</div>
+              <div class='user-answer-line sys-td-l text-over-hid list-icon-answer-jing' :title="scope.row.questionTitle"><i v-if="scope.row.recommendFlag === 'true'"></i>{{scope.row.questionTitle}}</div>
             </template>
           </el-table-column>
           <el-table-column label="最近操作时间" min-width="100">
@@ -84,7 +84,7 @@
                   action="http://127.0.0.1"
                   :show-file-list="false"
                   :before-upload="beforeUpload1">
-                  <span v-if="imageUrl1" class="img-url">
+                  <span v-if="imageUrl1" class="img-url list-icon-delete_all">
                     <img :src="imageUrl1" class="detail-img">
                     <i class="close-icon" @click.stop="delImg('1')"></i>
                   </span>
@@ -343,13 +343,11 @@ export default {
 }
 </script>
 <style scoped lang="less">
-.jing-img{
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  background: url('../../../assets/img/answer-jing.png') no-repeat;
-  vertical-align: middle;
-  margin-right: 5px;
+.user-answer-line{
+  i{
+    vertical-align: middle;
+    margin-right: 5px;
+  }
 }
 .detail-img{
   display: inline-block;
@@ -377,7 +375,6 @@ export default {
   width: 20px;
   height: 20px;
   display: inline-block;
-  background: url('../../../assets/img/icon/close.png') no-repeat;
   position: absolute;
   right: 10px;
   top: 0;

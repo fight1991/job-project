@@ -285,6 +285,9 @@ export default new Vuex.Store({
       state.userLoginInfo.companyName = data.companyName
       state.userLoginInfo.sccCode = data.sccCode
       state.userLoginInfo.adminFlag = data.adminFlag
+      state.userLoginInfo.cusCorpName = data.cusCorpName
+      state.userLoginInfo.ciqCode = data.ciqCode
+      state.userLoginInfo.tradeCode = data.tradeCode
     },
     // 初次进入系统后 变更状态
     isFirstChange: function (state, value) {

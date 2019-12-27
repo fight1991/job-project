@@ -7,7 +7,7 @@ const MENU = [
     permissions: 'CCBA20302000000',
     meta: {
       title: '许可证管理',
-      component: resolve => require(['./index.vue'], resolve)
+      component: () => import(/* webpackChunkName: "license-list" */ './index.vue')
     }
   },
   {
@@ -15,7 +15,7 @@ const MENU = [
     name: 'addLicense',
     hidden: true,
     meta: {
-      component: resolve => require(['./addLicense.vue'], resolve),
+      component: () => import(/* webpackChunkName: "add-licence" */ './addLicense.vue'),
       title: '许可证新增'
     }
   }, {
@@ -23,7 +23,7 @@ const MENU = [
     name: 'detailListLicense',
     hidden: true,
     meta: {
-      component: resolve => require(['./detailListLicense.vue'], resolve),
+      component: () => import(/* webpackChunkName: "license-detail" */ './detailListLicense.vue'),
       title: '许可证详情列表'
     }
   }, {
@@ -31,7 +31,7 @@ const MENU = [
     name: 'manageDetail',
     hidden: true,
     meta: {
-      component: resolve => require(['./manageDetail.vue'], resolve),
+      component: () => import(/* webpackChunkName: "license-detail-edit" */ './manageDetail.vue'),
       title: '许可证详情编辑'
     }
   }

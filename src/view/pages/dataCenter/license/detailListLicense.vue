@@ -5,7 +5,7 @@
       <!-- 返回按钮 -->
       <el-row class='mg-b-15'>
         <el-col :span='12' :xs='24'>
-          <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
+          <span @click="back" class="sys-back-btn list-icon-back"><i></i>返回</span>
         </el-col>
         <el-col :span='12' :xs='24'>
           <el-button type="primary" size="mini" @click="add()" class="sys-fr">新建</el-button>
@@ -340,22 +340,6 @@ export default {
     padding: 20px 20px 20px 20px;
     margin-top: 20px;
   }
-  .sys-back-btn{
-    display: inline-block;
-    font-size: 13px;
-    color: @font-color-main;
-    vertical-align: middle;
-    cursor: pointer;
-    .back-btn{
-        display: inline-block;
-        width: 18px;
-        height: 18px;
-        margin-right: 5px;
-        background: url('../../../../assets/img/icon/back.png') no-repeat center center;
-        background-size: 100%;
-        vertical-align: middle;
-    }
-}
   .sys-fr{
     float: right;
   }

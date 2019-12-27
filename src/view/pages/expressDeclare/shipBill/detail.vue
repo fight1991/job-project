@@ -3,7 +3,7 @@
     <!-- 返回按钮 -->
     <el-row>
       <el-col :span='12' :xs='24'>
-        <span @click="back" class="sys-back-btn"><i class="back-btn" style='margin-bottom: 3px;'></i>返回</span>
+        <span @click="back" class="sys-back-btn list-icon-back"><i style='margin-bottom: 3px;'></i>返回</span>
       </el-col>
       <el-col :span='12' :xs='24'>
         <div style="text-align: right;"><el-button size="mini" type="primary" v-if="isDeclare" @click="declare">申报</el-button></div>
@@ -478,22 +478,6 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.sys-back-btn{
-    display: inline-block;
-    font-size: 13px;
-    color: @font-color-main;
-    vertical-align: middle;
-    cursor: pointer;
-    .back-btn{
-        display: inline-block;
-        width: 18px;
-        height: 18px;
-        margin-right: 5px;
-        background: url('../../../../assets/img/icon/back.png') no-repeat center center;
-        background-size: 100%;
-        vertical-align: middle;
-    }
-}
 .no-input{
   display: inline-block;
 }

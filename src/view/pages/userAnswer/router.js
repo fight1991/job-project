@@ -1,3 +1,4 @@
+import indexComponent from '@/view/pages/index.vue'
 
 const MENU = [
   {
@@ -6,7 +7,7 @@ const MENU = [
     hidden: false,
     icon: 'el-icon-menu1',
     permissions: 'WF000000',
-    component: resolve => require(['./index.vue'], resolve),
+    component: indexComponent,
     meta: {
       title: '首页'
     }
@@ -17,7 +18,7 @@ const MENU = [
     name: 'userAnswer-list',
     permissions: 'ccba2010',
     meta: {
-      component: resolve => require(['./userList.vue'], resolve),
+      component: () => import(/* webpackChunkName: "user-list" */ './userList.vue'),
       title: '首页(用户)'
     }
   },
@@ -27,7 +28,7 @@ const MENU = [
     name: 'userAnswer-look',
     permissions: 'ccba2010',
     meta: {
-      component: resolve => require(['./lookListUser.vue'], resolve),
+      component: () => import(/* webpackChunkName: "look-list-user" */ './lookListUser.vue'),
       title: '我的提问'
     }
   },
@@ -36,7 +37,7 @@ const MENU = [
     name: 'userAnswer-detail',
     hidden: true,
     meta: {
-      component: resolve => require(['./detailUser.vue'], resolve),
+      component: () => import(/* webpackChunkName: "detail-user" */ './detailUser.vue'),
       title: '查看详情'
     }
   }

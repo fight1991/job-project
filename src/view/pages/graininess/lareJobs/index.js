@@ -1,10 +1,13 @@
 // 海关监管-通关作业
+import abstractComponent from '@/view/common/abstract.vue'
+import graininessLareJobsIndexComponent from './index.vue'
+
 const MENU = {
   path: '/graininess/lareJobs',
   name: 'graininess-lareJobs',
   icon: 'icons-menu-lareJobs',
   permissions: 'CCBA21002000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '通关作业'
   },
@@ -15,7 +18,7 @@ const MENU = {
       permissions: 'CCBA21002010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininessLareJobsIndexComponent,
         title: '保税核注清单（进口）'
       }
     },
@@ -25,7 +28,7 @@ const MENU = {
       permissions: 'CCBA21002020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininessLareJobsIndexComponent,
         title: '保税核注清单（出口）'
       }
     },
@@ -35,7 +38,7 @@ const MENU = {
       permissions: 'CCBA21002030000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininessLareJobsIndexComponent,
         title: '集中报关'
       }
     },
@@ -45,7 +48,7 @@ const MENU = {
       permissions: 'CCBA21002040000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininessLareJobsIndexComponent,
         title: '清单结关'
       }
     },
@@ -55,7 +58,7 @@ const MENU = {
       permissions: 'CCBA21002050000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininessLareJobsIndexComponent,
         title: '保税核注清单查询'
       }
     },
@@ -65,7 +68,7 @@ const MENU = {
       permissions: 'CCBA21002060000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininessLareJobsIndexComponent,
         title: '清单结关查询'
       }
     }

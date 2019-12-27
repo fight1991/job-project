@@ -1,10 +1,13 @@
 // 海关监管-场站作业
+import abstractComponent from '@/view/common/abstract.vue'
+import graininessczhanJobsIndexComponent from './index.vue'
+
 const MENU = {
   path: '/graininess/czhanJobs',
   name: 'graininess-czhanJobs',
   icon: 'icons-menu-czjb',
   permissions: 'CCBA21004000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '场站作业'
   },
@@ -15,7 +18,7 @@ const MENU = {
       permissions: 'CCBA21004010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininessczhanJobsIndexComponent,
         title: '业务申报表'
       }
     },
@@ -25,7 +28,7 @@ const MENU = {
       permissions: 'CCBA21004020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininessczhanJobsIndexComponent,
         title: '出入库单'
       }
     },
@@ -35,7 +38,7 @@ const MENU = {
       permissions: 'CCBA21004030000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininessczhanJobsIndexComponent,
         title: '核放单'
       }
     },
@@ -45,7 +48,7 @@ const MENU = {
       permissions: 'CCBA21004040000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininessczhanJobsIndexComponent,
         title: '车辆信息'
       }
     }

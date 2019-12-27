@@ -14,7 +14,7 @@
       <div class="entrust-panel">
         <el-row class="entrust-title">委托信息</el-row>
         <el-row class="entrust-info-panel" v-for="(item,index) in entrustForm.beEntrustInfoVOs" :key="index">
-          <i class="panel-close" v-show="index!==0 && !isDetail" @click="delCorp(index, item)"></i>
+          <span class="list-icon-delete_all"><i class="panel-close" v-show="index!==0 && !isDetail" @click="delCorp(index, item)"></i></span>
           <i class="status-icon" v-if="isDetail" :class="{'status-icon-already':item.beEntrustStatus == '3','status-icon-pend':item.beEntrustStatus == '2'}"></i>
           <el-row :gutter="30">
             <el-col :md="12" :lg="6">
@@ -1990,7 +1990,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import(less) '@/assets/style/common';
+@import '~@/assets/style/common';
 .entrust-main {
   padding: 20px;
   font-size:12px;
@@ -2021,7 +2021,6 @@ export default {
   display: inline-block;
   width: 20px;
   height: 20px;
-  background: url('../../../../assets/img/icon/close.png') no-repeat;
   cursor: pointer;
   position: absolute;
   right: 0;
@@ -2036,10 +2035,10 @@ export default {
   top: -10px;
 }
 .status-icon-pend{
-  background: url('../../../../assets/img/pendOrder.png') no-repeat;
+  background: url('https://www.5itrade.cn/files/CCBA/pendOrder.png') no-repeat;
 }
 .status-icon-already{
-  background: url('../../../../assets/img/alreadyOrder.png') no-repeat;
+  background: url('https://www.5itrade.cn/files/CCBA/alreadyOrder.png') no-repeat;
 }
 .splitLine{
   height: 1px;

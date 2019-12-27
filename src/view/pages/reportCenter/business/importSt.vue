@@ -147,18 +147,21 @@
                   <el-checkbox size="mini" v-model="item.value" @change="columnFieldChange">{{item.fieldName}}</el-checkbox>
                 </li>
               </ul>
-              <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-dropdown" slot="reference"></el-button>
+              <el-button size="mini" class="list-btns list-btn-drop list-icon-dropdown" slot="reference"><i></i></el-button>
             </el-popover>
           </div>
         </el-row>
         <el-row class='mg-b-30'>
           <div class='mg-lr-30 dec-query-table'>
-            <el-table class='sys-table-table dec-table' :data="resultList" border highlight-current-row size="mini" height="450px">
+            <el-table class='sys-table-table dec-table' :data="resultList" border highlight-current-row size="mini" height="413px">
               <el-table-column label="接单编号" min-width="130" prop="bossId" align="center" v-if="thList.bossId.value"></el-table-column>
               <el-table-column label="委托客户" min-width="210" prop="company" align="left" v-if="thList.company.value"></el-table-column>
               <el-table-column label="客户业务号" min-width="120" prop="ref1" align="left" v-if="thList.ref1.value"></el-table-column>
               <el-table-column label="海关编号" min-width="160" prop="entryId" align="center" v-if="thList.entryId.value"></el-table-column>
               <el-table-column label="境内收发货人" min-width="210" prop="tradeName" align="left" v-if="thList.tradeName.value"></el-table-column>
+              <el-table-column label="境外收发货人" min-width="210" prop="overseasConsignorEname" align="left" v-if="thList.overseasConsignorEname.value"></el-table-column>
+              <el-table-column label="消费使用单位" min-width="210" prop="ownerName" align="left" v-if="thList.ownerName.value"></el-table-column>
+              <el-table-column label="申报单位" min-width="210" prop="agentName" align="left" v-if="thList.agentName.value"></el-table-column>
               <el-table-column label="申报地海关" min-width="100" prop="customMasterValue" align="center" v-if="thList.customMasterValue.value"></el-table-column>
               <el-table-column label="申报日期" min-width="100" prop="dDate" align="center" v-if="thList.dDate.value"></el-table-column>
               <el-table-column label="进境关别" min-width="160" prop="iEPortValue" align="center" v-if="thList.iEPortValue.value"></el-table-column>
@@ -183,6 +186,13 @@
               <el-table-column label="件数" min-width="90" prop="packNo" v-if="thList.packNo.value" align="right"></el-table-column>
               <el-table-column label="毛重(KG)" min-width="100" prop="grossWt" v-if="thList.grossWt.value" align="right"></el-table-column>
               <el-table-column label="净重(KG)" min-width="100" prop="netWt" align="right" v-if="thList.netWt.value"></el-table-column>
+              <el-table-column label="备注" min-width="200" prop="noteS" align="right" v-if="thList.noteS.value">
+                <template slot-scope="scope">
+                  <div class="text-over-hid" :title="scope.row.noteS">
+                    {{scope.row.noteS}}
+                  </div>
+                </template>
+              </el-table-column>
               <el-table-column label="单价" min-width="100" v-if="thList.declPrice.value">
                 <template slot-scope="scope">
                   <div class='sys-td-r'>{{scope.row.declPrice && scope.row.declPrice.toLocaleString()}}</div>
@@ -271,12 +281,13 @@ export default {
         ]
       }, // 字典标明
       cusCustomsCodeList: [],
-      thList: tableHeadFieldList, // 表头字段
+      thList: {}, // 表头字段
       userId: '', // 用户id
       downloadVisable: false // 下载进度弹窗
     }
   },
   created () {
+    this.handleTableHeadFields()
     this.dates = [util.getNdayDate(new Date(), -29), new Date()]
     this.getCommonParam()
     this.queryUserInfo()
@@ -291,6 +302,13 @@ export default {
     this.doInit()
   },
   methods: {
+    handleTableHeadFields () {
+      let list = util.simpleClone(tableHeadFieldList)
+      list['iEPortValue'].fieldName = '进境关别'
+      list['ownerName'].fieldName = '消费使用单位'
+      delete list['overseasConsigneeEname']
+      this.thList = list
+    },
     // 获取委托客户
     getEntrus () {
       this.$store.dispatch('ajax', {
@@ -335,7 +353,8 @@ export default {
         this.QueryForm.endDate = util.dateFormat(this.dates[1], 'yyyy-MM-dd')
       }
       let thList = []
-      let theadList = Object.values(this.thList)
+      let list = util.simpleClone(this.thList)
+      let theadList = Object.values(list)
       theadList.forEach(e => {
         if (e.value) {
           delete e.value

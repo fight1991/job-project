@@ -3,7 +3,7 @@
     <div class="title">企业风采</div>
     <div class="content-area clearfix">
       <div class="banner-default fl default" v-if="bannerList.length===0">
-        <img class="default-left" src="../../../assets/img/icon/noPhoto.png" alt="">
+        <img class="default-left" src="https://www.5itrade.cn/files/CCBA/noPhoto.png" alt="">
         <p>暂无描述</p>
       </div>
       <div class="banner fl" v-else>
@@ -18,15 +18,9 @@
         <div class="intro">{{intro}}</div>
       </div>
       <div class="link-icon fr">
-        <!-- <div class="default" v-if="iconList.length===0 && $store.state.userLoginInfo.adminFlag === 'true'">
-          <a :href="getURL()" target="_blank">
-          <img class="default-right" src="../../../assets/img/icon/com_default.png" alt="">
-          <p>自定义</p>
-          </a>
-        </div> -->
         <div class="items" v-for="item in iconList" :key="item.pid">
-          <a :href="getURL()" target="_blank" v-if="item.link === 'other' && $store.state.userLoginInfo.adminFlag === 'true'">
-            <img :src="item.pic" alt="">
+          <a :href="getURL()" target="_blank" v-if="item.link === 'other' && $store.state.userLoginInfo.adminFlag === 'true'" class="list-icon-com_default">
+            <i></i>
             <p>{{item.title}}</p>
           </a>
           <a v-if="item.link != 'other'" :href="item.link === '' || item.link=== null ? 'javascript:;' : item.link " :target="item.link ? '_blank':'_self'">
@@ -42,8 +36,6 @@
 <script>
 import eventBus from './eventBus.js'
 import config from '@/config/config'
-import comDefaultIcon from '../../../assets/img/icon/com_default.png'
-
 export default {
   data () {
     return {
@@ -52,7 +44,7 @@ export default {
       iconList: [
         {
           pid: 'unique',
-          pic: comDefaultIcon,
+          pic: '',
           link: 'other',
           title: '自定义'
         }
@@ -93,7 +85,7 @@ export default {
             this.iconList = [
               {
                 pid: 'unique',
-                pic: comDefaultIcon,
+                pic: '',
                 link: 'other',
                 title: '自定义'
               }

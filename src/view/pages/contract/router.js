@@ -1,3 +1,4 @@
+import indexComponent from '@/view/pages/index.vue'
 
 const MENU = [
   {
@@ -6,7 +7,7 @@ const MENU = [
     hidden: false,
     icon: 'el-icon-menu1',
     permissions: 'WF000000',
-    component: resolve => require(['./index.vue'], resolve),
+    component: indexComponent,
     meta: {
       title: '首页'
     }
@@ -17,7 +18,7 @@ const MENU = [
     icon: 'icons-menu-contractList',
     permissions: 'CCBA21401000000',
     meta: {
-      component: resolve => require(['./contractList.vue'], resolve),
+      component: () => import(/* webpackChunkName: "contract-list" */ './contractList.vue'),
       title: '合同列表'
     }
   },
@@ -26,7 +27,7 @@ const MENU = [
     name: 'contract-add',
     hidden: true,
     meta: {
-      component: resolve => require(['./addContract.vue'], resolve),
+      component: () => import(/* webpackChunkName: "contract-add" */ './addContract.vue'),
       title: '新建合同'
     }
   },
@@ -35,7 +36,7 @@ const MENU = [
     name: 'contract-detail',
     hidden: true,
     meta: {
-      component: resolve => require(['./detailContract.vue'], resolve),
+      component: () => import(/* webpackChunkName: "contract-detail" */ './detailContract.vue'),
       title: '合同详情'
     }
   },
@@ -45,7 +46,7 @@ const MENU = [
     icon: 'icons-menu-contractCheck',
     permissions: 'CCBA21402000000',
     meta: {
-      component: resolve => require(['./contractCheck.vue'], resolve),
+      component: () => import(/* webpackChunkName: "contract-check" */ './contractCheck.vue'),
       title: '合同审核'
     }
   }

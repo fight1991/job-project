@@ -1,3 +1,6 @@
+import indexComponent from '@/view/pages/index.vue'
+const entrustQueryComponent = () => import(/* webpackChunkName: "entrust-query" */ './entrustQuery.vue')
+const entrustInfoComponent = () => import(/* webpackChunkName: "entrust-info" */ './component/entrustInfo.vue')
 
 const MENU = [
   {
@@ -6,7 +9,7 @@ const MENU = [
     hidden: false,
     icon: 'el-icon-menu1',
     permissions: 'WF000000',
-    component: resolve => require(['./index.vue'], resolve),
+    component: indexComponent,
     meta: {
       title: '首页'
     }
@@ -17,7 +20,7 @@ const MENU = [
     icon: 'icons-menu-exportEn',
     permissions: 'CCBA21502000000',
     meta: {
-      component: resolve => require(['./entrustQuery.vue'], resolve),
+      component: entrustQueryComponent,
       title: '出口委托',
       iEFlag: 'export'
     }
@@ -28,7 +31,7 @@ const MENU = [
     icon: 'icons-menu-importEn',
     permissions: 'CCBA21501000000',
     meta: {
-      component: resolve => require(['./entrustQuery.vue'], resolve),
+      component: entrustQueryComponent,
       title: '进口委托',
       iEFlag: 'import'
     }
@@ -37,7 +40,7 @@ const MENU = [
     path: '/entrust/businessEntrust/entrustPage/import/:type/:id',
     name: 'importEntrustInfo',
     meta: {
-      component: resolve => require(['./component/entrustInfo.vue'], resolve),
+      component: entrustInfoComponent,
       title: '进口委托信息',
       iEFlag: 'import'
     }
@@ -46,7 +49,7 @@ const MENU = [
     path: '/entrust/businessEntrust/entrustPage/export/:type/:id',
     name: 'exportEntrustInfo',
     meta: {
-      component: resolve => require(['./component/entrustInfo.vue'], resolve),
+      component: entrustInfoComponent,
       title: '出口委托信息',
       iEFlag: 'export'
     }
@@ -55,7 +58,7 @@ const MENU = [
     path: '/entrust/businessEntrust/statusList/:iEFlag/:code',
     name: 'entrustStateTracking',
     meta: {
-      component: resolve => require(['./component/statusList.vue'], resolve),
+      component: () => import(/* webpackChunkName: "entrust-track" */ './component/statusList.vue'),
       title: '状态跟踪'
     }
   }

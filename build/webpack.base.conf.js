@@ -2,8 +2,13 @@
 const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
-const vueLoaderConfig = require('./vue-loader.conf')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const entry = require('./entry')
+const HappyPack = require('happypack');
+const os = require('os');
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
+const WebpackSpritesmithPlugin = require('webpack-spritesmith')
+const myTemplates = require('./customTemplate');
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -52,19 +57,33 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: vueLoaderConfig
+        options: {
+          transformAssetUrls:{
+            video: ['src', 'poster'],
+            source: 'src',
+            img: 'src',
+            image: ['xlink:href', 'href'],
+            use: ['xlink:href', 'href']
+          }
+        }
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/,
-        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+        //把对.js 的文件处理交给id为happyBabel 的HappyPack 的实例执行
+        loader: 'happypack/loader?id=happyBabel',
+        //排除node_modules 目录下的文件
+        exclude: /node_modules/
       },
+      // {
+      //   test: /\.js$/,
+      //   loader: 'babel-loader',
+      //   include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+      // },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 1,
+          limit: 3000,
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
         }
       },
@@ -86,6 +105,59 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new HappyPack({
+        //用id来标识 happypack处理那里类文件
+      id: 'happyBabel',
+      //如何处理  用法和loader 的配置一样
+      loaders: [{
+        loader: 'babel-loader?cacheDirectory=true',
+      }],
+      //共享进程池
+      threadPool: happyThreadPool,
+      //允许 HappyPack 输出日志
+      verbose: true,
+    }),
+    new VueLoaderPlugin(),
+    new WebpackSpritesmithPlugin({
+      src: {
+        cwd: path.join(__dirname, '../src/assets/img'),
+        glob: '**/*.png'
+      },
+      target: {
+        image: path.join(__dirname, '../src/assets/sprites/ccba.png'),
+        css: [[path.join(__dirname, '../src/assets/sprites/ccba.css'),{
+          format:'custom_format' }]]
+      },
+      apiOptions: {
+        cssImageRef: './ccba.png'
+      },
+      spritesmithOptions: {
+        algorithm: 'binary-tree',
+        padding: 5
+      },
+      customTemplates: {
+        'custom_format': myTemplates.customFormat,
+      }
+    }),
+    new WebpackSpritesmithPlugin({
+      src: {
+        cwd: path.join(__dirname, '../src/assets/www-img'),
+        glob: '**/*.png'
+      },
+      target: {
+        image: path.join(__dirname, '../src/assets/sprites/www.png'),
+        css: path.join(__dirname, '../src/assets/sprites/www.css')
+      },
+      apiOptions: {
+        cssImageRef: './www.png'
+      },
+      spritesmithOptions: {
+        algorithm: 'binary-tree',
+        padding: 5
+      }
+    })
+  ],
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
     // source contains it (although only uses it if it's native).

@@ -1,12 +1,5 @@
 <template>
   <section class='sys-main'>
-    <!-- 返回按钮 -->
-    <!-- <el-row style="margin-bottom: 15px;">
-      <el-col :span='18' :xs='24'>
-        <span @click="$router.push({name:'taxRule'})" class="sys-back-btn"><i class="back-btn"></i>返回</span>
-      </el-col>
-    </el-row> -->
-    <!-- 返回按钮 end-->
     <el-row class="params-info">
       <el-row class="params-border-panel">
         <el-row>
@@ -227,21 +220,5 @@ export default {
       }
     }
   }
-}
-.sys-back-btn{
-    display: inline-block;
-    font-size: 13px;
-    color: @font-color-main;
-    vertical-align: middle;
-    cursor: pointer;
-    .back-btn{
-        display: inline-block;
-        width: 18px;
-        height: 18px;
-        margin-right: 5px;
-        background: url('../../../../assets/img/icon/back.png') no-repeat center center;
-        background-size: 100%;
-        vertical-align: middle;
-    }
 }
 </style>

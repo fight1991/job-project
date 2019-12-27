@@ -1,5 +1,4 @@
 import config from '@/config/config'
-import { JSEncrypt } from 'jsencrypt'
 export default {
   // 是否为空：true为空-false不为空
   isEmpty: function (obj) {
@@ -411,12 +410,6 @@ export default {
       }
     }
     return false
-  },
-  encode: function (input) {
-    let publicKey = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['KEY']
-    let encryptor = new JSEncrypt()
-    encryptor.setPublicKey(publicKey)
-    return encryptor.encrypt(input)
   },
   // 通过 回车键 切换焦点
   switchFoucsByEnter (e) {

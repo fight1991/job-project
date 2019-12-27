@@ -5,7 +5,7 @@
       <!-- 返回按钮 -->
       <el-row>
         <el-col :span='18' :xs='24'>
-          <span @click="back" class="sys-back-btn"><i class="back-btn"></i>返回</span>
+          <span @click="back" class="sys-back-btn list-icon-back"><i></i>返回</span>
         </el-col>
       </el-row>
       <!-- 返回按钮 end-->
@@ -299,22 +299,6 @@ export default {
     font-size: 14px;
     color: @font-color-main;
   }
-  .sys-back-btn{
-    display: inline-block;
-    font-size: 13px;
-    color: @font-color-main;
-    vertical-align: middle;
-    cursor: pointer;
-    .back-btn{
-        display: inline-block;
-        width: 18px;
-        height: 18px;
-        margin-right: 5px;
-        background: url('../../../../assets/img/icon/back.png') no-repeat center center;
-        background-size: 100%;
-        vertical-align: middle;
-    }
-}
   .sys-fr{
     float: right;
   }

@@ -2,8 +2,8 @@
   <el-container>
     <el-header height="45px" style='background-color: rgba(0,0,0,0) !important;'>
       <div class='page-tabs'>
-        <div :class="{'collapse-btn':true,'btn-rotate':true}" @click='collapseClick()' v-if="isRotate"></div>
-        <div :class="{'collapse-btn':true}" @click='collapseClick()' v-else></div>
+        <div class="collapse-btn btn-rotate list-icon-btn-left" @click='collapseClick()' v-if="isRotate"><i></i></div>
+        <div class="collapse-btn list-icon-btn-right" @click='collapseClick()' v-else><i></i></div>
         <el-tabs class='tabs-items' :value='getCurrentTab.path' type="card"  @tab-remove="delTab" @tab-click="setCurrentTab">
           <el-tab-pane
             :key="'tab-' + index"
@@ -269,13 +269,13 @@ export default {
     top:0;
     width: 40px;
     height: 40px;
-    background:url("../../assets/img/icon/btn-right.png")  no-repeat center center;
     border-bottom: 1px solid #e4e7ed;
     cursor: pointer;
     z-index: 22;
-  }
-  .btn-rotate {
-    background:url("../../assets/img/icon/btn-left.png") no-repeat center center;
+    text-align: center;
+    i{
+      vertical-align: -15px;
+    }
   }
   .el-tabs--card>.el-tabs__header .el-tabs__nav{
     border-radius:0;

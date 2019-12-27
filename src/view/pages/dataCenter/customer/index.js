@@ -1,10 +1,12 @@
 // 客户管理
+import abstractComponent from '@/view/common/abstract.vue'
+
 const MENU = {
   path: '/dataCenter/customer',
   name: 'customer',
   icon: 'icons-menu-customer',
   permissions: 'CCBA20305000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '客户管理'
   },
@@ -16,7 +18,7 @@ const MENU = {
       permissions: 'CCBA20305010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./customerInfo.vue'], resolve),
+        component: () => import(/* webpackChunkName: "customer-info" */ './customerInfo.vue'),
         title: '客户信息'
       }
     },
@@ -25,7 +27,7 @@ const MENU = {
       name: 'customerDetail',
       hidden: true,
       meta: {
-        component: resolve => require(['./customerDetail.vue'], resolve),
+        component: () => import(/* webpackChunkName: "customer-detail" */ './customerDetail.vue'),
         title: '客户详情'
       }
     },
@@ -36,7 +38,7 @@ const MENU = {
       permissions: 'CCBA20305020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./customerAudit.vue'], resolve),
+        component: () => import(/* webpackChunkName: "customer-audit" */ './customerAudit.vue'),
         title: '客户审核'
       }
     }

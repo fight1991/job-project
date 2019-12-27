@@ -4,6 +4,8 @@ import certificate from './certificate/index' // 证书管理
 import JobsLicense from './jobsLicense/index' // 业务单据管理
 import Customer from './customer/index' // 客户管理
 import Classify from './classify/index' // 归类管理
+import indexComponent from '@/view/pages/index.vue'
+import newTabComponent from '../component/newTab.vue'
 
 const MENU = [
   {
@@ -12,7 +14,7 @@ const MENU = [
     hidden: false,
     icon: 'el-icon-menu1',
     permissions: 'WF000000',
-    component: resolve => require(['./index.vue'], resolve),
+    component: indexComponent,
     meta: {
       title: '首页'
     }
@@ -23,7 +25,7 @@ const MENU = [
     permissions: 'SAASOM0504000000',
     hidden: true,
     meta: {
-      component: resolve => require(['../component/newTab.vue'], resolve),
+      component: newTabComponent,
       title: '编辑详情'
     }
   },

@@ -7,7 +7,7 @@ const MENU = [
     permissions: 'CCBA20304000000',
     meta: {
       title: '证书管理',
-      component: resolve => require(['./index.vue'], resolve)
+      component: () => import(/* webpackChunkName: "certificate-list" */ './index.vue')
     }
   },
   {
@@ -15,7 +15,7 @@ const MENU = [
     name: 'addCertificate',
     hidden: true,
     meta: {
-      component: resolve => require(['./addCertificate.vue'], resolve),
+      component: () => import(/* webpackChunkName: "certificate-add" */ './addCertificate.vue'),
       title: '证书信息'
     }
   }, {
@@ -23,7 +23,7 @@ const MENU = [
     name: 'detailListCertificate',
     hidden: true,
     meta: {
-      component: resolve => require(['./detailListCertificate.vue'], resolve),
+      component: () => import(/* webpackChunkName: "certificate-detail" */ './detailListCertificate.vue'),
       title: '证书详情列表'
     }
   }

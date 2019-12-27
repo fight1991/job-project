@@ -342,13 +342,13 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
   height: 100%;
 }
 .err-404{
-  background: url('../img/error/404.png') no-repeat center center;
+  background: url('https://www.5itrade.cn/files/CCBA/404.png') no-repeat center center;
 }
 .err-500{
-  background: url('../img/error/500.png') no-repeat center center;
+  background: url('https://www.5itrade.cn/files/CCBA/500.png') no-repeat center center;
 }
 .err-wait{
-  background: url('../img/error/wait.png') no-repeat center center;
+  background: url('https://www.5itrade.cn/files/CCBA/wait.png') no-repeat center center;
 }
 .el-loading-mask{
   z-index: 3004;
@@ -1348,11 +1348,11 @@ body .el-table th.gutter{
       overflow:hidden;
       vertical-align:middle;
   }
-  .el-button--mini, .el-button--small {
-      font-size: 12px;
-      border-radius: 2px;
-      padding: 5px 5px;
-  }
+  // .el-button--mini, .el-button--small {
+  //     font-size: 12px;
+  //     border-radius: 2px;
+  //     padding: 5px 5px;
+  // }
   .register-dialog{
       .el-form-item__label{
           font-size: 14px;
@@ -1369,10 +1369,6 @@ body .el-table th.gutter{
   padding: 20px 0;
   .remind-flexL{
     i{
-      display: inline-block;
-      width: 22px;
-      height: 22px;
-      background: url('../img/tips-warning.png') no-repeat;
       vertical-align: middle;
       margin: 8px 8px 0 0;
     }
@@ -1551,20 +1547,6 @@ body .el-table th.gutter{
   }
 }
 
-.tips-icon-warning {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  margin-right: 10px;
-  background: url(../img/warning-tips.png) no-repeat;
-}
-.tips-warning {
-  display: inline-block;
-  width: 22px;
-  height: 22px;
-  margin-right: 10px;
-  background: url(../img/tips-warning.png) no-repeat;
-}
 .list-btns:hover,.list-btns:focus{
   border-color: @sys-color-btn;
   background-color: #fff;
@@ -2217,53 +2199,6 @@ table.form-table{
   text-align: center;
   margin: 45px 0 15px;
 }
-.sys-certified .el-input-group__append{
-  i{
-      display: inline-block;
-      vertical-align: middle;
-  }
-  span{
-      vertical-align: middle;
-  }
-}
-.sys-un-certified .el-input-group__append{
-  color: #fff;
-  background-color: @sys-color-main;
-  cursor: pointer;
-}
-.sys-ok-certified .el-input-group__append{
-  i{
-      width:15px;
-      height: 17px;
-      background: url('../img/certified.png') no-repeat center center;
-      background-size: 100%; 
-  }
-  span{
-      color: #27b28b;
-  }
-}
-.sys-wait-certified .el-input-group__append{
-  i{
-      width:16px;
-      height: 16px;
-      background: url('../img/uncertified.png') no-repeat center center;
-      background-size: 100%; 
-  }
-  span{
-      color: #ffad10;
-  }
-}
-.sys-other-certified .el-input-group__append{
-  i{
-      width:18px;
-      height: 16px;
-      background: url('../img/otherCertified.png') no-repeat center center;
-      background-size: 100%; 
-  }
-  span{
-      color: #ff2030;
-  }
-}
 .sys-abs-r{
   position: absolute;
   right: 20px;
@@ -2272,8 +2207,8 @@ table.form-table{
   cursor: pointer;
   z-index: 100;
   span{
-      margin-right: 3px;
-      vertical-align: middle;
+    margin-right: 3px;
+    vertical-align: middle;
   }
 }
 .sys-icon{
@@ -2289,35 +2224,6 @@ table.form-table{
   width: 15px;
   height: 15px;
   vertical-align: middle;
-}
-.sys-icon-wechat{
-  background: url('../img/wechatLogo.png') no-repeat center center;
-  background-size: cover; 
-}
-.sys-icon-dd{
-  background: url('../img/dingding.png') no-repeat center center;
-  background-size: cover; 
-}
-.sys-icon-next-r{
-  vertical-align: middle;
-  background: url('../img/arrow-r.png') no-repeat center center;
-  background-size: 100%; 
-}
-.close-circle-red{
-  display: inline-block;
-  width: 25px;
-  height: 25px;
-  background: url('../img/close_circle.png') no-repeat center center;
-  vertical-align: middle;
-  cursor: pointer;
-}
-.add-circle-blue{
-  display: inline-block;
-  width: 25px;
-  height: 25px;
-  background: url('../img/btn-add.png') no-repeat center center;
-  vertical-align: middle;
-  cursor: pointer;
 }
 .info-content{
   .el-form-item__label{
@@ -2337,16 +2243,13 @@ table.form-table{
   font-size: 13px;
   color: @font-color-main;
   cursor: pointer;
-  .back-btn{
-      display: inline-block;
-      width: 20px;
-      height: 20px;
+  vertical-align: middle;
+  i{
       margin-right: 5px;
-      background: url('../img/back.png') no-repeat center center;
-      background-size: 100%; 
       vertical-align: middle;
   }
 }
+
 .sys-file-list{
   .el-upload-list--picture .el-upload-list__item{
       display: inline-block;
@@ -2898,5 +2801,38 @@ table.form-table{
   }
   .el-progress-bar__inner{
     border-radius: 0;
+  }
+}
+// 按钮样式
+.el-button.list-btns{
+  padding: 6px 7px;
+  margin: 0 5px 0 0;
+  font-size: 12px;
+  border-radius: 2px;
+  i{
+    margin-right: 6px;
+    vertical-align: middle;
+    margin-top: -2px;
+  }
+  &:hover,&:focus{
+    border-color: #409EFF;
+    color: #409EFF;
+    background-color: #fff;
+  }
+}
+.sys-class {
+  .custom-icons-menu {
+    width: 24px;
+    height: 24px;
+    margin-right: 15px;
+  }
+}
+.table-icon{
+  margin: 0;
+  padding: 0;
+  i{
+    margin-right: 6px;
+    vertical-align: middle;
+    margin-top: -2px;
   }
 }

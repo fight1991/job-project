@@ -8,105 +8,14 @@ export default {
     tax_E_Template: url.JINER + '/templates/datainput/E/taxList',
     // 保税核注清单查询
     taxTemplateList: url.JINER + '/templates/dataQuery/taxListTemplateQuery',
-    // 模板列表
-    decTemplateList: url.DEC + '/decTemplate/list',
-    // 进口模板
-    decImTemplate: url.DEC + '/declaration/decTemplate/import/add/new',
-    // 出口模板
-    decExTemplate: url.DEC + '/declaration/decTemplate/export/add/new',
-    // 进口接单
-    decImReceipt: url.DEC + '/declaration/receiveOrders/import',
-    // 出口接单
-    decExReceipt: url.DEC + '/declaration/receiveOrders/export',
-    // 进口报关单（新增）
-    decImport: url.DEC + '/declaration/declaration/import/add/new',
-    // 出口报关单（新增）
-    decExport: url.DEC + '/declaration/declaration/export/add/new',
-    // 进境备案清单（新增）
-    recordImport: url.DEC + '/declaration/recordList/import/add/new',
-    // 出境备案清单（新增）
-    recordExport: url.DEC + '/declaration/recordList/export/add/new',
-    // 进口报关单(概要申报)（新增）
-    decSummaryImport: url.DEC + '/declaration/summaryDec/declaration/add/new',
-    // 进口备案清单(概要申报)（新增）
-    recordSummaryImport: url.DEC + '/declaration/summaryDec/recordList/add/new',
     // 进口核注清单（新增）
     importTaxList: url.JINER + '/dec/datainput/I/taxList',
     // 出口核注清单（新增）
     exportTaxList: url.JINER + '/dec/datainput/E/taxList',
-    // 进口转关提前报关（新增）
-    importDecList: url.DEC + '/transit/declaration/import/add/new',
-    // 进境转关提前备案清单（新增）
-    importRecList: url.DEC + '/transit/recordList/import/add/new',
-    // 出口转关提前报关（新增）
-    exportDecList: url.DEC + '/transit/declaration/export/add/new',
-    // 出口转关提前报关（新增）
-    exportRecList: url.DEC + '/transit/recordList/export/add/new',
-    // 出口转关提前报关（新增）
-    exportSecList: url.DEC + '/transit/secondDec/export/add/new',
-    // 删改单登记
-    decRegister: url.DEC + '/declaration/decRegister',
-    // 报关单审核
-    decReviewed: url.DEC + '/declaration/decCheck/list',
     // 核注清单审核
     taxReviewed: url.JINER + '/taxList/taxListCheckQuery',
-    // 报关数据查询
-    decInfo: url.DEC + '/declaration/list',
-    // 概要申报数据查询
-    summaryDecInfo: url.DEC + '/declaration/summaryDec/list',
     // 核注清单查询
-    taxInfo: url.JINER + '/eImport/dataQuery/taxInfo',
-    // 业务跟踪台账
-    tLedger: url.DEC + '/declaration/businessTrack',
-    // 青源模板
-    shipping: url.DEC + '/declaration/shipping',
-    // 自定义模版
-    customizeTemplate: url.DEC + '/customizeTemplate/list'
-  },
-  // 资料中心
-  dataCenter: {
-    // 非保税商品库
-    noBonded: url.DEC + '/declaration/commodity',
-    // 保税商品库
-    bonded: url.DEC + '/declaration/goodsModel/list'
-  },
-  // 报表中心
-  reportCenter: {
-    // 金额统计
-    amountSt: url.COMMON + '/reportForms/amountSt',
-    // 单量统计
-    certSt: url.COMMON + '/reportForms/certSt',
-    // 趋势统计
-    trendSt: url.COMMON + '/reportForms/trendSt',
-    // 进口报表
-    importSt: url.COMMON + '/reportForms/importSt',
-    // 出口报表
-    exportSt: url.COMMON + '/reportForms/exportSt',
-    // 删改单报表
-    delDecSt: url.COMMON + '',
-    // 工作量统计
-    workComputer: url.COMMON + '',
-    // 报关作业时效
-    decJobTime: url.COMMON + ''
-  },
-  // 航空器申报
-  aircraft: {
-    // 备案管理-当日飞行计划
-    airplan: url.AIR + '/airVehicle/airPlan/list',
-    // 进/出境/港申报-进境/港动态申报
-    importDyn: url.AIR + '/airVehicle/importDynamic/list',
-    // 进/出境/港申报-进境/港单证申报
-    importDoc: url.AIR + '/airVehicle/importDocument/list',
-    // 进/出境/港申报-出境/港动态申报
-    exportDyn: url.AIR + '/airVehicle/exportDynamic/list',
-    // 进/出境/港申报-出境/港单证申报
-    exportDoc: url.AIR + '/airVehicle/exportDocument/list',
-    // 进/出境/港申报-航班取消申报
-    airCancel: url.AIR + '/airVehicle/airCancel/list',
-    // 在港申报-海关在港申报
-    customPort: url.AIR + '/airVehicle/customPort/list',
-    // 在港申报-进境/港单证申报
-    materials: url.AIR + '/airVehicle/materials/list'
+    taxInfo: url.JINER + '/eImport/dataQuery/taxInfo'
   },
   // 金二
   jinerInfo: {
@@ -322,152 +231,73 @@ export default {
     // 核注清单生成核放单查询
     taxReleseQuery_gra: url.JINER + '/graininess/dataQuery/taxReleseQuery'
   },
-  // 业务委托
-  entrust: {
-    // 进口委托
-    importEntrustList: url.DEC + '/entrust/businessEntrust/import',
-    // 出口委托
-    exportEntrustList: url.DEC + '/entrust/businessEntrust/export'
-  },
-  // 通关参数
-  passParams: {
-    // 中英文对照
-    ceCompare: url.COMMON + '',
-    // 汽车零部件清单
-    carParter: url.COMMON + '',
-    // 税则
-    taxRule: url.COMMON + '',
-    // 计征汇率
-    calculatedRate: url.COMMON + '',
-    // 最惠国
-    favoredCountry: url.COMMON + '',
-    // 统计商品目录
-    productCate: url.COMMON + '',
-    // 规范申报要素
-    declareEle: url.COMMON + '',
-    // 法检目录
-    checkCate: url.COMMON + '',
-    // 3C目录
-    treeCate: url.COMMON + '',
-    // CIQ编码
-    CIQCode: url.COMMON + '',
-    // 关区
-    customs: url.COMMON + '',
-    // 国别(地区)
-    country: url.COMMON + '',
-    // 币制
-    money: url.COMMON + '',
-    // 计量单位
-    unit: url.COMMON + '',
-    // 监管方式
-    controlMode: url.COMMON + '',
-    // 运输方式
-    transport: url.COMMON + '',
-    // 征免性质
-    redemp: url.COMMON + '',
-    // 港口
-    port: url.COMMON + '',
-    // 包装种类
-    pakageKinds: url.COMMON + '',
-    // 成交方式
-    bargain: url.COMMON + '',
-    // 监管证件
-    regulate: url.COMMON + '',
-    // 随附单据
-    licensePass: url.COMMON + '',
-    // 优惠贸易协定
-    tradePro: url.COMMON + '',
-    // 国内地区
-    inLandArea: url.COMMON + '',
-    // 征减免税方式
-    taxFree: url.COMMON + '',
-    // 国内口岸
-    inLandPort: url.COMMON + ''
-
-  },
-  // 通关状态
-  passStatus: {
-    // 海运舱单
-    seaBill: url.COMMON + '',
-    // 空运舱单
-    airBill: url.COMMON + '',
-    // 公路舱单
-    loadBill: url.COMMON + '',
-    // 公路舱单确报
-    loadBillCom: url.COMMON + '',
-    // 回执查询
-    receiptQuery: url.COMMON + '',
-    // 通关状态查询
-    passStatusQuery: url.COMMON + ''
-  },
-
   // 加工贸易手册--工作台底部快捷菜单
   keyBoardPath: [
     // {
     //   id: 1,
-    //   icon: require('../assets/img/icon-bottom/btm_cust.png'),
+    //   iconClass: 'list-icon-btm_cust'),
     //   text: '客户管理',
     //   path: url.CCBA + '/BaseData/CopCustomer/Index'
     // },
     {
       id: 2,
-      icon: require('../assets/img/icon-bottom/btm_im_receipt.png'),
+      iconClass: 'list-icon-btm_im_receipt',
       text: '进口接单',
       path: url.CCBA + '/iExport/orderReceiving/iOrderReceiving',
       permissions: 'CCBA20202010000'
     },
     {
       id: 3,
-      icon: require('../assets/img/icon-bottom/btm_ex_Receipt.png'),
+      iconClass: 'list-icon-btm_ex_Receipt',
       text: '出口接单',
       path: url.CCBA + '/iExport/orderReceiving/eOrderReceiving',
       permissions: 'CCBA20202020000'
     },
     {
       id: 4,
-      icon: require('../assets/img/icon-bottom/btm_im_cdf.png'),
+      iconClass: 'list-icon-btm_im_cdf',
       text: '进口报关单',
       path: url.CCBA + '/iExport/importVouching/importDec/add/new',
       permissions: 'CCBA20209010000'
     },
     {
       id: 5,
-      icon: require('../assets/img/icon-bottom/btm_ex_cdf.png'),
+      iconClass: 'list-icon-btm_ex_cdf',
       text: '出口报关单',
       path: url.CCBA + '/iExport/exportVouching/exportDec/add/new',
       permissions: 'CCBA20210010000'
     },
     {
       id: 6,
-      icon: require('../assets/img/icon-bottom/btm_declar_review.png'),
+      iconClass: 'list-icon-btm_declar_review',
       text: '报关单审核',
       path: url.CCBA + '/iExport/reviewed/decReviewedList',
       permissions: 'CCBA20204010000'
     },
     {
       id: 7,
-      icon: require('../assets/img/icon-bottom/btm_bta.png'),
+      iconClass: 'list-icon-btm_bta',
       text: '业务跟踪台账',
       path: url.CCBA + '/iExport/dataQuery/tLedger',
       permissions: 'CCBA20205030000'
     },
     {
       id: 8,
-      icon: require('../assets/img/icon-bottom/btm_cddi.png'),
+      iconClass: 'list-icon-btm_cddi',
       text: '报关数据查询',
       path: url.CCBA + '/iExport/dataQuery/decInfo',
       permissions: 'CCBA20205010000'
     },
     {
       id: 9,
-      icon: require('../assets/img/icon-bottom/btm_im_annotation list.png'),
+      iconClass: 'list-icon-btm_im_annotation_list',
       text: '进口核注清单',
       path: url.CCBA + '/iExport/importVouching/importTaxList',
       permissions: 'CCBA20209030000'
     },
     {
       id: 10,
-      icon: require('../assets/img/icon-bottom/btm_ex_annotation list.png'),
+      iconClass: 'list-icon-btm_ex_annotation_list',
       text: '出口核注清单',
       path: url.CCBA + '/iExport/exportVouching/exportTaxList',
       permissions: 'CCBA20210030000'

@@ -1,10 +1,10 @@
-
+import abstractComponent from '@/view/common/abstract.vue'
 const MENU = {
   path: '/passParams/carParams',
   name: 'passParams-carParams',
   icon: 'icons-menu-carParams',
   permissions: 'CCBA21203000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '汽车申报参数'
   },
@@ -15,7 +15,7 @@ const MENU = {
       permissions: 'CCBA21203010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./ceCompare.vue'], resolve),
+        component: () => import(/* webpackChunkName: "ce-compare" */ './ceCompare.vue'),
         title: '中英文对照'
       }
     },
@@ -25,7 +25,7 @@ const MENU = {
       permissions: 'CCBA21203020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./carParter.vue'], resolve),
+        component: () => import(/* webpackChunkName: "car-parter" */ './carParter.vue'),
         title: '汽车零部件清单'
       }
     }

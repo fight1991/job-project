@@ -1,7 +1,7 @@
 <template>
   <div class="leftSolider">
-    <div :class="{'collapse-btn':true}" @click='collapseClick()' v-if="!isRotate"></div>
-    <div :class="{'collapse-btn':true,'btn-rotate':isRotate}" @click='collapseClick()' v-if="isRotate"></div>
+    <div class="collapse-btn list-icon-btn-left" @click='collapseClick()' v-if="!isRotate"><i></i></div>
+    <div class="collapse-btn btn-rotate list-icon-btn-right" @click='collapseClick()' v-else><i></i></div>
     <el-menu :collapse='$store.state.collapse' @select="currentSelect">
       <template v-for="item in menus">
         <el-menu-item :index="item.link" :key="item.pid">
@@ -94,15 +94,7 @@ export default {
   padding: 10px;
   box-sizing: border-box;
   cursor: pointer;
-  background:url("../../../assets/img/icon/btn-left.png") no-repeat;
   z-index: 22;
-  background-origin:content-box;
-  background-color: #fff;
-}
-.btn-rotate {
-  background:url("../../../assets/img/icon/btn-right.png") no-repeat;
-  background-origin:content-box;
-  background-color: #fff;
 }
 .el-menu-item {
   border-left: 3px solid transparent;

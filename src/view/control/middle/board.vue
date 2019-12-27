@@ -1,8 +1,8 @@
 <template>
   <div class="board">
     <div class="title">跟踪看板</div>
-    <div :class="{'refreshDec':true}" @click="refreshData">
-      <img :src="currentImg" alt="">
+    <div class="refreshDec list-icon-oper_refresh" @click="refreshData">
+      <i></i>
     </div>
     <el-tabs v-model="activeName">
       <el-tab-pane label="申报跟踪" name="first">
@@ -23,7 +23,7 @@
           </el-form-item>
         </el-form>
         <el-row>
-          <div class="default" v-if="tableData.length === 0"><img src="../../../assets/img/icon/board.png" alt=""></div>
+          <div class="default" v-if="tableData.length === 0"><img src="https://www.5itrade.cn/files/CCBA/board.png" alt=""></div>
           <div class="ccba-table" v-else>
             <el-table
               :data="tableData"
@@ -66,7 +66,6 @@ import eventBus from './eventBus'
 export default {
   data () {
     return {
-      currentImg: require('../../../assets/img/oper_refresh.png'),
       timerId: 0,
       dates: '',
       activeName: 'first',

@@ -21,7 +21,7 @@
       </el-col>
       <el-col :span="6">
         <div class="entrust-panel">
-          <img src="@/assets/img/qrcode.jpg" class="qrcode" alt="">
+          <img src="https://www.5itrade.cn/files/CCBA/qrcode.jpg" class="qrcode" alt="">
           <div class="qrcode-tip">扫一扫，随时随地跟踪业务状态</div>
         </div>
       </el-col>
@@ -60,7 +60,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import(less) '@/assets/style/common';
+@import '~@/assets/style/common';
 .entrust-main {
   padding: 20px;
   font-size:12px;

@@ -1,10 +1,13 @@
 // 保税货物流转-同步申报表
+import abstractComponent from '@/view/common/abstract.vue'
+import circulationSynDecFormIndexComponent from './index.vue'
+
 const MENU = {
   path: '/circulation/synDecForm',
   name: 'circulation-synDecForm',
   icon: 'icons-menu-synDecForm',
   permissions: 'CCBA21104000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '同步申报表'
   },
@@ -15,7 +18,7 @@ const MENU = {
       permissions: 'CCBA21104010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: circulationSynDecFormIndexComponent,
         title: '同步申报表'
       }
     }

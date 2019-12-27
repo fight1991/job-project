@@ -11,8 +11,8 @@
       <div style='color: red;font-size: 12px;'>
         <span style='font-size: 14px;'>tips:</span>
         <span style='margin-left: 5px;'>系统编号为：<b>{{decPid}}</b>的报关单,此次共导入<b>{{fileNum}}</b>个文件</span>
-        <p style='margin-left: 35px;'>1.勾选的的文件,将上传到报关单,未勾选将上传到资料中心</p>
-        <p style='margin-left: 35px;'>2.勾选的的文件,<b>必需选择文件类型且不能重复,包括此报关单已有的随附单据</b></p>
+        <p style='margin-left: 35px;'>1.勾选的文件,将上传到报关单,未勾选将上传到资料中心</p>
+        <p style='margin-left: 35px;'>2.勾选的文件,<b>必需选择文件类型且不能重复,包括此报关单已有的随附单据</b></p>
       </div>
       <el-row class="mg-t-10 dec-query-table">
         <el-table
@@ -41,13 +41,13 @@
             </template>
           </el-table-column>
           <el-table-column label="文件大小" align='left' prop="edocSize" min-width="130"></el-table-column>
-          <el-table-column label="备注" align='left' prop='note' min-width="100"></el-table-column>
+          <!-- <el-table-column label="备注" align='left' prop='note' min-width="100"></el-table-column> -->
         </el-table>
       </el-row>
       <el-row class="mg-t-20">
         <el-col :span="24" align="center">
           <button class='upload-btn' @click="confirmForm">确定</button>
-          <button class='dialog-btn' @click="closeMixUpload">取消</button>
+          <button class='dialog-btn mg-l-10' @click="closeMixUpload">取消</button>
         </el-col>
       </el-row>
     </el-dialog>
@@ -55,6 +55,7 @@
 </template>
 <script>
 import util from '@/common/util'
+import storageHandle from '@/common/storageHandle'
 export default {
   name: 'mix-upload',
   props: {
@@ -102,14 +103,14 @@ export default {
         useStorage: true,
         storageKey: par,
         hasStorageCallback: () => {
-          this.docType = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE'))
+          this.docType = storageHandle.getEdocCodesByRelatedBusiness(JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE')), 'common')
         },
         url: 'API@/saas-dictionary/dictionary/getParam',
         data: {
           'tableNames': par
         },
         success: (res) => {
-          this.docType = JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE'))
+          this.docType = storageHandle.getEdocCodesByRelatedBusiness(JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE')), 'common')
         }
       })
     },
@@ -128,6 +129,7 @@ export default {
       }
       if (this.selecTable.length > 0) {
         for (let i in this.selecTable) {
+          this.selecTable[i].flag = '1'
           if (!this.selecTable[i].code) {
             this.messageTips('选中的数据必需选择文件类型！', 'error')
             return
@@ -144,11 +146,12 @@ export default {
         url: 'API@/dec-common/dec/common/uploadFileMixtureConfirm',
         data: this.tableList,
         success: (res) => {
-          this.messageTips(res.message, 'success')
+          let message = this.pageType === 'documents' ? '上传已完成，上传成功。请刷新报关单界面后，前往随附单据中查看详情。' : res.message
+          this.messageTips(message, 'success')
           this.tableList = []
           this.selecTable = []
           this.$emit('close:mixUpload', false)
-          if (this.pageType === 'license') {
+          if (this.pageType === 'license' || this.pageType === 'licenseEdit') {
             this.$parent.refreshList()
           }
         },
@@ -214,5 +217,8 @@ export default {
     background: #FFF;
     border: 1px solid #DCDFE6;
     color: #606266;
+  }
+  .mg-l-10{
+    margin-left: 10px;
   }
 </style>

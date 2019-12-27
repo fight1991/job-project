@@ -50,6 +50,7 @@
 </template>
 <script>
 import util from '@/common/util'
+import storageHandle from '@/common/storageHandle'
 export default {
   data () {
     return {
@@ -139,7 +140,11 @@ export default {
       let keyValue = query.toString().trim()
       let list = []
       if (util.isEmpty(this.exportForm.acmpFormFmt)) {
-        list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
+        if (this.selectObj.params === 'SAAS_EDOC_CODE') {
+          list = storageHandle.getEdocCodesByRelatedBusiness(JSON.parse(window.localStorage.getItem('SAAS_EDOC_CODE')), 'common')
+        } else {
+          list = JSON.parse(window.localStorage.getItem(this.selectObj.params))
+        }
       } else {
         list = this.invtDocList
       }

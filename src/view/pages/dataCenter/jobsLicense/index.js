@@ -7,7 +7,7 @@ const MENU = [
     permissions: 'CCBA20303000000',
     meta: {
       title: '业务单据管理',
-      component: resolve => require(['./index.vue'], resolve)
+      component: () => import(/* webpackChunkName: "job-license-list" */ './index.vue')
     }
   },
   {
@@ -15,7 +15,7 @@ const MENU = [
     name: 'jobDetailList',
     hidden: true,
     meta: {
-      component: resolve => require(['./jobDetailList.vue'], resolve),
+      component: () => import(/* webpackChunkName: "job-license-detail" */ './jobDetailList.vue'),
       title: '业务单据详情列表'
     }
   },
@@ -24,7 +24,7 @@ const MENU = [
     name: 'detailJobs',
     hidden: true,
     meta: {
-      component: resolve => require(['./detailJobs.vue'], resolve),
+      component: () => import(/* webpackChunkName: "job-license-detail" */ './detailJobs.vue'),
       title: '业务单据详情'
     }
   },
@@ -34,7 +34,7 @@ const MENU = [
     name: 'editJobs',
     hidden: true,
     meta: {
-      component: resolve => require(['./editJobs.vue'], resolve),
+      component: () => import(/* webpackChunkName: "job-license-edit" */ './editJobs.vue'),
       title: '编辑业务单据'
     }
   },
@@ -43,7 +43,7 @@ const MENU = [
     name: 'importLicense',
     hidden: true,
     meta: {
-      component: resolve => require(['./importLicense.vue'], resolve),
+      component: () => import(/* webpackChunkName: "import-job-license" */ './importLicense.vue'),
       title: '导入业务单据'
     }
   }

@@ -110,18 +110,4 @@ export default {
 .param-td-c{
   text-align: center;
 }
-.list-icon-look{
-  i{
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    margin-right: 6px;
-    vertical-align: middle;
-    margin-top: -2px;
-    background: url('../../../../assets/img/icon/icon-look.png') no-repeat;
-  }
-  &:hover i,&:focus i{
-    background: url('../../../../assets/img/icon/icon-lookH.png') no-repeat;
-  }
-}
 </style>

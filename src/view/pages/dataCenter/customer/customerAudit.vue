@@ -93,7 +93,7 @@
           <template slot-scope="scope">
             <div class="customer-table-c">
             <el-button type="text" @click="confirmDetail(scope.row)" title="审核" class="table-icon list-icon-subimtCheck"><i class="cus-i"></i></el-button>
-            <el-button type="text" @click="getconfirmrecord(scope.row.customId)"  class="table-icon list-icon-lookH2" title="操作记录"><i class="cus-i"></i></el-button>
+            <el-button type="text" @click="getconfirmrecord(scope.row.customId)"  class="table-icon list-icon-scan" title="操作记录"><i class="cus-i"></i></el-button>
             </div>
           </template>
         </el-table-column>
@@ -540,9 +540,6 @@ export default {
 }
 .query-table{
   padding:12px 18px;
-}
-.list-icon-subimtCheck:hover i,.list-icon-subimtCheck:focus i,.sys-table-table .list-icon-subimtCheck i{
-  background: url('../../../../assets/img/icon/icon-subimtCheckH.png') no-repeat;
 }
 .dec-div .el-col{
   float: none;

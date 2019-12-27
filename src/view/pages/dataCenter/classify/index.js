@@ -1,11 +1,12 @@
 // 归类管理
+import abstractComponent from '@/view/common/abstract.vue'
 
 const MENU = {
   path: '/dataCenter/classify',
   name: 'classify',
   icon: 'icons-menu-classify',
   permissions: 'CCBA20306000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '归类管理'
   },
@@ -16,7 +17,7 @@ const MENU = {
       permissions: 'CCBA20306010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./precedentClassify.vue'], resolve),
+        component: () => import(/* webpackChunkName: "precedent-classify" */ './precedentClassify.vue'),
         title: '智能归类'
       }
     }

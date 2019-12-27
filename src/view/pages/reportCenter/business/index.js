@@ -1,10 +1,12 @@
 // 业务报表
+import abstractComponent from '@/view/common/abstract.vue'
+
 const MENU = {
   path: '/reportCenter/business',
   name: 'business',
   icon: 'icons-menu-jobsList',
   permissions: 'CCBA20601000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '业务报表'
   },
@@ -15,7 +17,7 @@ const MENU = {
       permissions: 'CCBA20601010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./amountSt.vue'], resolve),
+        component: () => import(/* webpackChunkName: "amount-st" */ './amountSt.vue'),
         title: '金额统计'
       }
     }, {
@@ -24,7 +26,7 @@ const MENU = {
       permissions: 'CCBA20601020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./certSt.vue'], resolve),
+        component: () => import(/* webpackChunkName: "cert-st" */ './certSt.vue'),
         title: '单量统计'
       }
     }, {
@@ -33,7 +35,7 @@ const MENU = {
       permissions: 'CCBA20601020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./advanceSt.vue'], resolve),
+        component: () => import(/* webpackChunkName: "advance-st" */ './advanceSt.vue'),
         title: '提前申报'
       }
     }, {
@@ -42,7 +44,7 @@ const MENU = {
       permissions: 'CCBA20601030000',
       hidden: false,
       meta: {
-        component: resolve => require(['./trendSt.vue'], resolve),
+        component: () => import(/* webpackChunkName: "trend-st" */ './trendSt.vue'),
         title: '趋势统计'
       }
     }, {
@@ -51,7 +53,7 @@ const MENU = {
       permissions: 'CCBA20601040000',
       hidden: false,
       meta: {
-        component: resolve => require(['./importSt.vue'], resolve),
+        component: () => import(/* webpackChunkName: "import-st" */ './importSt.vue'),
         title: '进口报表'
       }
     }, {
@@ -60,7 +62,7 @@ const MENU = {
       permissions: 'CCBA20601050000',
       hidden: false,
       meta: {
-        component: resolve => require(['./exportSt.vue'], resolve),
+        component: () => import(/* webpackChunkName: "export-st" */ './exportSt.vue'),
         title: '出口报表'
       }
     }

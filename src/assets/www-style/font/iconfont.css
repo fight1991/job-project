@@ -43,3 +43,8 @@
   content: "\e600";
 }
 
+.www-icon {
+  display: inline-block;
+  vertical-align: middle;
+}
+

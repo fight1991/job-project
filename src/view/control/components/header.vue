@@ -5,21 +5,18 @@
     </div>
     <div class="header-right">
       <div class="little-icon hidden-xs-only">
-        <!-- <span class="search"></span> -->
         <el-tooltip content="消息中心" placement="top">
           <el-badge :value="totalNum" :max="99" class="item">
-            <span class="message" @click="goToMessage"></span>
+            <span class="list-icon-top_notice" @click="goToMessage"><i></i></span>
           </el-badge>
         </el-tooltip>
         <el-tooltip content="我的联系人" placement="top">
           <el-badge :value="newPersonNum" :max="99" class="item">
-            <span class="add" @click="getInfo('add')"></span>
+            <span class="list-icon-top_add" @click="getInfo('add')"><i></i></span>
           </el-badge>
         </el-tooltip>
-        <!-- <span class="date"></span> -->
-        <!-- <span class="setting"></span> -->
         <el-tooltip content="工作台设置" placement="top">
-          <span class="setting" @click="setPanel"></span>
+          <span class="list-icon-top_set" @click="setPanel"><i></i></span>
         </el-tooltip>
       </div>
       <div class="user-info">
@@ -28,21 +25,21 @@
           <span class="el-dropdown-link">
             <span class='hidden-xs-only userName'>{{$store.state.userLoginInfo.userName}}</span>
             <img v-if="$store.state.userLoginInfo.userPhoto!=''" class='user-img' :src="$store.state.userLoginInfo.userPhoto">
-            <img v-else class='user-img' src="../../../assets/img/icon/admin.png">
+            <img v-else class='user-img' src="https://www.5itrade.cn/files/CCBA/admin.png">
           </span>
           <el-dropdown-menu slot="dropdown" class="ccba-control">
             <div class="personBgc"></div>
             <el-dropdown-item  class='hidden-xs-only dropDown-top'>
               <div class="userInfo">
                 <div class="headImg" v-if="$store.state.userLoginInfo.userPhoto!=''"><img :src="$store.state.userLoginInfo.userPhoto" alt=""></div>
-                <div class="headImg" v-else><img src="../../../assets/img/icon/admin.png" alt=""></div>
+                <div class="headImg" v-else><img src="https://www.5itrade.cn/files/CCBA/admin.png" alt=""></div>
                 <div class="introduce">
                   <p class="name">{{$store.state.userLoginInfo.userName}}</p>
                   <p class="corpName">{{$store.state.userLoginInfo.companyName}}</p>
-                  <div class="switchCorp" @click="switchCorp">切换公司</div>
+                  <div class="switchCorp list-icon-admin_switch" @click="switchCorp"><i></i>切换公司</div>
                   <div class="glory">
-                    <div class="glory-items" v-for="item in userTitleList" :key="item.titleName">
-                      <img src="../../../assets/img/icon/admin_vip.png" alt="">
+                    <div class="glory-items list-icon-admin_vip" v-for="item in userTitleList" :key="item.titleName">
+                      <i></i>
                       <p>{{item.titleName}}</p>
                     </div>
                   </div>
@@ -55,13 +52,14 @@
               <span @click="adminCenter" v-if="$store.state.userLoginInfo.adminFlag === 'true'">管理员中心</span>
             </el-dropdown-item>
             <el-dropdown-item command="loginOut" class="dropDown-bottom">
-              <div class="loginOut"><span>退出登录</span></div>
+              <div class="loginOut list-icon-admin_quit"><span><i></i>退出登录</span></div>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
     </div>
-    <div class="welcome hidden-xs-only">
+    <div class="welcome list-icon-top_com hidden-xs-only">
+      <i></i>
       {{$store.state.userLoginInfo.companyName}}
     </div>
     <!-- 切换公司对话框 -->
@@ -94,8 +92,6 @@
 import config from '../../../config/config'
 import commonPath from '../../../config/commonPath'
 import util from '@/common/util'
-import defaultImg from '../../../assets/img/icon/CCBA_logo.png'
-import hegsImg from '../../../assets/img/icon/HEGS_logo.png'
 // import eventBus from '../middle/eventBus.js'
 export default {
   data () {
@@ -111,8 +107,8 @@ export default {
       setModules: [],
       checkedSet: [],
       logoConfig: {
-        'default': defaultImg,
-        'hegs': hegsImg
+        'default': 'https://www.5itrade.cn/files/CCBA/CCBA_logo.png',
+        'hegs': 'https://www.5itrade.cn/files/CCBA/HEGS_logo.png'
       },
       logImgUrl: ''
     }
@@ -390,14 +386,16 @@ export default {
   }
 
   .welcome {
-    padding-left: 30px;
-    background:url("../../../assets/img/icon/top_com.png") no-repeat 0 22px;
     position:absolute;
     left:400px;
     top: 0;
     line-height: 62px;
     color: #fff;
     font-size: 18px;
+    i{
+      margin-right: 10px;
+      vertical-align: middle;
+    }
   }
 .personBgc {
   position: absolute;
@@ -405,29 +403,33 @@ export default {
   top: 0;
   width: 100%;
   height: 50%;
-  background:url("../../../assets/img/icon/personBGC.png") no-repeat center top;
+  background:url("https://www.5itrade.cn/files/CCBA/personBGC.png") no-repeat center top;
 }
 .switchCorp {
   cursor: pointer;
-  width: 50px;
+  width: 70px;
   margin: 0 auto;
-  padding-left: 20px;
-  background:url("../../../assets/img/icon/admin_switch.png") no-repeat 0 13px;
   color: #287fca;
   font-size: 12px;
   margin-bottom: 5px;
+  i {
+    margin-right: 7px;
+    vertical-align: middle;
+  }
 }
 .loginOut {
   span {
+    i {
+      margin-right: 7px;
+      vertical-align: middle;
+    }
     cursor: pointer;
-    height: 50px;
+    height: 70px;
     display: block;
     width: 80px;
-    padding-left: 15px;
     margin:0 auto;
     font-size: 14px;
     line-height: 50px;
-    background:url("../../../assets/img/icon/admin_quit.png") no-repeat 0 17px;
   }
 }
 
@@ -496,31 +498,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    .search {
-      background: url("../../../assets/img/icon/top_search.png") no-repeat;
-      background-clip: content-box;
-      background-origin: content-box;
-    }
-    .message {
-      background: url("../../../assets/img/icon/top_notice.png") no-repeat;
-      background-clip: content-box;
-      background-origin: content-box;
-    }
-    .add {
-      background: url("../../../assets/img/icon/top_add.png") no-repeat;
-      background-clip: content-box;
-      background-origin: content-box;
-    }
-    .date {
-      background: url("../../../assets/img/icon/top_date.png") no-repeat;
-      background-clip: content-box;
-      background-origin: content-box;
-    }
-    .setting {
-      background: url("../../../assets/img/icon/top_set.png") no-repeat;
-      background-clip: content-box;
-      background-origin: content-box;
-    }
     span {
       float: left;
       width: 20px;

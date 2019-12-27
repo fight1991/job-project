@@ -74,7 +74,7 @@ export default {
       let result = {
         tabId: 'index',
         title: '首页',
-        component: resolve => require([`@/view/pages/${data}/index.vue`], resolve),
+        component: resolve => require([`@/view/pages/index.vue`], resolve),
         path: `/${data}/index`,
         route: {
           path: `/${data}/index`,

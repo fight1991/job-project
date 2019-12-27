@@ -4,17 +4,17 @@
          <el-row class="content-title">
           <span>
             <img v-if="titleData.userPhoto!=null" class='user-img' :src="titleData.userPhoto">
-            <img v-else class='user-img' src="../../../assets/img/answer-head.png">
+            <img v-else class='user-img' src="https://www.5itrade.cn/files/CCBA/answer-head.png">
             <div class="user-name">
               {{titleData.userName}}
             </div>
           </span>
           <span class="left-cls">
-            <div class="answer-title">
-              <img src="../../../assets/img/answer-jing.png" class='jing-img' v-if="titleData.recommendFlag === true">
+            <div class="answer-title list-icon-answer-jing">
+              <i v-if="titleData.recommendFlag === true"></i>
               <span class="word-break">{{titleData.questionTitle}}</span>
-              <span class="small-title" v-if="titleData.categoryName">
-                <img src="../../../assets/img/answer-bq.png" class='small-img'>
+              <span class="small-title list-icon-answer-bq" v-if="titleData.categoryName">
+                <i></i>
                 {{titleData.categoryName}}
                 </span>
             </div>
@@ -30,7 +30,7 @@
           <el-row class="content-list">
             <span>
               <img v-if="item.userPhoto!=null" class='user-img' :src="item.userPhoto">
-              <img v-else class='user-img' src="../../../assets/img/answer-head.png">
+              <img v-else class='user-img' src="https://www.5itrade.cn/files/CCBA/answer-head.png">
               <div class="user-name">
                 {{item.userName}}
               </div>
@@ -45,8 +45,8 @@
                  <el-button size="mini" type="primary" @click="acceptAnswer(item.answerId)">已解决</el-button>
                 </span>
                 <span class="create-time">
-                  <span class="small-title">
-                    <img src="../../../assets/img/answer-bq.png" class='small-img'>
+                  <span class="small-title list-icon-answer-bq">
+                    <i></i>
                     {{item.categoryName}}
                   </span>
                   <span class="mg-l-10">
@@ -56,15 +56,15 @@
               </div>
               <div v-if="item.acceptFlag === 'true'" class="slo-right">
                 <span class="create-time">
-                  <span class="small-title">
-                    <img src="../../../assets/img/answer-bq.png" class='small-img'>
+                  <span class="small-title list-icon-answer-bq">
+                    <i></i>
                     {{item.categoryName}}
                   </span>
                   <span class="mg-l-10">
                     {{item.createTime}}
                   </span>
                 </span>
-                <img src="../../../assets/img/answer-sol.png" class="sol-img">
+                <img src="https://www.5itrade.cn/files/CCBA/answer-sol.png" class="sol-img">
               </div>
             </span>
           </el-row>
@@ -217,7 +217,8 @@ export default {
       font-size: 16px;
       font-weight: bold;
       padding-bottom: 10px;
-      .jing-img {
+      i {
+        vertical-align: middle;
         margin-top: -3px;
         margin-right: 4px;
       }
@@ -267,7 +268,8 @@ export default {
   font-size: 14px;
   font-weight: normal;
   color: #999;
-  .small-img {
+  i {
+    vertical-align: -4px;
     font-weight: normal;
     padding-right: 4px;
   }

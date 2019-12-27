@@ -4,14 +4,14 @@
          <el-row class="content-title">
           <span>
             <img v-if="titleData.userPhoto!=null" class='user-img' :src="titleData.userPhoto">
-            <img v-else class='user-img' src="../../../assets/img/answer-head.png">
+            <img v-else class='user-img' src="https://www.5itrade.cn/files/CCBA/answer-head.png">
             <div class="user-name">
               {{titleData.userName}}
             </div>
           </span>
           <span class="left-cls">
-            <div class="answer-title">
-              <img src="../../../assets/img/answer-jing.png" class='jing-img' v-if="titleData.recommendFlag === 'true'">
+            <div class="answer-title list-icon-answer-jing">
+              <i v-if="titleData.recommendFlag === 'true'"></i>
               <span class="word-break">{{titleData.questionTitle}}</span>
             </div>
             <div>
@@ -30,7 +30,7 @@
           <el-row class="content-list">
             <span>
               <img v-if="item.userPhoto!=null" class='user-img' :src="item.userPhoto">
-              <img v-else class='user-img' src="../../../assets/img/answer-head.png">
+              <img v-else class='user-img' src="https://www.5itrade.cn/files/CCBA/answer-head.png">
               <div class="user-name">
                 {{item.userName}}
               </div>
@@ -46,15 +46,15 @@
                 </span>
                 <div class="slo-right">
                   <span class="create-time">
-                    <span class="small-title">
-                      <img src="../../../assets/img/answer-bq.png" class='small-img'>
+                    <span class="small-title list-icon-answer-bq">
+                      <i></i>
                       {{item.categoryName}}
                     </span>
                     <span class="mg-l-10">
                       {{item.createTime}}
                     </span>
                   </span>
-                  <img v-if="item.acceptFlag === 'true'" src="../../../assets/img/answer-sol.png" class="sol-img">
+                  <img v-if="item.acceptFlag === 'true'" src="https://www.5itrade.cn/files/CCBA/answer-sol.png" class="sol-img">
                 </div>
               </div>
             </span>
@@ -77,7 +77,7 @@
               action="http://127.0.0.1"
               :show-file-list="false"
               :before-upload="beforeUpload1">
-              <span v-if="imageUrl1" class="img-url">
+              <span v-if="imageUrl1" class="img-url list-icon-delete_all">
                 <img :src="imageUrl1" class="detail-img">
                 <i class="close-icon" @click.stop="delImg('1')"></i>
               </span>
@@ -448,7 +448,8 @@ export default {
       font-weight: bold;
       font-size: 16px;
       padding-bottom: 10px;
-      .jing-img {
+      i {
+        vertical-align: middle;
         margin-top: -3px;
         margin-right: 4px;
       }
@@ -501,8 +502,10 @@ export default {
   padding-left: 20px;
   font-size: 14px;
   color: #999;
-  .small-img {
+  i {
     padding-right: 4px;
+    vertical-align: -4px;
+    font-weight: normal;
   }
 }
 .user-img{
@@ -527,7 +530,6 @@ export default {
   width: 20px;
   height: 20px;
   display: inline-block;
-  background: url('../../../assets/img/icon/close.png') no-repeat;
   position: absolute;
   right: 20px;
   top: 0;

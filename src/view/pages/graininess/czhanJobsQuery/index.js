@@ -1,10 +1,13 @@
 // 海关监管-场站作业查询
+import abstractComponent from '@/view/common/abstract.vue'
+import graininessczhanJobsQueryIndexComponent from './index.vue'
+
 const MENU = {
   path: '/graininess/czhanJobsQuery',
   name: 'graininess-czhanJobsQuery',
   icon: 'icons-menu-czjbquery',
   permissions: 'CCBA21005000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '场站作业查询'
   },
@@ -15,7 +18,7 @@ const MENU = {
       permissions: 'CCBA21005010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininessczhanJobsQueryIndexComponent,
         title: '业务申报表查询'
       }
     },
@@ -25,7 +28,7 @@ const MENU = {
       permissions: 'CCBA21005020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininessczhanJobsQueryIndexComponent,
         title: '申报表货物进出查询'
       }
     },
@@ -35,7 +38,7 @@ const MENU = {
       permissions: 'CCBA21005030000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininessczhanJobsQueryIndexComponent,
         title: '出入库单查询'
       }
     },
@@ -45,7 +48,7 @@ const MENU = {
       permissions: 'CCBA21005040000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininessczhanJobsQueryIndexComponent,
         title: '核放单查询'
       }
     },
@@ -55,7 +58,7 @@ const MENU = {
       permissions: 'CCBA21005050000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininessczhanJobsQueryIndexComponent,
         title: '出入库单生成核放单查询'
       }
     },
@@ -65,7 +68,7 @@ const MENU = {
       permissions: 'CCBA21005060000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininessczhanJobsQueryIndexComponent,
         title: '核注清单生成核放单查询'
       }
     },
@@ -75,7 +78,7 @@ const MENU = {
       permissions: 'CCBA21005070000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininessczhanJobsQueryIndexComponent,
         title: '车辆信息查询'
       }
     }

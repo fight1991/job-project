@@ -9,25 +9,28 @@
       </div>
       <div class="quikItems">
         <div class="item-detail" v-for="item in quickItems" :key="item.id" @click="routerTo(item.path)"  v-permissions="item.permissions">
-          <img :src="item.icon" alt="">
+          <span :class="item.iconClass"><i></i></span>
           <span>{{item.text}}</span>
         </div>
       </div>
       <div class="btn-control">
         <div class="left">
           <div class="arrow" @click.prevent="sendHeight">
-            <img :src="arrowSrc.arrowDown" alt="" v-if="bigIsShow">
-            <img :src="arrowSrc.arrowUp" alt="" v-else>
+            <span class="list-icon-btm_fold_2" v-if="bigIsShow">
+              <i></i>
+            </span>
+            <span class="list-icon-btm_fold_1" v-else>
+              <i></i>
+            </span>
           </div>
-          <!-- <div class="manage"><img src="../../../assets/img/icon/btm_set.png" alt=""><span>管理</span></div> -->
         </div>
         <div class="erweima-little" v-if="!bigIsShow">
-          <div class="little-ewm"><img src="../../../assets/img/icon/btm_QR.png" alt=""></div>
+          <div class="little-ewm list-icon-btm_QR"><i></i></div>
           <div class="zhihui">智慧通关</div>
         </div>
         <div class="erweima-big" v-if="bigIsShow">
           <div class="big-text">智慧通关小程序实时通关查询</div>
-          <div class="big-ewm"><img src="../../../assets/img/icon/btm_QRcode.png" alt=""></div>
+          <div class="big-ewm"><img src="https://www.5itrade.cn/files/CCBA/btm_QRcode.png" alt=""></div>
         </div>
       </div>
     </div>
@@ -41,10 +44,6 @@ export default {
   data () {
     return {
       bigIsShow: false,
-      arrowSrc: {
-        arrowUp: require('../../../assets/img/icon/btm_fold_1.png'),
-        arrowDown: require('../../../assets/img/icon/btm_fold_2.png')
-      },
       quickItems: pathList.keyBoardPath
     }
   },
@@ -195,6 +194,11 @@ export default {
        .arrow {
          top: 0;
          z-index: 6;
+         i {
+          display: block;
+          margin: 0 auto;
+          margin-top: 5px;
+         }
        }
        .manage {
          bottom: 0;

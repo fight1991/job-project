@@ -10,27 +10,20 @@ import filters from './store/filters'
 import utils from './common/util'
 import './assets/style/main.less'
 import './assets/style/decCommon.less'
-import './assets/style/media.css'
-import './assets/style/icon.less'
+// import './assets/style/icon.less'
+import './assets/sprites/ccba.css'
 import MyComponents from './components'
 import Permissions from './directive/permissions'
 import {pagination} from './common/mixin/pagination'
 import {labelWidth} from './common/mixin/labelWidth'
-import BaiduMap from 'vue-baidu-map'
 import dialogDrag from './directive/dialogDrag'
 import inputMax from './directive/inputMax'
-
 Vue.use(ElementUI)
-
 let originSrc = ''
 if (utils.getQueryString('src')) {
   originSrc = utils.getQueryString('src')
   localStorage.setItem('originSrc', originSrc)
 }
-
-Vue.use(BaiduMap, {
-  ak: 'qFHHVG13nGc25bOu8bOw6mIyWsQo78q8'
-})
 Vue.config.errorHandler = function (err, vm, info) {
   utils.errorReport(err, vm, info, store)
 }

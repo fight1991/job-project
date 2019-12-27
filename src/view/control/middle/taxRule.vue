@@ -26,7 +26,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="table-more" v-show="resultList.length !== 0"><span @click="toList()"><i></i>查看更多</span></div>
+      <div class="table-more" v-show="resultList.length !== 0"><span class="list-icon-oper_more_1" @click="toList()"><i></i>查看更多</span></div>
     </div>
   </div>
 </template>
@@ -95,17 +95,6 @@ export default {
       border-radius: 20px;
       padding: 8px 20px;
     }
-    .list-icon-look{
-      i{
-        display: inline-block;
-        width: 14px;
-        height: 14px;
-        margin-right: 6px;
-        vertical-align: middle;
-        margin-top: -2px;
-        background: url('../../../assets/img/icon/icon-lookH.png') no-repeat;
-      }
-    }
     .table-more{
       text-align: center;
       color: #999;
@@ -113,10 +102,6 @@ export default {
       span{
         cursor: pointer;
         i {
-          display: inline-block;
-          width: 18px;
-          height: 18px;
-          background: url('../../../assets/img/icon/oper_more_1.png')no-repeat;
           vertical-align: middle;
           margin: -3px 5px 0 0;
         }

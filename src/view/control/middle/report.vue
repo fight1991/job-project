@@ -1,8 +1,8 @@
 <template>
   <div class="report">
     <div class="title">报表统计</div>
-    <div :class="{'refreshDec':true}" @click="refreshData">
-      <img :src="currentImg" alt="">
+    <div class="refreshDec list-icon-oper_refresh" @click="refreshData">
+      <i></i>
     </div>
     <div class="compute-content">
       <h3>单量统计</h3>
@@ -26,7 +26,7 @@
         </el-form>
       </el-row>
     </div>
-    <div class="default" v-if="echartData.series[0].data.length===0"><img src="../../../assets/img/icon/list.png" alt=""></div>
+    <div class="default" v-if="echartData.series[0].data.length===0"><img src="https://www.5itrade.cn/files/CCBA/list.png" alt=""></div>
     <div class="detail" ref="chartBox" v-else>
       <e-chart :datas="echartData" :width="width + 'px'"></e-chart>
     </div>
@@ -42,7 +42,6 @@ export default {
   },
   data () {
     return {
-      currentImg: require('../../../assets/img/oper_refresh.png'),
       timerId: 0,
       width: '',
       echartData: {

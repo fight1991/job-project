@@ -1,10 +1,13 @@
 // 加工贸易账册-电子底账
+import abstractComponent from '@/view/common/abstract.vue'
+import graininesscBeianJobsIndexComponent from './index.vue'
+
 const MENU = {
   path: '/graininess/beianJobs',
   name: 'graininess-beianJobs',
   icon: 'icons-menu-beianJobs',
   permissions: 'CCBA21001000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '电子底账'
   },
@@ -15,7 +18,7 @@ const MENU = {
       permissions: 'CCBA21001010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininesscBeianJobsIndexComponent,
         title: '物流账册'
       }
     },
@@ -25,7 +28,7 @@ const MENU = {
       permissions: 'CCBA21001020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: graininesscBeianJobsIndexComponent,
         title: '物流账册查询'
       }
     }

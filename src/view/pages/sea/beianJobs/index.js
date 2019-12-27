@@ -1,10 +1,13 @@
 // 加工贸易账册-电子底账
+import abstractComponent from '@/view/common/abstract.vue'
+import seaBeianJobsIndexComponent from './index.vue'
+
 const MENU = {
   path: '/sea/beianJobs',
   name: 'sea-beianJobs',
   icon: 'icons-menu-beianJobs',
   permissions: 'CCBA20901000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '电子底账'
   },
@@ -15,7 +18,7 @@ const MENU = {
       permissions: 'CCBA20901010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaBeianJobsIndexComponent,
         title: '加工贸易账册'
       }
     },
@@ -25,7 +28,7 @@ const MENU = {
       permissions: 'CCBA20901020000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaBeianJobsIndexComponent,
         title: '物流账册'
       }
     },
@@ -35,7 +38,7 @@ const MENU = {
       permissions: 'CCBA20901030000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaBeianJobsIndexComponent,
         title: '加工贸易耗料单'
       }
     },
@@ -45,7 +48,7 @@ const MENU = {
       permissions: 'CCBA20901040000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaBeianJobsIndexComponent,
         title: '加工贸易账册查询'
       }
     },
@@ -55,7 +58,7 @@ const MENU = {
       permissions: 'CCBA20901050000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaBeianJobsIndexComponent,
         title: '物流账册查询'
       }
     },
@@ -65,7 +68,7 @@ const MENU = {
       permissions: 'CCBA20901060000',
       hidden: false,
       meta: {
-        component: resolve => require(['./index.vue'], resolve),
+        component: seaBeianJobsIndexComponent,
         title: '加工贸易耗料单查询'
       }
     }

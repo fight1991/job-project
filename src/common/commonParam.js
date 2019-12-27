@@ -1,5 +1,6 @@
 import util from './util'
 import config from '../config/config'
+import {storageParamsHandle} from './storageParams'
 
 export default {
   /**
@@ -39,6 +40,9 @@ export default {
     let versions = util.isEmpty(window.localStorage.getItem('PARAMVERSION')) ? [] : JSON.parse(window.localStorage.getItem('PARAMVERSION'))
     let nowVersion = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['PARAMVERSION']
     for (let key in result) {
+      if (storageParamsHandle[key]) {
+        result[key] = storageParamsHandle[key](result[key])
+      }
       window.localStorage.setItem(key, JSON.stringify(result[key]))
       if (versions.length === 0) {
         versions.push({

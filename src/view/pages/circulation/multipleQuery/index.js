@@ -1,10 +1,13 @@
 // 保税获取流转-综合查询
+import abstractComponent from '@/view/common/abstract.vue'
+import circulationQueryListIndexComponent from './multipleQuery.vue'
+
 const MENU = {
   path: '/circulation/queryList',
   name: 'circulation-queryList',
   icon: 'icons-menu-queryList',
   permissions: 'CCBA21103000000',
-  component: resolve => require(['../../../common/abstract.vue'], resolve),
+  component: abstractComponent,
   meta: {
     title: '综合查询'
   },
@@ -15,7 +18,7 @@ const MENU = {
       permissions: 'CCBA21103010000',
       hidden: false,
       meta: {
-        component: resolve => require(['./multipleQuery.vue'], resolve),
+        component: circulationQueryListIndexComponent,
         title: '综合查询'
       }
     }

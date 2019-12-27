@@ -102,8 +102,8 @@
     <!-- 主显示框 -->
     <div class='query-table dec-query-table'>
       <el-row class="op-btn">
-        <el-button size="mini" class="list-btns list-icon-add" style="margin-right: 10px!important;" @click="goToPage('new', 'add')"><i></i>新增</el-button>
-        <el-button size="mini" class="list-btns list-icon-declare" style="margin-right: 10px!important;" @click="submitEntrust" :disabled="isSubmit"><i></i>提交</el-button>
+        <el-button size="mini" class="list-btns list-icon-add"  @click="goToPage('new', 'add')"><i></i>新增</el-button>
+        <el-button size="mini" class="list-btns list-icon-declare"  @click="submitEntrust" :disabled="isSubmit"><i></i>提交</el-button>
         <el-button size="mini" class="list-btns list-icon-look" @click="openCdDetail"><i></i>查看相关数据</el-button>
         <div class="airvehicle-list-drop" style="float: right;">
           <el-popover popper-class="airvehicle-table-popper">
@@ -112,7 +112,7 @@
                 <el-checkbox size="mini" v-model="item.value" @change="columnFieldChange">{{item.label}}</el-checkbox>
               </li>
             </ul>
-            <el-button size="mini" class="list-btns list-btn-drop" icon="list-icon-dropdown" slot="reference"></el-button>
+            <el-button size="mini" class="list-btns list-btn-drop list-icon-dropdown" slot="reference"><i></i></el-button>
           </el-popover>
         </div>
       </el-row>
@@ -165,11 +165,9 @@
         </el-table-column>
         <el-table-column label="操作" width="120" fixed="right" align="center">
           <template slot-scope="scope">
-            <div class="order-list-btns">
-              <a href="javascript:void(0)" class="list-icon-edit border-0" title="编辑" v-if="scope.row.entrustStatus == '1'" @click="goToPage(scope.row, 'edit')"><i class='dec-i'></i></a>
-              <a href="javascript:void(0)" class="list-icon-look border-0" title="查看" @click="goToPage(scope.row, 'view')"><i class='dec-i'></i></a>
-              <a href="javascript:void(0)" class="list-icon-statusH border-0" title="状态跟踪" v-if="scope.row.entrustStatus !== '1'" @click="statusQuery(scope.row)"><i class='dec-i'></i></a>
-            </div>
+            <el-button type="text" class="table-icon list-icon-edit" title="编辑" v-if="scope.row.entrustStatus == '1'" @click="goToPage(scope.row, 'edit')"><i></i></el-button>
+            <el-button type="text" class="table-icon list-icon-look" title="查看" @click="goToPage(scope.row, 'view')"><i></i></el-button>
+            <el-button type="text" class="table-icon list-icon-tailAfter" title="状态跟踪" v-if="scope.row.entrustStatus !== '1'" @click="statusQuery(scope.row)"><i></i></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -492,7 +490,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import(less) '@/assets/style/common';
+@import '~@/assets/style/common';
 .query-main {
   padding: 20px;
   font-size:12px;

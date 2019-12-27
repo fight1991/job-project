@@ -3,13 +3,16 @@ import beianJobs from './beianJobs/index' // 电子底账
 import czhanJobs from './czhanJobs/index' // 场站业务
 import lareJobs from './lareJobs/index' // 通关作业
 import czhanJobsQuery from './czhanJobsQuery/index'
+import newTabComponent from '../component/newTab.vue'
+import indexComponent from '@/view/pages/index.vue'
+
 const MENU = [
   {
     path: '/sea/index',
     name: 'sea-index',
     hidden: false,
     permissions: 'WF000000',
-    component: resolve => require(['./index.vue'], resolve),
+    component: indexComponent,
     meta: {
       title: '首页'
     }
@@ -20,7 +23,7 @@ const MENU = [
     permissions: 'SAASOM0504000000',
     hidden: true,
     meta: {
-      component: resolve => require(['../component/newTab.vue'], resolve),
+      component: newTabComponent,
       title: '编辑详情'
     }
   },
@@ -30,7 +33,7 @@ const MENU = [
     permissions: 'SAASOM0504000000',
     hidden: true,
     meta: {
-      component: resolve => require(['../component/newTab.vue'], resolve),
+      component: newTabComponent,
       title: '编辑详情'
     }
   },
