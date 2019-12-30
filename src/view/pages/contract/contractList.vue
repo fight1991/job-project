@@ -13,9 +13,9 @@
         <!-- 按钮组 end-->
     </el-row>
     <el-row class='query-condition data-center'>
-      <el-form :model="QueryForm" size="mini" label-position="right" :label-width="labelFormWidth.five">
+      <el-form :model="QueryForm" size="mini" label-position="right" :label-width="labelFormWidth.six">
         <!-- 查询条件-->
-        <el-row>
+        <el-row :gutter="30">
           <el-col :lg="6" :md="12">
             <el-form-item  label="合同号" >
               <el-input size="mini" clearable v-model="QueryForm.contractNo" placeholder="请输入合同号"></el-input>
@@ -60,6 +60,15 @@
             </el-date-picker>
             </el-form-item>
           </el-col>
+          <el-col :lg="6" :md="12">
+            <el-form-item  label="合同类型">
+              <el-select size="mini" clearable v-model="QueryForm.type" style="width:100%;">
+                <el-option label="企业合同" :value="0" key="0"></el-option>
+                <el-option label="个人合同" :value="1" key="1"></el-option>
+                <el-option label="海关合同" :value="2" key="2"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row style="text-align:center;">
             <el-button size="mini" type="primary" @click="search()">查询</el-button>
@@ -74,6 +83,8 @@
       <!-- 列表 list -->
       <el-table class='sys-table-table' :data="resultList" border highlight-current-row height="530px">
         <el-table-column label="序号" type="index" width="50" align="center">
+        </el-table-column>
+        <el-table-column label="合同类型" width="100" prop="typeValue" align="center">
         </el-table-column>
         <el-table-column label="合同甲方" min-width="180" >
           <template slot-scope="scope">

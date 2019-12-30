@@ -8,8 +8,18 @@
         <!-- 返回按钮 end-->
     </el-row>
     <el-row class = "query-table">
-    <el-form ref="dateForm" :model="dateForm" :label-width="labelFormWidth.six" :rules="rules" class='valide-detail-form' :label-position="'right'"  v-loading="$store.state.loading">
+    <el-form ref="dateForm" :model="dateForm" :label-width="labelFormWidth.seven" :rules="rules" class='valide-detail-form' :label-position="'right'">
       <el-row>
+        <!-- 合同类型选项 -->
+          <el-col>
+            <el-form-item label="合同类型:">
+              <el-radio-group v-model="dateForm.type" @change="clearValid">
+                <el-radio :label="0">企业合同</el-radio>
+                <el-radio :label="1">个人合同</el-radio>
+                <el-radio :label="2">海关合同</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
           <el-col>
             <el-form-item label="本企业:">
               <span>{{$store.state.userLoginInfo.companyName}}</span>
@@ -23,9 +33,35 @@
             </el-form-item>
             </el-form-item>
           </el-col>
+          <el-col v-if="dateForm.type === 1">
+            <el-form-item label="对方个人姓名:" prop="payName">
+              <el-input clearable v-model="dateForm.payName" size="mini" :maxlength="30"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col v-if="dateForm.type === 1">
+            <el-form-item label="身份证号码:" prop="payCard">
+              <el-input clearable v-model="dateForm.payCard" size="mini"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col v-if="dateForm.type === 2">
+            <el-form-item label="海关关区:" prop="plcCuscd">
+              <el-select v-model="dateForm.plcCuscd"
+                filterable clearable remote default-first-option
+                @focus="tipsFill('plcCuscdList','SAAS_CUSTOMS_REL')"
+                :remote-method="checkParams"
+                style="width:100%">
+                <el-option
+                  v-for="item in plcCuscdList"
+                  :key="item.codeField"
+                  :label="item.codeField + '-' + item.nameField"
+                  :value="item.codeField">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row>
-          <el-col>
+          <el-col v-if="dateForm.type === 0">
             <el-form-item label="合作企业:" prop="entrustCompanyId">
               <el-select size="mini" v-model="dateForm.entrustCompanyId" style="width:100%;"
                 filterable remote default-first-option clearable
@@ -38,9 +74,9 @@
                 </el-option>
               </el-select>
               <el-form-item >
-              <el-radio v-model="coopcomp" :disabled="true" :label="!mycorp">合同甲方</el-radio>
-              <el-radio v-model="coopcomp" :disabled="true" :label="mycorp">合同乙方</el-radio>
-            </el-form-item>
+                <el-radio v-model="coopcomp" :disabled="true" :label="!mycorp">合同甲方</el-radio>
+                <el-radio v-model="coopcomp" :disabled="true" :label="mycorp">合同乙方</el-radio>
+              </el-form-item>
             </el-form-item>
           </el-col>
         </el-row>
@@ -158,6 +194,7 @@
 <script>
 import util from '@/common/util'
 import validator from '@/common/validator'
+import commonParam from '@/common/commonParam'
 export default {
   data () {
     return {
@@ -167,7 +204,13 @@ export default {
         'dates': [{required: true, validator: this.dateCheck, message: '请输入合同有效期', trigger: 'change'}],
         'settlement': [{required: true, validator: this.settlementCheck, message: '请正确输入结算日', trigger: 'blur'}],
         'paymentPeriod': [{required: true, validator: this.paymentPeriodCheck, message: '请输入付款周期', trigger: 'blur'}, {validator: validator.Zz0, message: '请输入正整数', trigger: 'blur'}],
-        'enclosureUrl': [{required: true, validator: this.uploadCheck, message: '请上传附件', trigger: 'change'}]
+        'enclosureUrl': [{required: true, validator: this.uploadCheck, message: '请上传附件', trigger: 'change'}],
+        payName: [{required: true, message: '请输入姓名', trigger: 'blur'}],
+        payCard: [
+          {required: true, message: '请输入身份证号', trigger: 'blur'},
+          {pattern: /^[A-Za-z0-9]{15, 18}$/, message: '请输入15-18位身份证号', trigger: 'blur'}
+        ],
+        plcCuscd: [{required: true, message: '请选择海关关区', trigger: 'change'}]
       },
       coopcomp: true,
       mycorp: true,
@@ -176,6 +219,7 @@ export default {
       isCheck: false, // 审核录入
       verifyMsg: '',
       dateForm: {
+        type: 0,
         status: '',
         entrustCompanyId: '',
         contractNo: '',
@@ -188,7 +232,14 @@ export default {
       name: '',
       companyList: [],
       dayList: [],
-      fileList: []
+      fileList: [],
+      plcCuscdList: [], // 海关关区
+      // 查询的字典字段
+      tableNameList: {
+        tableNames: [
+          'SAAS_CUSTOMS_REL' // 海关关区
+        ]
+      }
     }
   },
   created () {
@@ -207,6 +258,7 @@ export default {
       )
     }
     this.contractTenantConf()
+    this.getCommonParam()
   },
   mounted () {
     if (this.typeFlag) {
@@ -509,6 +561,58 @@ export default {
         callback(new Error(rule.message))
       } else {
         callback()
+      }
+    },
+    // 切换合同时,清除校验
+    clearValid () {
+      this.$nextTick(() => {
+        this.$refs.dateForm.clearValidate()
+      })
+    },
+    // 判断缓存中是否有数据
+    getCommonParam () {
+      let map = {tableNames: []}
+      map.tableNames = commonParam.isRequire(this.tableNameList.tableNames)
+      if (map.tableNames.length > 0) {
+        this.getCommonParams(map)
+      }
+    },
+    // 获取公共字典list
+    getCommonParams (datas) {
+      this.$store.dispatch('ajax', {
+        url: 'API@/saas-dictionary/dictionary/getParam',
+        data: datas,
+        router: this.$router,
+        success: (res) => {
+          commonParam.saveParams(res.result)
+        }
+      })
+    },
+    // 创建字典参数列表
+    tipsFill (obj, params) {
+      this.selectObj = {
+        obj,
+        params
+      }
+    },
+    checkParams (query) {
+      if (query !== '') {
+        let keyValue = query.toString().trim()
+        let list = JSON.parse(localStorage.getItem(this.selectObj.params))
+        let filterList = []
+        if (util.isEmpty(keyValue)) {
+          this[this.selectObj.obj] = list.slice(0, 40)
+        } else {
+          filterList = list.filter(item => {
+            let str = item.codeField + '-' + item.nameField
+            return str.toLowerCase().indexOf(keyValue.toLowerCase()) > -1
+          })
+          this[this.selectObj.obj] = filterList.slice(0, 40)
+        }
+      } else {
+        if (!util.isEmpty(JSON.parse(localStorage.getItem(this.selectObj.params)))) {
+          this[this.selectObj.obj] = JSON.parse(localStorage.getItem(this.selectObj.params)).slice(0, 40)
+        }
       }
     }
   }
