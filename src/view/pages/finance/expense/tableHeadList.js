@@ -50,6 +50,10 @@ export default {
         pays: {
           label: '应付总额',
           checked: true
+        },
+        corpBusiNo: {
+          label: '客户业务号',
+          checked: true
         }
       }
     }

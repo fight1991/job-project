@@ -104,7 +104,7 @@
         <el-table-column  type="selection" align='center' min-width="40"></el-table-column>
         <el-table-column label="流水号" align='center' prop="ocrNo" min-width="120" v-if="fieldList.ocrNo.value">
           <template slot-scope="scope">
-            <span style='color:#409EFF;cursor: pointer;' @click="editDetail(scope.row)" v-if='scope.row.taskStatus == "3"'>{{scope.row.ocrNo}}</span>
+            <span style='color:#409EFF;cursor: pointer;' @click="editDetail(scope.row)" v-if='scope.row.taskStatus == "3" && !["2","3"].includes(scope.row.entrustType)'>{{scope.row.ocrNo}}</span>
             <span v-else>{{scope.row.ocrNo}}</span>
           </template>
         </el-table-column>
@@ -141,7 +141,7 @@
         <el-table-column label="操作" fixed="right" align='center' min-width="100" >
           <template slot-scope="scope">
             <el-button title="退回" type="text" class="table-icon list-icon-rollback" v-if="(scope.row.taskStatus === '0' && scope.row.entrustType === '0') || (scope.row.taskStatus === '2' && scope.row.entrustType === '4')" @click="retreatBill(scope.row, 'single')"><i></i></el-button>
-            <el-button title="提交识别" type="text" v-if="scope.row.taskStatus == '0'" class="table-icon list-icon-autodeclare" @click="submitOcr(scope.row, 'single')"><i></i></el-button>
+            <el-button title="提交识别" type="text" v-if="scope.row.taskStatus == '0' && !['1','2','3'].includes(scope.row.entrustType)" class="table-icon list-icon-autodeclare" @click="submitOcr(scope.row, 'single')"><i></i></el-button>
             <el-button title="详情" type="text" class="table-icon list-icon-look" @click="docUpload('view', scope.row)"><i></i></el-button>
           </template>
         </el-table-column>
@@ -204,6 +204,7 @@ export default {
       rules: {
         backReason: [{required: true, message: '请输入原因', trigger: 'blur'}]
       },
+      nos: [],
       retreatForm: {
         backReason: '',
         nos: []
@@ -394,10 +395,10 @@ export default {
         }
         let disList = []
         this.selectData.forEach(e => {
-          if (e.taskStatus !== '0') {
-            disList.push(e.ocrNo)
-          } else {
+          if (e.taskStatus === '0' && !['1', '2', '3'].includes(e.entrustType)) {
             selectedList.push(e.ocrNo)
+          } else {
+            disList.push(e.ocrNo)
           }
         })
         if (disList.length !== 0) {
@@ -489,6 +490,7 @@ export default {
       } else {
         list.push(data.ocrNo)
       }
+      this.nos = list
       if (disList.length !== 0) {
         let message = ''
         disList.forEach(e => { message += `流水号 ${e} 的数据不能退回;<br>` })
@@ -522,9 +524,7 @@ export default {
           return false
         }
         let data = this.retreatForm
-        this.selectData.forEach(e => {
-          data.nos.push(e.ocrNo)
-        })
+        data.nos = this.nos
         this.$post({
           url: 'API@/dec-common/dec/orc/backEntrust',
           data: data,

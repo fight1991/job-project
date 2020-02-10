@@ -425,14 +425,14 @@ export default {
             this.controller.pid = result.pid
             this.controller.completeBtn = false
             let tabName = '进口报关单(概要申报)'
-            let routeName = 'declaration'
+            let routeName = 'importSummaryDecEdit'
             // 重开页签
             if (this.controller.iEFlag === 'I' && this.controller.declTrnrel === '0') { // 进口报关单
               tabName = '进口报关单(概要申报)'
-              routeName = 'declaration'
+              routeName = 'importSummaryDecEdit'
             } else if (this.controller.iEFlag === 'I' && this.controller.declTrnrel === '2') {
               tabName = '进境备案清单(概要申报)'
-              routeName = 'recordList'
+              routeName = 'importSummaryRecordEdit'
             }
             // 关闭新增tab
             this.$store.dispatch('CloseTab', this.$store.state.TabsStore.currentTab.tabId)

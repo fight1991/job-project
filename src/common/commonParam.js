@@ -1,5 +1,5 @@
 import util from './util'
-import config from '../config/config'
+import store from '../store/store'
 import {storageParamsHandle} from './storageParams'
 
 export default {
@@ -10,7 +10,7 @@ export default {
    */
   isRequire: function (tab) {
     let versions = util.isEmpty(window.localStorage.getItem('PARAMVERSION')) ? [] : JSON.parse(window.localStorage.getItem('PARAMVERSION'))
-    let nowVersion = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['PARAMVERSION']
+    let nowVersion = store.state.paramVersion
     let filterTab = []
     for (let i in tab) {
       if (!JSON.parse(window.localStorage.getItem(tab[i]))) {
@@ -38,7 +38,7 @@ export default {
    */
   saveParams: function (result) {
     let versions = util.isEmpty(window.localStorage.getItem('PARAMVERSION')) ? [] : JSON.parse(window.localStorage.getItem('PARAMVERSION'))
-    let nowVersion = config[process.env.NODE_ENV === 'production' ? 'prod' : 'dev']['PARAMVERSION']
+    let nowVersion = store.state.paramVersion
     for (let key in result) {
       if (storageParamsHandle[key]) {
         result[key] = storageParamsHandle[key](result[key])

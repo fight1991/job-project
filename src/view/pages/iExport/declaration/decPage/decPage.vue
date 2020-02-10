@@ -4,10 +4,6 @@
     <el-header class= 'topDiv'>
       <!-- 操作按钮-->
       <template v-if="controller && controller.fromPage === 'reviewed'">
-        <!-- <el-row class='reviewTip list-icon-Tips dec-h-24'>
-          <i></i>
-          请注意，您可在此界面进行报关单的编辑，完成后，无需再审核，点击确认编辑，数据状态变为审核通过，可直接进行后续操作。
-        </el-row> -->
         <div class="reviewTip list-icon-Tips flex">
           <i></i>
           <div class="text">请注意，您可在此界面进行报关单的编辑，完成后，无需再审核，点击确认编辑，数据状态变为审核通过，可直接进行后续操作。</div>
@@ -21,7 +17,6 @@
           <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-print" @click="printDecHead" >&nbsp;打印</el-button>
           <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-trash-o" @click="delDecHead" :disabled="controller.isDisabled || queryEntrust" v-if='!controller.isSummary'>&nbsp;删除</el-button>
           <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-paste" :disabled="controller.isDisabled || controller.initTemplateBtn || queryEntrust || controller.isWholeDec" v-if='!controller.isSummary' @click="initTemplateVisible = true">&nbsp;初始值模板</el-button>
-          <!-- <el-button type="primary" size="mini" icon="fa fa-file-text" :disabled="controller.isDisabled">&nbsp;资质查询</el-button> -->
           <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-file" :disabled="controller.isDisabled || queryEntrust" @click="openAdditionInfo">&nbsp;附注</el-button>
           <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-file-pdf-o" @click="openAccDoc" :disabled="controller.accDocDisabled">&nbsp;随附单据</el-button>
           <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-dollar" v-if="controller.iEFlag=='I'" :disabled="charterDis || queryEntrust" @click="charterRight" >特许权使用费</el-button>
@@ -38,7 +33,6 @@
               <el-dropdown-item command="record">识别记录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <!-- <el-button type="primary" size="mini" icon="fa fa-upload" :disabled="controller.isDisabled">&nbsp;税单查看</el-button> -->
           <el-button type="primary" class='dec-h-24' size="mini" icon="fa fa-paper-plane-o" @click="declareData('G')" style='float: right;' :disabled="controller.isSendDisabled || queryEntrust" v-if='!controller.isSummary'>&nbsp;发送</el-button>
           <el-button type="primary" title="仅上海地区可用" class='dec-h-24' size="mini" icon="fa fa-paper-plane-o" @click="declareData('C')" style='float: right;margin-right:5px' :disabled="controller.isDisabled || isDisabledDec || queryEntrust" v-if='!controller.isSummary'>&nbsp;申报</el-button>
         </el-row>
@@ -309,7 +303,7 @@ export default {
       samrtOrcVisable: false,
       aiValidVisable: false,
       sendTipsVisable: false,
-      validResult: [],
+      validResult: {},
       orcRecordVisable: false,
       charterVisabled: false,
       initCharter: null,
@@ -635,7 +629,7 @@ export default {
             'aiType': 'Intelligent',
             'taskId': taskId // 智能制单流水号
           }
-          decUtil.gotoDecPage(funFlag, flag, 'edit', this.controller.pid, '', queryParam, this)
+          decUtil.gotoDecPage(funFlag, flag, 'edit', this.controller.pid, 'dec', queryParam, this)
         },
         other: (res) => {
           if (res.result) {

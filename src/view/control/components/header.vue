@@ -108,7 +108,8 @@ export default {
       checkedSet: [],
       logoConfig: {
         'default': 'https://www.5itrade.cn/files/CCBA/CCBA_logo.png',
-        'hegs': 'https://www.5itrade.cn/files/CCBA/HEGS_logo.png'
+        'hegs': 'https://www.5itrade.cn/files/CCBA/HEGS_logo.png',
+        'nbwl': 'https://www.5itrade.cn/files/CCBA/NBWL_logo.png'
       },
       logImgUrl: ''
     }

@@ -32,6 +32,11 @@
             </el-form-item>
           </el-col>
           <el-col :md="12" :lg="6">
+            <el-form-item label="委托报关行">
+              <el-input v-model="queryForm.customCorpName" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :md="12" :lg="6">
             <el-form-item label="收发货人">
               <el-input v-model="queryForm.tradeName" clearable></el-input>
             </el-form-item>
@@ -168,6 +173,11 @@
             <div>{{scope.row.entryId || '-'}}</div>
           </template>
         </el-table-column>
+        <el-table-column label="委托报关行" align='center' prop="customCorpName" min-width="90" v-if="fieldList.customCorpName.value">
+          <template slot-scope="scope">
+            <div>{{scope.row.customCorpName || '-'}}</div>
+          </template>
+        </el-table-column>
         <el-table-column label="委托客户" align='left' prop="entrustCompanyName" min-width="150" v-if="fieldList.entrustCompanyName.value">
           <template slot-scope="scope">
             <div>{{scope.row.entrustCompanyName || '-'}}</div>
@@ -276,7 +286,8 @@ export default {
         lclFlag: '', // '拼箱标识'
         simpleQuery: true, // true 普通查询 false 异常状态单查询 默认为普通查询
         status: '', // '申报状态'
-        tradeName: '' // '境内收发货人名称'
+        tradeName: '',
+        customCorpName: '' // 委托报关行
       }
     },
     // 重置
@@ -287,7 +298,11 @@ export default {
       this.pageList(this.$store.state.pagination)
     },
     queryList () {
-      this.queryForm['simpleQuery'] = true
+      if (this.queryForm.status === '000') {
+        this.queryForm['simpleQuery'] = false
+      } else {
+        this.queryForm['simpleQuery'] = true
+      }
       this.pageList(this.$store.state.pagination)
     },
     // 列表查询
@@ -378,9 +393,6 @@ export default {
       let flag = row.bizInfo.split('|')
       let pageType = (flag[1] === '0' ? 'declaration' : 'recordList')
       let iEFlag = (flag[0] === 'I' ? 'import' : 'export')
-      // let pageType = row.declTrnrel === '0' ? 'declaration' : 'recordList'
-      // let iEFlag = row.iEFlag === 'I' ? 'import' : 'export'
-      // this.gotoDecPage(pageType, iEFlag, 'edit', row.taskId)
       this.gotoDecPage(pageType, iEFlag, 'edit', row.businessNo)
     },
     /**
@@ -432,6 +444,15 @@ export default {
         success: (res) => {
           if (res.result) {
             this.entrustInfo = res.result
+            this.entrustInfo.entrustStatus = data.entrustStatus
+            this.entrustInfo.entrustStatusValue = data.entrustStatusValue
+            this.entrustInfo.entrustCompanyName = data.entrustCompanyName
+            this.entrustInfo.billNo = data.billNo
+            this.entrustInfo.lclFlag = data.lclFlag
+            this.entrustInfo.lclFlagValue = data.lclFlagValue
+            this.entrustInfo.note = data.note
+            this.entrustInfo.demandDate = data.demandDate
+            this.entrustInfo.entrustTime = data.entrustTime
             this.operationType = type
             this.uploadVisible = true
           }
@@ -467,7 +488,13 @@ export default {
             this.messageTips(res.message, 'success')
             // 重新查询
             this.pageList(this.$store.state.pagination)
+          },
+          other: (res) => {
+            this.messageTips(res.message, 'error')
+            // 重新查询
+            this.pageList(this.$store.state.pagination)
           }
+
         })
       }).catch(() => {
       })
@@ -491,7 +518,8 @@ export default {
         url: 'API@/dec-common/entrust/sendEntrust',
         data: {
           businessNos: list,
-          sccCode: param.sccCode
+          sccCode: param.sccCode,
+          customCorpName: param.customCorpName
         },
         success: (res) => {
           this.messageTips(res.message, 'success')
@@ -506,6 +534,10 @@ export default {
     // 退单
     returnEntrust () {
       // 委托方在【等待处理、委托成功】状态下，并报关单未操作【发送】单一的动作前，都可操作。
+      if (this.selectData.length === 0) {
+        this.messageTips('请选择需要回撤的数据！', 'error')
+        return
+      }
       let list = []
       this.selectData.forEach(item => {
         list.push(item.businessNo)
@@ -569,6 +601,7 @@ export default {
     downLoad (row) {
       // 当报关单状态为【放行】时，可进行单票下载或批量下载。
       let list = []
+      let businessNos = []
       if (row && row.businessNo) {
         list.push(row.businessNo)
       } else {
@@ -577,8 +610,16 @@ export default {
           return false
         }
         this.selectData.forEach(item => {
-          list.push(item.businessNo)
+          if (item.status === '9') {
+            list.push(item.businessNo)
+          } else {
+            businessNos.push(item.businessNo)
+          }
         })
+      }
+      if (businessNos.length > 0) {
+        this.messageTips('流水号为：' + businessNos.join('、') + '，不是放行状态，不能下载')
+        return
       }
       this.$post({
         url: 'API@/dec-common/entrust/downDecPdf',
@@ -596,7 +637,8 @@ export default {
     abnormityStatus () {
       // 当点击此按钮时，自动筛选所有异常状态单证，默认1个月内，如用户需要改时间段，可通过上方委托时间来更改。
       // 异常状态单：海关回执异常状态的报关单，包括：退回、删单、改单、查验。
-      this.queryForm.simpleQuery = false
+      // this.queryForm.simpleQuery = false
+      this.queryForm.status = '000'
       // 如果委托时间没有填写 默认未一个月
       if (!this.entrustTime || this.entrustTime.length === 0) {
         let end = new Date()

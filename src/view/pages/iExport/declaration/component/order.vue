@@ -1049,7 +1049,7 @@
             </el-table-column>
             <el-table-column label="随附单据类型" min-width="100" align="left">
               <template slot-scope="scope">
-                {{formatType(scope.row.docType) || '-'}}
+                {{typeValue == 'add' ? formatType(scope.row.docType) : scope.row.docTypeValue || '-'}}
               </template>
             </el-table-column>
             <el-table-column label="随附单据编号" min-width="100" align="left">
@@ -1593,11 +1593,11 @@ export default {
     } else { // 编辑
       if (this.status === '0') {
         this.isStatus = false
-        this.isUpSingle = true
+        this.isUpSingle = false
         this.isView = false
       } else {
         this.isStatus = false
-        this.isUpSingle = false
+        this.isUpSingle = true
         this.isView = true
       }
       this.isLicense = false
@@ -2699,33 +2699,11 @@ export default {
     // 文件类别转换
     formatType (val) {
       let label = ''
-      if (val === '00000001') {
-        label = '发票'
-      } else if (val === '00000002') {
-        label = '装箱单'
-      } else if (val === '00000003') {
-        label = '提运单'
-      } else if (val === '00000004') {
-        label = '合同'
-      } else if (val === '00000008') {
-        label = '代理报关委托协议（纸质）'
-      } else if (val === '00000009') {
-        label = '原产地证据文件'
-      } else if (val === '00000010') {
-        label = '载货清单（舱单）'
-      } else if (val === '10000001') {
-        label = '代理委托协议（电子）'
-      } else if (val === '10000002') {
-        label = '减免税货物税款担保证明'
-      } else if (val === '10000003') {
-        label = '减免税货物税款担保延期证明'
-      } else if (val === 'FILE') {
-        label = '文件'
-      } else if (val === 'R') {
-        label = '减免税证明'
-      } else {
-        label = val
-      }
+      this.docLists.forEach(e => {
+        if (val === e.codeField) {
+          label = e.nameField
+        }
+      })
       return label
     },
     // 校验核注清单-监管方式
@@ -2914,6 +2892,10 @@ export default {
     },
     // 生成AI
     submitAi () {
+      if (this.iEFlag === 'import') {
+        this.messageTips('暂不支持该功能', 'error')
+        return false
+      }
       this.baseInfo.rcvDate = util.dateFormat(this.baseInfo.rcvDate, 'yyyy-MM-dd')
       this.baseInfo.demandDate = util.dateFormat(this.baseInfo.demandDate, 'yyyy-MM-dd')
       this.baseInfo.type = this.orderType

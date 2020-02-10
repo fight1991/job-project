@@ -68,7 +68,7 @@ export default {
     itemClick () {
       this.changeColor()
       this.$emit('itemClick')
-      if (this.$attrs.isFromAi) {
+      if (this.$attrs.isFromAi && !this.isLook) {
         this.$emit('drawArea', {value: this.checkData.key})
       }
     },

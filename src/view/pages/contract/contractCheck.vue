@@ -42,6 +42,15 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :lg="6" :md="12">
+            <el-form-item  label="合同类型">
+              <el-select size="mini" clearable v-model="QueryForm.type" style="width:100%;">
+                <el-option label="企业合同" :value="0" key="0"></el-option>
+                <el-option label="个人合同" :value="1" key="1"></el-option>
+                <el-option label="海关合同" :value="2" key="2"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
           <el-col style="text-align:center">
             <el-button size="mini" type="primary" @click="search()">查询</el-button>
             <el-button size="mini" @click="resetQueryform">重置</el-button>
@@ -62,17 +71,37 @@
       <!-- 列表 list -->
       <el-table class='sys-table-table' :data="resultList" border highlight-current-row height="530px" @selection-change="selectVal">
         <el-table-column type="selection" width="36" align="center"></el-table-column>
+        <el-table-column label="合同类型" width="100" prop="typeValue" align="center">
+        </el-table-column>
         <el-table-column label="合同甲方" min-width="180" >
           <template slot-scope="scope">
-            <div class="text-over-hid" :title="scope.row.companyName">
+            <!-- 企业合同 -->
+            <div v-if="scope.row.type===0" class="text-over-hid" :title="scope.row.companyName">
               {{scope.row.companyName || '-'}}
+            </div>
+            <!-- 个人合同 -->
+            <div v-else-if="scope.row.type===1" class="text-over-hid" :title="propInfo(scope.row, scope.row.companyName, 1)">
+              {{propInfo(scope.row, scope.row.companyName, 1) || '-'}}
+            </div>
+            <!-- 海关合同 -->
+            <div v-else class="text-over-hid" :title="propInfo(scope.row, scope.row.companyName, 2)">
+              {{propInfo(scope.row, scope.row.companyName, 2) || '-'}}
             </div>
           </template>
         </el-table-column>
         <el-table-column label="合同乙方" min-width="180">
           <template slot-scope="scope">
-            <div class="text-over-hid" :title="scope.row.companyName">
+            <!-- 企业合同 -->
+            <div v-if="scope.row.type===0" class="text-over-hid" :title="scope.row.entrustCompanyName">
               {{scope.row.entrustCompanyName || '-'}}
+            </div>
+            <!-- 个人合同 -->
+            <div v-else-if="scope.row.type===1" class="text-over-hid" :title="propInfo(scope.row, scope.row.entrustCompanyName, 1)">
+              {{propInfo(scope.row, scope.row.entrustCompanyName, 1) || '-'}}
+            </div>
+            <!-- 海关合同 -->
+            <div v-else class="text-over-hid" :title="propInfo(scope.row, scope.row.entrustCompanyName, 2)">
+              {{propInfo(scope.row, scope.row.entrustCompanyName, 2) || '-'}}
             </div>
           </template>
         </el-table-column>
@@ -175,6 +204,19 @@ export default {
     // 查询
     search () {
       this.queryTablelist(this.$store.state.pagination)
+    },
+    // 处理个人或海关字段显示
+    propInfo (row, hasValue, type) {
+      if (hasValue) return hasValue
+      if (type === 1) { // 个人
+        if (!row.payName || !row.payCard) return ''
+        let beforeTxt = row.payCard.substr(0, 6)
+        let endTxt = row.payCard.substr(-4, 4)
+        return row.payName + beforeTxt + '********' + endTxt
+      }
+      if (type === 2) { // 海关
+        return row.plcCuscd + '-' + row.plcCuscdValue
+      }
     },
     // 查询列表
     queryTablelist (pagination) {

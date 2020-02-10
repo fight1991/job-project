@@ -398,9 +398,6 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
     }
   }
 .ccba-control {
-  .el-dialog__wrapper {
-    z-index: 3002!important;
-  }
   .el-menu {
     border-right: none;
   }
@@ -637,9 +634,6 @@ div, a, img, p { -webkit-tap-highlight-color: transparent;}
 }
 // 2.0系统样式
 .sys-class {
-  .el-dialog__wrapper {
-    z-index: 3002!important;
-  }
   .el-radio__input.is-checked+.el-radio__label {
     color: @sys-color-main;
   }
@@ -1560,6 +1554,20 @@ body .el-table th.gutter{
 .list-btn-drop{
   margin-right: 0px;
 }
+
+.list-icon-warning-tips{
+  background-color: #ffdfa8;
+  .el-message__content {
+      color: #c14900;
+  }
+  max-height: 200px;
+  overflow-y: auto;
+  display: -webkit-box;
+  i{
+   margin-right: 10px;
+  }
+}
+
 // ------------- airvehicle style------------
 .airvehicle-main{
   .el-form-item__label{
@@ -1807,15 +1815,6 @@ body .el-table th.gutter{
           margin-top: 1px;
       }
   }
-}
-.messagep-tips-warning {
-  background-color: #ffdfa8;
-  .el-message__content {
-      color: #c14900;
-  }
-  max-height: 200px;
-  overflow-y: auto;
-  display: -webkit-box;
 }
 .confirm-tips-warning {
   .el-message-box__content { 

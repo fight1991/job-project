@@ -12,15 +12,32 @@
         <el-form :model="resultForm" label-width="100px">
           <el-row :gutter="10">
             <el-col :span="8" :xs="12" >
+              <el-form-item label="合同类型:">
+                <span v-text="resultForm.typeValue"></span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" :xs="12" >
               <el-form-item label="本企业:">
                 <span>{{$store.state.userLoginInfo.companyName}}</span>
                 <el-tag :type="$store.state.userLoginInfo.companyCode === resultForm.companyId ?'success':'warn'" size='mini'>合作{{$store.state.userLoginInfo.companyCode === resultForm.companyId?'甲':'乙'}}方</el-tag>
               </el-form-item>
             </el-col>
-            <el-col :span="8" :xs="12">
-              <el-form-item label="合作企业:">
+            <el-col :span="8" :xs="12" v-if="resultForm.type === 0">
+              <el-form-item label="合作方:">
                 <span>{{$store.state.userLoginInfo.companyCode === resultForm.companyId?resultForm.entrustCompanyName:resultForm.companyName}}</span>
                 <el-tag :type="$store.state.userLoginInfo.companyCode === resultForm.companyId ?'warn':'success'" size='mini'>合作{{$store.state.userLoginInfo.companyCode === resultForm.companyId?'乙':'甲'}}方</el-tag>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" :xs="12" v-if="resultForm.type === 1">
+              <el-form-item label="合作方:">
+                <span v-text="personInfo"></span>
+                <el-tag :type="resultForm.companyName ?'warn':'success'" size='mini'>合作{{resultForm.companyName?'乙':'甲'}}方</el-tag>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8" :xs="12" v-if="resultForm.type === 2">
+              <el-form-item label="合作方:">
+                <span v-text="resultForm.plcCuscd + '-' + resultForm.plcCuscdValue"></span>
+                <el-tag :type="resultForm.companyName ?'warn':'success'" size='mini'>合作{{resultForm.companyName?'乙':'甲'}}方</el-tag>
               </el-form-item>
             </el-col>
             <el-col :span="8" :xs="12">
@@ -146,6 +163,14 @@ export default {
       this.resultList = []
       this.pkSeqNo = this.$route.params.pkSeqNo
       this.queryDetail()
+    }
+  },
+  computed: {
+    personInfo () {
+      if (!this.resultForm.payName || !this.resultForm.payCard) return ''
+      let beforeTxt = this.resultForm.payCard.substr(0, 6)
+      let endTxt = this.resultForm.payCard.substr(-4, 4)
+      return this.resultForm.payName + beforeTxt + '********' + endTxt
     }
   },
   methods: {

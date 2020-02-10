@@ -1,4 +1,9 @@
 export const tableHeadFieldList = {
+  outBill: {
+    value: true,
+    fieldName: '有无登账',
+    fieldCode: 'outBill'
+  },
   bossId: {
     value: true,
     fieldName: '接单编号',

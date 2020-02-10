@@ -16,11 +16,11 @@
           placeholder="企业名称,输入两位字符开始匹配"
           @select="handleSelect"
           :fetch-suggestions="querySearch"
+          default-first-option
           :trigger-on-focus="false"
-          :select-when-unmatched='true'
-          :highlight-first-item='true' >
+          :highlight-first-item='true'>
         </el-autocomplete>
-        <p style='margin-top: 10px; color: red;'>* 如您需要的报关行查询不到，代表对方非CCBA注册用户</p>
+        <p style='margin-top: 10px; color: red;'>* 如您需要的报关行查询不到，代表对方非CCBA注册企业</p>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="config">委托</el-button>
@@ -59,11 +59,12 @@ export default {
         return false
       }
       if (this.companyName && !this.sccCode) {
-        this.messageTips('改报关行非CCBA注册用户', 'error')
+        this.messageTips('该报关行非CCBA注册企业', 'error')
         return false
       }
       this.$emit('close:sendEntrust', {
-        sccCode: this.sccCode
+        sccCode: this.sccCode,
+        customCorpName: this.companyName
       })
     },
     handleSelect (item) {
@@ -78,8 +79,9 @@ export default {
         return
       }
       let param = {
-        'corpName': queryString,
-        'returnProps': ['corpName', 'sccCode']
+        'cusCorpName': queryString,
+        'returnProps': ['cusCorpName', 'sccCode'],
+        'corpType': '4' // 报关行
       }
       this.$post({
         url: 'API@/login/corp/getCorpByCondAssignProp',
@@ -87,7 +89,7 @@ export default {
         success: (res) => {
           let back = []
           if (res.result && res.result.length > 0) {
-            let json = JSON.stringify(res.result).replace(/corpName/g, 'value')
+            let json = JSON.stringify(res.result).replace(/cusCorpName/g, 'value')
             cb(JSON.parse(json).slice(0, 10))
           } else {
             cb(back)

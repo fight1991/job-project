@@ -2882,7 +2882,7 @@ export default {
       }
       if (char === 'Z') { // 免表操作
         this.$post({
-          url: 'API@/dec-common//dec/common/getZEmsInfo',
+          url: 'API@/dec-common/dec/common/getZEmsInfo',
           data: {
             emsNo: this.decHead.manualNo,
             iEFlag: this.controller.iEFlag

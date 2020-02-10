@@ -19,6 +19,10 @@ export const tableHeadFieldList = {
     value: true,
     text: '报关单号'
   },
+  customCorpName: {
+    value: true,
+    text: '报关行名称'
+  },
   entrustCompanyName: {
     value: true,
     text: '委托客户'

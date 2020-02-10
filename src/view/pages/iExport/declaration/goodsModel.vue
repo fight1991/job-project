@@ -687,6 +687,8 @@ export default {
             this.$confirm('此数据已经存在,是否覆盖', '提示', {
               confirmButtonText: '是',
               cancelButtonText: '否',
+              modalAppendToBody: true,
+              domMount: this.$el.parentNode,
               type: 'warning'
             }).then(() => {
               this.goodsModelForm['isForceCover'] = '1'

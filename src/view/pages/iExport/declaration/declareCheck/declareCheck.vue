@@ -1,7 +1,7 @@
 <template>
   <!-- 报关单审核组件 -->
-  <section class= 'sys-main sys-dec-check sys-dec-class'>
-    <div :class="{'check-container': isShowAi}" style="transform:translate(0,0)">
+  <section class='sys-main sys-dec-check sys-dec-class' ref="ai-container">
+    <div :class="{'check-container': doubleScreenIsShow}" style="transform:translate(0,0)">
       <el-tabs v-model="activeName" type="card">
         <el-tab-pane label="报关单" name="declare">
           <!-- 表头信息 -->
@@ -88,7 +88,7 @@
         <el-button class='dialog-primary-btn' @click="directEdit" v-permissions="'CCBA20204010200'">直接编辑</el-button>
       </div>
     </div>
-    <dec-ai-detail v-if="!isLook" :pageFlag="'check'" :pagePos="pagePos" :isFromAi="isFromAi" :moduleName="moduleName" ref="aiDetail"></dec-ai-detail>
+    <dec-ai-detail v-if="doubleScreenIsShow" :pageFlag="'check'" :pagePos="pagePos" :isFromAi="isFromAi" :moduleName="moduleName" ref="aiDetail"></dec-ai-detail>
   </section>
 </template>
 
@@ -126,9 +126,9 @@ export default {
         totalW: 0,
         otherW: 0
       },
-      isShowAi: true,
       moduleName: '',
       isFromAi: false, // 是否是ai制单
+      doubleScreenIsShow: false, // 在非预览情况下, 有数据则展示双屏
       auditOpinion: '', // 审核意见
       lazy: true,
       headConfig: businessUtil.generateDecHeadCheck(),
@@ -166,6 +166,7 @@ export default {
   },
   beforeDestroy () {
     this.$store.unregisterModule(this.moduleName)
+    window.removeEventListener('resize', this.getContainerWith)
   },
   created () {
     let pid = this.$route.params.pid || ''
@@ -178,8 +179,11 @@ export default {
     // 获取 复核状态
     this.getSwitchCheck()
     this.$store.commit(this.moduleName + '/changeCheckPage', {key: 'isLook', value: this.$route.meta.operationType === 'look'})
-    if (this.$route.meta.operationType === 'look') {
-      this.isShowAi = false
+    window.addEventListener('resize', this.getContainerWith)
+  },
+  watch: {
+    '$store.state.collapse': function () {
+      this.getContainerWith()
     }
   },
   computed: {
@@ -200,22 +204,17 @@ export default {
       }
     }
   },
-  mounted () {
-    this.getContainerWith()
-    window.addEventListener('resize', this.getContainerWith)
-  },
-  beforeCreate () {
-    window.removeEventListener('resize', this.getContainerWith)
-  },
   methods: {
     // 获取主要容器的宽度
     getContainerWith () {
-      let dom = document.querySelector('.check-container')
-      let outHtml = document.querySelector('.sys-main')
-      if (dom) {
-        this.pagePos.otherW = dom.offsetWidth
-      }
-      this.pagePos.totalW = outHtml.offsetWidth
+      this.$nextTick(() => {
+        let outHtml = this.$refs['ai-container']
+        let dom = outHtml.querySelector('.check-container')
+        if (dom) {
+          this.pagePos.otherW = dom.offsetWidth
+        }
+        this.pagePos.totalW = outHtml.offsetWidth
+      })
     },
     // 框选表头区域
     drawArea (data) {
@@ -243,21 +242,25 @@ export default {
           this.decHead = res.result.decHeadVO // 报关单 表头信息
           this.$store.commit(this.moduleName + '/changeCheckPage', {key: 'chkPayment', value: this.decHead.chkPayment === '1' ? '是' : '否'})
           this.$store.commit(this.moduleName + '/setCheckPage', {iEFlag: this.decHead.iEFlag})
-          if (!this.isLook) {
-            if (this.decHead.ocrNo) { // 说明是ai制单
-              this.isFromAi = true
+          // 是ai制单, 则展示ai窗口
+          // 非ai制单,则展示pdf窗口
+          if (this.decHead.ocrNo) {
+            this.isFromAi = true
+            this.doubleScreenIsShow = true
+            this.$nextTick(() => {
+              this.$refs.aiDetail.getDecByOcr(this.decHead.ocrNo, false)
+              this.getContainerWith()
+            })
+          } else {
+            this.isFromAi = false
+            if (this.decHead.decEdocRealations && this.decHead.decEdocRealations.length > 0) {
+              this.doubleScreenIsShow = true
               this.$nextTick(() => {
-                this.$refs.aiDetail.getDecByOcr(this.decHead.ocrNo, false)
+                this.$refs.aiDetail.setPicData([...this.decHead.decEdocRealations])
+                this.getContainerWith()
               })
             } else {
-              this.isFromAi = false
-              if (this.decHead.decEdocRealations && this.decHead.decEdocRealations.length > 0) {
-                this.$nextTick(() => {
-                  this.$refs.aiDetail.setPicData([...this.decHead.decEdocRealations])
-                })
-              } else {
-                this.isShowAi = false
-              }
+              this.doubleScreenIsShow = false
             }
           }
           this.container = res.result.decContainersVO // 报关单集装箱

@@ -13,7 +13,7 @@
         <!-- 合同类型选项 -->
           <el-col>
             <el-form-item label="合同类型:">
-              <el-radio-group v-model="dateForm.type" @change="clearValid">
+              <el-radio-group v-model="dateForm.type" :disabled="isCheck" @change="clearValid">
                 <el-radio :label="0">企业合同</el-radio>
                 <el-radio :label="1">个人合同</el-radio>
                 <el-radio :label="2">海关合同</el-radio>
@@ -90,7 +90,7 @@
         <el-row>
           <el-col>
             <el-form-item label="合同有效期:" prop="dates">
-              <el-date-picker size="mini"  v-model="dateForm.dates" @change="$forceUpdate()"
+              <el-date-picker size="mini"  v-model="dateForm.dates"
               type="daterange"  style="width:100%;" :disabled="isCheck"
               range-separator="至"
               start-placeholder="开始日期"
@@ -205,10 +205,13 @@ export default {
         'settlement': [{required: true, validator: this.settlementCheck, message: '请正确输入结算日', trigger: 'blur'}],
         'paymentPeriod': [{required: true, validator: this.paymentPeriodCheck, message: '请输入付款周期', trigger: 'blur'}, {validator: validator.Zz0, message: '请输入正整数', trigger: 'blur'}],
         'enclosureUrl': [{required: true, validator: this.uploadCheck, message: '请上传附件', trigger: 'change'}],
-        payName: [{required: true, message: '请输入姓名', trigger: 'blur'}],
+        payName: [
+          {required: true, message: '请输入姓名', trigger: 'blur'},
+          {pattern: /^[\u4e00-\u9fa5a-zA-Z]+$/, message: '姓名为中英文', trigger: 'blur'}
+        ],
         payCard: [
           {required: true, message: '请输入身份证号', trigger: 'blur'},
-          {pattern: /^[A-Za-z0-9]{15, 18}$/, message: '请输入15-18位身份证号', trigger: 'blur'}
+          {pattern: /^[A-Za-z0-9]{15}$|^[A-Za-z0-9]{18}$/, message: '请输入15或18位身份证号', trigger: 'blur'}
         ],
         plcCuscd: [{required: true, message: '请选择海关关区', trigger: 'change'}]
       },
@@ -262,7 +265,9 @@ export default {
   },
   mounted () {
     if (this.typeFlag) {
-      this.getDetail(this.$route.params.pkSeqNo)
+      this.getCommonParam(() => {
+        this.getDetail(this.$route.params.pkSeqNo)
+      })
     }
   },
   watch: {
@@ -296,6 +301,19 @@ export default {
     // 查看附件
     enclosureFun () {
       util.fileView(this.fileList[0].url)
+    },
+    copyFormInfo () {
+      return {
+        type: 0,
+        status: '',
+        entrustCompanyId: '',
+        contractNo: '',
+        settlementType: '0',
+        settlementDay: 1,
+        dates: ['', ''],
+        settlementPeriod: '0',
+        paymentPeriod: ''
+      }
     },
     // 获取是否开启审核
     contractTenantConf () {
@@ -356,8 +374,20 @@ export default {
         isLoad: false,
         success: (res) => {
           if (this.$route.params.flag === 'conedit' || this.$route.params.flag === 'check') {
-            util.copyObj(this.dateForm, res.result)
-            this.dateForm.dates = [res.result.contractBeginDate, res.result.contractEndDate]
+            if (res.result.plcCuscd) {
+              this.selectObj = {
+                params: 'SAAS_CUSTOMS_REL',
+                obj: 'plcCuscdList'
+              }
+              this.checkParams(res.result.plcCuscd)
+            }
+            if (res.result) {
+              this.dateForm = res.result
+              // this.dateForm.dates = [res.result.contractBeginDate, res.result.contractEndDate]
+              this.$set(this.dateForm, 'dates', [res.result.contractBeginDate, res.result.contractEndDate])
+            } else {
+              this.dateForm = this.copyFormInfo()
+            }
             this.fileList.push({
               name: res.result.enclosureName,
               url: res.result.enclosureUrl
@@ -367,11 +397,11 @@ export default {
           }
           if (this.$store.state.userLoginInfo.companyCode === res.result.entrustCompanyId) {
             this.dateForm.entrustCompanyId = res.result.companyId
-            this.mycorp = false
+            this.mycorp = false // 乙方
             this.getCorpListFun('', res.result.companyId)
           } else {
             this.dateForm.entrustCompanyId = res.result.entrustCompanyId
-            this.mycorp = true
+            this.mycorp = true // 甲方
             this.getCorpListFun('', res.result.entrustCompanyId)
           }
           this.dateForm.settlementType = res.result.settlementType + ''
@@ -504,22 +534,29 @@ export default {
       this.$refs['dateForm'].validate((valId) => {
         if (valId) {
           let urlend = 'create'
-          if (this.mycorp === true) {
-            this.dateForm.companyId = this.$store.state.userLoginInfo.companyCode
+          let params = {...this.dateForm}
+          if (this.mycorp === true) { // 甲方
+            params.companyId = this.$store.state.userLoginInfo.companyCode
+            if (params.type !== 0) { // 个人合同或海关合同
+              params.entrustCompanyId = ''
+            }
           } else {
-            this.dateForm.companyId = this.dateForm.entrustCompanyId
-            this.dateForm.entrustCompanyId = this.$store.state.userLoginInfo.companyCode
+            params.companyId = params.entrustCompanyId
+            params.entrustCompanyId = this.$store.state.userLoginInfo.companyCode
+            if (params.type !== 0) {
+              params.companyId = ''
+            }
           }
-          this.dateForm.contractBeginDate = util.dateFormat(this.dateForm.dates[0], 'yyyy-MM-dd')
-          this.dateForm.contractEndDate = util.dateFormat(this.dateForm.dates[1], 'yyyy-MM-dd')
-          this.dateForm.enclosureName = this.fileList[0].name
-          this.dateForm.enclosureUrl = this.fileList[0].url
+          params.contractBeginDate = util.dateFormat(params.dates[0], 'yyyy-MM-dd')
+          params.contractEndDate = util.dateFormat(params.dates[1], 'yyyy-MM-dd')
+          params.enclosureName = this.fileList[0].name
+          params.enclosureUrl = this.fileList[0].url
           if (this.$route.params.flag === 'conedit') {
             urlend = 'edit'
           }
           this.$store.dispatch('ajax', {
             url: 'API@/saas-finance-expense/contract/' + urlend,
-            data: this.dateForm,
+            data: {...params},
             router: this.$router,
             isLoad: false,
             success: (res) => {
@@ -527,7 +564,8 @@ export default {
                 message: '保存成功',
                 type: 'success'
               })
-              this.$store.dispatch('CloseTab', this.$route.name)
+              let {flag, pkSeqNo} = this.$route.params
+              this.$store.dispatch('CloseTab', this.$route.name + flag + pkSeqNo)
               this.$router.push({
                 name: 'contract-list'
               })
@@ -570,21 +608,24 @@ export default {
       })
     },
     // 判断缓存中是否有数据
-    getCommonParam () {
+    getCommonParam (callback) {
       let map = {tableNames: []}
       map.tableNames = commonParam.isRequire(this.tableNameList.tableNames)
       if (map.tableNames.length > 0) {
-        this.getCommonParams(map)
+        this.getCommonParams(map, callback)
+      } else {
+        callback && callback()
       }
     },
     // 获取公共字典list
-    getCommonParams (datas) {
+    getCommonParams (datas, callback) {
       this.$store.dispatch('ajax', {
         url: 'API@/saas-dictionary/dictionary/getParam',
         data: datas,
         router: this.$router,
         success: (res) => {
           commonParam.saveParams(res.result)
+          callback && callback()
         }
       })
     },

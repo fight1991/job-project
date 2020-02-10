@@ -100,7 +100,7 @@
       </el-row>
       <!-- 列表 list -->
       <el-table class='sys-table-table dec-table' :data="resultList"
-        height="397px"
+        height="408px"
         border highlight-current-row size="mini" @selection-change="selectFun">
         <el-table-column  type="selection" align='center' min-width="50"></el-table-column>
         <el-table-column label="进出口标志" align='center' min-width="60">
@@ -133,13 +133,7 @@
         </el-col>
       </el-row>
     </div>
-    <el-dialog :modal-append-to-body='false' :title="titleName"
-     :visible.sync="detailVisible"
-      width="950px"
-      class="order-dialog commodityDetail-dialog"
-      :close-on-click-modal="false">
-       <commodity-detail :typeValue="typeValue" :id="id" @closedecele="cancleElement"  v-if="detailVisible"></commodity-detail>
-    </el-dialog>
+    <commodity-detail :typeValue="typeValue" :detailVisible.sync="detailVisible" :id="id" @closedecele="cancleElement"></commodity-detail>
     <!-- 弹出框 同步历史数据 开始 -->
     <el-dialog :modal-append-to-body='false'
       title="同步历史数据"
@@ -179,10 +173,10 @@
 
 <script>
 import util from '@/common/util'
-import commodityDetail from './component/commodityDetail.vue'
-import syncCondition from './component/syncCondition.vue'
-import syncdecRecord from './component/syncDecRcord.vue'
-import rltdecRecord from './component/rltdecRecord.vue'
+import commodityDetail from './commodityDetail.vue'
+import syncCondition from '../component/syncCondition.vue'
+import syncdecRecord from '../component/syncDecRcord.vue'
+import rltdecRecord from '../component/rltdecRecord.vue'
 import rightsUtil from '@/common/rightsUtil'
 
 export default {
@@ -206,8 +200,7 @@ export default {
       },
       dialogTitle: '关联报关单',
       detailVisible: false,
-      id: '',
-      titleName: '', // 表头名称
+      id: null,
       typeValue: '',
       selectList: [], // 勾选数据
       innerNoList: [], // 勾选数据主键
@@ -258,11 +251,6 @@ export default {
       this.detailVisible = true
       this.typeValue = type
       this.id = value
-      if (this.typeValue === 'edit') {
-        this.titleName = '商品资料详情编辑'
-      } else {
-        this.titleName = '商品资料详情查看'
-      }
     },
     queryList () {
       this.pageList(this.$store.state.pagination)
@@ -468,7 +456,7 @@ export default {
     padding: 20px;
     font-size:12px;
     font-family: Arial,Microsoft YaHei,SimSun;
-    height: 100%;
+    height: calc(100% - 40px);
     overflow: auto;
   }
   .query-condition {

@@ -10,6 +10,7 @@ exports.customFormat = data => {
       ${sharedSelector} {
           background: url(${spritesheetImageUrl});
           display: inline-block;
+          vertical-align: middle;
       }
   `);
   var perImage = Object.keys(groupedSprites)
@@ -28,7 +29,7 @@ function generateCssByType(sprite, type, iconName) {
     var subClassName = iconName.startsWith('.list') ? iconName.substring(0, iconName.length - 2 ) : iconName
     switch (type) {
       case 'H':
-        className = `${subClassName}:hover i,${subClassName}:focus i`
+        className = `${subClassName}:hover i,${subClassName}:focus i, .el-table ${subClassName} i`
         break;
       case 'D':
         className = `${subClassName}.is-disabled i,${subClassName}.is-disabled:hover i`

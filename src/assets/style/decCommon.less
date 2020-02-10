@@ -117,6 +117,9 @@
   .require-color .el-input__inner,.charter-form .require-color .el-form-item__content .el-date-editor,.charter-form .require-color .el-form-item__content .el-date-editor .el-input__inner,.charter-form .require-color .el-checkbox-group,.charter-form .require-color .el-radio-group,.require-color .el-textarea__inner{
     background-color: #faffbd;
   }
+  .summary-require-color .el-input__inner,.charter-form .summary-require-color .el-form-item__content .el-date-editor,.charter-form .summary-require-color .el-form-item__content .el-date-editor .el-input__inner,.charter-form .summary-require-color .el-checkbox-group,.charter-form .summary-require-color .el-radio-group,.summary-require-color .el-textarea__inner{
+    background-color: #e1f0ff;
+  }
   .error-color .el-input__inner,.charter-form .error-color .el-form-item__content .el-date-editor,.charter-form .error-color .el-form-item__content .el-date-editor .el-input__inner,.charter-form .error-color .el-checkbox-group,.charter-form .error-color .el-radio-group,.error-color .el-textarea__inner{
     background-color: #ffd0d8 !important;
   }
@@ -133,10 +136,12 @@
 
   // table
   .el-table .ai-row-red {
-    color: #fe0101;
+    // background-color: #fe0101;
+    background-color: #ffd0d8
   }
   .el-table .ai-row-yellow {
-    color: #f8a227;
+    // color: #f8a227;
+    background-color: #f8a227;
   }
   .el-table th{
     padding: 0px;
@@ -795,4 +800,16 @@
         line-height: 32px;
         text-align: left;
     }
+}
+
+.summary-head-form {
+  .el-form-item--mini .el-form-item__content, .el-form-item--mini .el-form-item__label{
+    line-height: 30px;
+    height: 30px;
+  }
+  .el-form-item__label{
+    border-right: 0px solid !important;
+    font-size: 13px;
+    font-weight: 500;
+  }
 }

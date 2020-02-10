@@ -123,7 +123,7 @@
         <!-- 查询条件 end-->
       </el-form>
       <el-row class="query-btn" style="text-align:center">
-        <el-button size="mini" type="primary" @click="getAccountList($store.state.pagination)">查询</el-button>
+        <el-button size="mini" type="primary" @click="search">查询</el-button>
         <el-button size="mini" @click="resetForm">重置</el-button>
       </el-row>
     </el-row>
@@ -155,7 +155,7 @@
           </el-dropdown-menu>
         </el-dropdown>
         <el-row class="expense-count">
-          <span>当前已选择账单&nbsp;{{selectCount}}&nbsp;条</span>
+          当前已选择账单<span>&nbsp;{{selectCount}}&nbsp;</span>条
         </el-row>
       </el-row>
       <el-table class='sys-table-table' align="left" size="mini"
@@ -439,6 +439,10 @@ export default {
     this.$store.unregisterModule('finance-module')
   },
   methods: {
+    search () {
+      this.parentSelection = []
+      this.getAccountList(this.$store.state.pagination)
+    },
     // 获取账单企业列表
     getSettleCompanyInfo () {
       this.$store.dispatch('ajax', {
@@ -699,7 +703,7 @@ export default {
     },
     // 勾选父表格 全选
     selectParentRowAll (parentAll) {
-      this.parentSelection = parent
+      this.parentSelection = parentAll
       this.accountBillOptionIds = {}
       if (parentAll && parentAll.length === 0) {
         // 子表格清空选中状态
@@ -797,7 +801,9 @@ export default {
   float: right;
   margin-right: 5px;
   line-height: 26px;
-  font-size: 12px;
-  color: #287FCA;
+  font-size: 14px;
+  span {
+    color: #287FCA;
+  }
 }
 </style>

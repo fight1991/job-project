@@ -772,7 +772,7 @@ export default {
               this.pageList()
             },
             other: (res) => {
-              this.messageTips(res.result, 'error')
+              this.messageTips(res.message, 'error')
             }
           })
         }).catch(() => {

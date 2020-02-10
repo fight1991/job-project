@@ -17,7 +17,7 @@ const MENU = {
       permissions: 'CCBA20301010000',
       hidden: false,
       meta: {
-        component: () => import(/* webpackChunkName: "commodity" */ '../../iExport/declaration/commodity.vue'),
+        component: () => import(/* webpackChunkName: "commodity" */ '../../iExport/declaration/commodity/commodity.vue'),
         title: '商品数据库'
       }
     }, {

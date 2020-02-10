@@ -63,13 +63,9 @@ export default {
     }
   },
   methods: {
-    // 审单页面且取随附单据
+    // 审单页面且不是ai制单 则取随附单据预览
     checkPageFlag () {
-      if (this.$attrs.pageFlag === 'check' && !this.$attrs.isFromAi) {
-        return true
-      } else {
-        return false
-      }
+      return this.$attrs.pageFlag === 'check' && !this.$attrs.isFromAi
     },
     imgLoaded () {
       this.drawImgRect(this.currentImgRect)

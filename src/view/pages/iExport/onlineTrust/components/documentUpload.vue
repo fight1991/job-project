@@ -63,6 +63,24 @@
                     </el-select>
                   </template>
                 </el-table-column>
+                <el-table-column label="拼箱" align='left' min-width="150">
+                  <template slot="header" slot-scope="scope">
+                    <div class="table-head-icon list-icon-copy">拼箱<i @click="copyColumn(scope)"></i></div>
+                  </template>
+                  <template slot-scope="scope">
+                    <el-select v-model="scope.row.lclFlag" style="width:100%"
+                      filterable remote clearable
+                      size="mini"
+                      default-first-option>
+                      <el-option
+                      v-for="item in lclFlagList"
+                      :key="item.codeField"
+                      :label="item.nameField"
+                      :value="item.codeField">
+                       </el-option>
+                    </el-select>
+                  </template>
+                </el-table-column>
                 <el-table-column label="备注" align='left' min-width="150">
                   <template slot="header" slot-scope="scope">
                     <div class="table-head-icon list-icon-copy">备注<i @click="copyColumn(scope)"></i></div>
@@ -194,12 +212,12 @@
                 <div class="break-word">{{entrustInfo.demandDate}}</div>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="9">
               <el-form-item label="委托客户:" label-width="69px">
                 <div class="break-word">{{entrustInfo.entrustCompanyName}}</div>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="3">
               <el-form-item label="拼箱:" label-width="42px">
                 <div class="break-word">{{entrustInfo.lclFlagValue}}</div>
               </el-form-item>
@@ -210,7 +228,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="回退原因:" label-width="69px">
+              <el-form-item label="退回原因:" label-width="69px">
                 <div class="break-word">{{entrustInfo.backReason}}</div>
               </el-form-item>
             </el-col>
@@ -344,7 +362,6 @@ export default {
     },
     // 上传文件
     beforeUpload (file, type) {
-      console.log(file)
       let allow = ['application/x-zip-compressed', 'application/zip']
       if (type === 'single') {
         allow = ['image/png', 'image/jpeg', 'application/pdf', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
@@ -366,6 +383,11 @@ export default {
         param.append('multiFile', file, file.name)
         param.append('filePath', '/longshine/document/ocr/upload')
         if (type === 'single') {
+          let entrustCompanyName = ''
+          if (this.$store.state.userLoginInfo.companyType === '3') { // 货代
+            entrustCompanyName = this.$store.state.userLoginInfo.companyName
+          }
+          this.singleTableList[0].entrustCompanyName = entrustCompanyName
           this.singleTableList[0].files.push({
             fileName: file.name,
             fileUrl: '',
@@ -374,12 +396,13 @@ export default {
             status: 'success',
             billNo: '',
             businessNo: '',
+            lclFlag: '',
             uid: file.uid,
             size: file.size
           })
         } else {
           let entrustCompanyName = ''
-          if (this.$store.state.userLoginInfo.companyType === '4') { // 报关行 货代
+          if (this.$store.state.userLoginInfo.companyType === '3') { // 货代
             entrustCompanyName = this.$store.state.userLoginInfo.companyName
           }
           this.multipleTableList.push({
@@ -393,6 +416,7 @@ export default {
             billNo: '',
             businessNo: '',
             taskType: '0',
+            lclFlag: '',
             uid: file.uid
           })
         }
@@ -534,12 +558,24 @@ export default {
     },
     // 复制
     copyColumn (scope) {
-      console.log(scope)
-      let param = scope.column.label === '申报截止时间' ? 'demandDate' : (scope.column.label === '委托客户' ? 'entrustCompanyName' : 'note')
-      if (this.multipleTableList.length > 0) {
+      let param
+      if (scope.column.label === '申报截止时间') {
+        param = 'demandDate'
+      } else if (scope.column.label === '委托客户') {
+        param = 'entrustCompanyName'
+      } else if (scope.column.label === '备注') {
+        param = 'note'
+      } else if (scope.column.label === '提运单号') {
+        param = 'billNo'
+      } else if (scope.column.label === '拼箱') {
+        param = 'lclFlag'
+      }
+      if (this.multipleTableList.length > 1) {
         this.multipleTableList.forEach(e => {
           e[param] = this.multipleTableList[0][param]
         })
+        this.multipleTableList.push({})
+        this.multipleTableList.pop()
       }
     }
   }

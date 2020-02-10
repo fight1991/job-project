@@ -50,11 +50,26 @@ export default {
       picMap: {},
       showPosition: false,
       isNeedDisplayCompare: false,
-      dialogPosition: {
-        width: 0,
-        height: 0
-      },
+      // dialogPosition: {
+      //   width: 0,
+      //   height: 0
+      // },
       currentImgRect: null
+    }
+  },
+  computed: {
+    dialogPosition () {
+      if (this.$attrs.pagePos) {
+        return {
+          width: this.$attrs.pagePos.totalW - this.$attrs.pagePos.otherW,
+          height: parseInt(document.body.clientHeight - 120)
+        }
+      } else {
+        return {
+          width: parseInt(document.body.clientWidth - 815),
+          height: parseInt(document.body.clientHeight - 120)
+        }
+      }
     }
   },
   watch: {
@@ -72,7 +87,6 @@ export default {
     }
   },
   created () {
-    this.changeDialogPosition()
     window.addEventListener('resize', this.resizeHandler)
     this.formatPicData()
   },
@@ -81,7 +95,6 @@ export default {
   },
   methods: {
     resizeHandler () {
-      this.changeDialogPosition()
       this.$nextTick(() => {
         this.$refs['imgDetail_' + this.activeName + '_' + this.activeIndex][0].drawImgRect(this.currentImgRect)
       })
@@ -127,7 +140,6 @@ export default {
       }
     },
     changeDialogPosition () {
-      console.log(this.$attrs.pagePos)
       if (this.$attrs.pagePos) {
         this.dialogPosition = {
           width: this.$attrs.pagePos.totalW - this.$attrs.pagePos.otherW,

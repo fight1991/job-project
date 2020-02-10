@@ -278,6 +278,8 @@ router.beforeEach((to, from, next) => {
             let datas = {
               token: window.localStorage.getItem('token'), // token数据
               userId: util.isEmpty(res.result.userId) ? '' : res.result.userId,
+              companyType: util.isEmpty(res.result.corpType) ? '' : res.result.corpType,
+              isAdmin: util.isEmpty(res.result.isAdmin) ? '' : res.result.isAdmin,
               userName: util.isEmpty(res.result.userName) ? '' : res.result.userName,
               mobile: util.isEmpty(res.result.mobile) ? '' : res.result.mobile,
               userPhoto: util.isEmpty(res.result.userPhoto) ? '' : res.result.userPhoto,

@@ -303,6 +303,10 @@ export default new Vuex.Store({
     // 获取已勾选看板
     getPanel: function (state, value) {
       state.controlPanelList = value
+    },
+    // 获取版本号
+    versionInit: function (state, value) {
+      state.paramVersion = value
     }
   }
 })

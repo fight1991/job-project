@@ -407,7 +407,7 @@ export default {
    * @param queryParam 路径参数
    * @param isCopy 是否为 复制操作
    */
-  gotoDecPage (funFlag, flag, operationType, pid = 'new', pageType, queryParam = {}, _this, isCopy) {
+  gotoDecPage (funFlag, flag, operationType, pid = 'new', pageType = 'dec', queryParam = {}, _this, isCopy) {
     let routeParam = {
       'declaration@import@add@dec': {tabName: '进口报关单', routeName: 'importDecAdd'},
       'declaration@import@look@dec': {tabName: '进口报关单', routeName: 'importDecLook'},

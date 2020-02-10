@@ -41,9 +41,9 @@ export default {
       default: false
     },
     validResult: {
-      type: Array,
+      type: Object,
       default: () => {
-        return []
+        return {}
       }
     }
   },

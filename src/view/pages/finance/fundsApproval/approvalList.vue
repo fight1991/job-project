@@ -145,6 +145,11 @@
             {{scope.row.statusValue || '-'}}
           </template>
         </el-table-column>
+        <el-table-column label="支付状态" min-width="90" align="center" prop="payStatusValue">
+          <template slot-scope="scope">
+            {{scope.row.payStatusValue || '-'}}
+          </template>
+        </el-table-column>
         <el-table-column label="操作"  width="80" align="center" fixed="right">
           <template slot-scope="scope">
             <el-button title="详情" type="text" class="table-icon list-icon-look" @click.stop="getDetail(scope.row.fundId,scope.row.status)"><i></i></el-button>
@@ -488,6 +493,7 @@ export default {
         router: this.$router,
         success: (res) => {
           this.$message.success('添加成功!')
+          this.remarkVisible = false
           this.getsApprovalList(this.$store.state.pagination)
         }
       })

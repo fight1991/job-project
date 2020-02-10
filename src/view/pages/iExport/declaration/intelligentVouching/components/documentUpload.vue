@@ -164,7 +164,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12" v-if="ocrInfo.backReason">
-              <el-form-item label="退回原因:" label-width="69px">
+              <el-form-item label="回退原因:" label-width="69px">
                 <div class="break-word">{{ocrInfo.backReason}}</div>
               </el-form-item>
             </el-col>

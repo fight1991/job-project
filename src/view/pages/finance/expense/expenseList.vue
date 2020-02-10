@@ -113,7 +113,7 @@
         <!-- 查询条件 end-->
       </el-form>
       <el-row class="query-btn" style="text-align:center">
-        <el-button size="mini" type="primary" @click="getsExpenseList($store.state.pagination)">查询</el-button>
+        <el-button size="mini" type="primary" @click="search">查询</el-button>
         <el-button size="mini" @click="resetForm">重置</el-button>
       </el-row>
     </el-row>
@@ -127,7 +127,7 @@
         <el-button size="mini" class="list-btns list-icon-reject" :disabled="billVerifyVOs.length === 0" @click="expenseCheck(false)"><i></i>批量驳回</el-button>
         <div class="airvehicle-list-drop">
           <el-row class="expense-count">
-            <span>当前已选择台账&nbsp;{{selectCount}}&nbsp;条</span>
+            当前已选择台账<span>&nbsp;{{selectCount}}&nbsp;</span>条
           </el-row>
           <el-popover popper-class="airvehicle-table-popper">
             <ul>
@@ -143,7 +143,6 @@
         row-key="expenseBillId"
         highlight-current-row height="530px" ref="expenseTable" size="mini"
         @select="chooseSelectBox"
-        @row-click="chooseSelectRow"
         @select-all="chooseSelectBoxAll">
         <el-table-column
           type="selection"
@@ -162,6 +161,11 @@
         <el-table-column label="提单号" min-width="120" align="center" prop="billNo" v-if="fieldList.billNo">
           <template slot-scope="scope">
             {{scope.row.billNo || '-'}}
+          </template>
+        </el-table-column>
+        <el-table-column label="客户业务号" min-width="120" align="center" prop="billNo" v-if="fieldList.corpBusiNo">
+          <template slot-scope="scope">
+            {{scope.row.corpBusiNo || '-'}}
           </template>
         </el-table-column>
         <el-table-column label="业务类型" min-width="80" align="center" prop="businessType" v-if="fieldList.businessType">
@@ -196,14 +200,14 @@
         </el-table-column>
         <el-table-column label="状态" min-width="100" align="center" prop="statusValue" v-if="fieldList.status">
         </el-table-column>
-        <el-table-column label="应收总额" min-width="100" align="center" prop="receives" v-if="fieldList.receives">
+        <el-table-column label="应收总额" min-width="120" align="right" prop="receives" v-if="fieldList.receives">
           <template slot-scope="scope">
-            {{scope.row.receives.toLocaleString()}}
+            {{'CNY:' + Number(scope.row.receives).toLocaleString()}}
           </template>
         </el-table-column>
-        <el-table-column label="应付总额" min-width="100" align="center" prop="pays" v-if="fieldList.pays">
+        <el-table-column label="应付总额" min-width="120" align="right" prop="pays" v-if="fieldList.pays">
           <template slot-scope="scope">
-            {{scope.row.pays.toLocaleString()}}
+            {{'CNY:' + Number(scope.row.pays).toLocaleString()}}
           </template>
         </el-table-column>
         <el-table-column label="操作" fixed="right" width="150" align="center">
@@ -307,9 +311,8 @@ export default {
   watch: {
     '$route': function (to, from) {
       if (to.name === 'expense-list' && to.query.from === 'other' && (from.name === 'expense-detail' || from.name === 'expense-multiExpenseRegister')) {
-        this.getsExpenseList(this.$store.state.pagination)
+        this.search()
         this.expenseBillIds = []
-        this.selectedRow = []
         this.resetForm('other')
       }
     }
@@ -344,7 +347,7 @@ export default {
     billVerifyVOs () { // 台账待审核状态下2的 台账批量审核和驳回
       let isCheck = this.selectedRow.length > 0 ? this.selectedRow.every(v => v.status === 2) : false
       if (isCheck) {
-        this.selectedRow.map(v => {
+        return this.selectedRow.map(v => {
           return {
             expenseBillId: v.expenseBillId,
             verify: this.isVerify,
@@ -380,7 +383,7 @@ export default {
   created () {
     this.$store.registerModule('finance-module', finStore)
     this.paginationInit = this.$store.state.pagination
-    this.getsExpenseList(this.$store.state.pagination)
+    this.search()
     this.getcorps()
     this.getCommonParam()
   },
@@ -388,6 +391,10 @@ export default {
     this.$store.unregisterModule('finance-module')
   },
   methods: {
+    search () {
+      this.selectedRow = []
+      this.getsExpenseList(this.$store.state.pagination)
+    },
     // 获取台账列表
     getsExpenseList (pagination) {
       if (this.dates2 && this.dates2.length > 0) {
@@ -568,7 +575,7 @@ export default {
         data: {expenseBillId: id},
         router: this.$router,
         success: () => {
-          this.getsExpenseList(this.$store.state.pagination)
+          this.search()
         }
       })
     },
@@ -619,7 +626,7 @@ export default {
         }).then(() => true).catch(() => false)
         if (!res) return
         this.$store.dispatch('ajax', {
-          url: 'API@saas-finance/account/create',
+          url: 'API@/saas-finance/account/create',
           data: {expenseBillIds: this.expenseBillIds},
           router: this.$router,
           success: () => {
@@ -627,8 +634,7 @@ export default {
               type: 'success',
               message: '生成对账单成功'
             })
-            this.getsExpenseList(this.$store.state.pagination)
-            this.selectedRow = []
+            this.search()
           }
         })
       })
@@ -637,13 +643,13 @@ export default {
     expenseCheck (type) {
       this.isVerify = type
       this.$store.dispatch('ajax', {
-        url: 'API@/dec-common/ccba/review/isReview',
+        url: 'API@/saas-finance/bill/batchVerify',
         data: {billVerifyVOs: this.billVerifyVOs},
         router: this.$router,
         success: () => {
           let message = type ? '通过成功!' : '驳回成功!'
           this.$message.success(message)
-          this.getsExpenseList(this.$store.state.pagination)
+          this.search()
         }
       })
     },
@@ -719,8 +725,10 @@ export default {
 .expense-count {
   margin-right: 20px;
   display: inline-block;
-  font-size: 12px;
-  color: #287FCA;
+  span {
+    font-size: 14px;
+    color: #287FCA;
+  }
 }
 .airvehicle-table-popper{
   min-width: auto;

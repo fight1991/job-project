@@ -543,7 +543,10 @@
     <!-- 备注 -->
     <div class="area">
       <div class="title">备注</div>
-      <div class="remark-content" v-if="decCommon.remark">{{decCommon.remark}}</div>
+      <div class="remark-content">
+        <el-input v-if="optionsType === 'edit'" type="textarea" :rows="2" v-model="decCommon.remark"></el-input>
+        <span v-else>{{decCommon.remark}}</span>
+      </div>
     </div>
     <div class="area" v-if="optionsType === 'check'">
       <div class="title">审核意见</div>
@@ -1095,7 +1098,8 @@ export default {
           expenseBillId: this.$route.query.expenseBillId,
           billOptionPayVOs: [...this.billPayableBodyVO.billPayableBodyVOList],
           billOptionReceiveVOs: [...this.billReceivableBodyVO.billReceivableBodyVOList],
-          elecCreateVOs: [...this.fileList]
+          elecCreateVOs: [...this.fileList],
+          remark: this.decCommon.remark
         },
         router: this.$router,
         success: res => {
@@ -1136,6 +1140,7 @@ export default {
           sailDay: ''
         }
       }
+      this.decCommon.remark = ''
     },
     // 千分符转换成数字
     dealMullimeter (num) {

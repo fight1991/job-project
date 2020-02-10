@@ -33,7 +33,7 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
-                <div class="info-txts" v-else>{{item.beEntrustCompanyName}}<a href="javascript:void(0)" v-if="item.beEntrustStatus=='2'" class="list-icon-editH border-0" style="margin-left: 15px;color: #287fca;" @click="editCorp(item,index)"><i class='dec-i'></i>修改</a></div>
+                <div class="info-txts" v-else>{{item.beEntrustCompanyName}}<a href="javascript:void(0)" v-if="item.beEntrustStatus=='2'" class="list-icon-edit border-0" style="margin-left: 15px;color: #287fca;" @click="editCorp(item,index)"><i class='dec-i'></i>修改</a></div>
               </el-form-item>
             </el-col>
             <el-col :md="12" :lg="6">

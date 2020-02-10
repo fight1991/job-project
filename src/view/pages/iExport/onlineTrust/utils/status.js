@@ -26,10 +26,10 @@ export const entrustStatusTypeList = [{
   nameField: '全部'
 }, {
   codeField: '0',
-  nameField: '待委托'
+  nameField: '等待委托'
 }, {
   codeField: '1',
-  nameField: '已委托'
+  nameField: '等待处理'
 }, {
   codeField: '2',
   nameField: '委托成功'
@@ -38,10 +38,10 @@ export const entrustStatusTypeList = [{
   nameField: '委托退回'
 }, {
   codeField: '4',
-  nameField: '撤回'
+  nameField: '委托撤回'
 }, {
   codeField: '5',
-  nameField: '冻结'
+  nameField: '委托冻结'
 }]
 export const decStatus = [{
   codeField: '',
@@ -97,4 +97,7 @@ export const decStatus = [{
 }, {
   codeField: '11',
   nameField: '查验通知'
+}, {
+  codeField: '000',
+  nameField: '删单|改单|退单'
 }]

@@ -7,7 +7,7 @@
         <el-row class='mg-b-15'>
           <el-col :span="18">
             <!-- <el-button v-permissions="'SAASOM0501010000'" size="mini" type="primary" @click="creatContract('add','new')">新建合同</el-button> -->
-            <el-button size="mini" type="primary" @click="creatContract('add','new')">新建合同</el-button>
+            <el-button size="mini" type="primary" @click="creatContract('add','new', '新建')">新建合同</el-button>
           </el-col>
         </el-row>
         <!-- 按钮组 end-->
@@ -88,15 +88,33 @@
         </el-table-column>
         <el-table-column label="合同甲方" min-width="180" >
           <template slot-scope="scope">
-            <div class="text-over-hid" :title="scope.row.companyName">
+            <!-- 企业合同 -->
+            <div v-if="scope.row.type===0" class="text-over-hid" :title="scope.row.companyName">
               {{scope.row.companyName || '-'}}
+            </div>
+            <!-- 个人合同 -->
+            <div v-else-if="scope.row.type===1" class="text-over-hid" :title="propInfo(scope.row, scope.row.companyName, 1)">
+              {{propInfo(scope.row, scope.row.companyName, 1) || '-'}}
+            </div>
+            <!-- 海关合同 -->
+            <div v-else class="text-over-hid" :title="propInfo(scope.row, scope.row.companyName, 2)">
+              {{propInfo(scope.row, scope.row.companyName, 2) || '-'}}
             </div>
           </template>
         </el-table-column>
         <el-table-column label="合同乙方" min-width="180">
           <template slot-scope="scope">
-            <div class="text-over-hid" :title="scope.row.entrustCompanyName">
+            <!-- 企业合同 -->
+            <div v-if="scope.row.type===0" class="text-over-hid" :title="scope.row.entrustCompanyName">
               {{scope.row.entrustCompanyName || '-'}}
+            </div>
+            <!-- 个人合同 -->
+            <div v-else-if="scope.row.type===1" class="text-over-hid" :title="propInfo(scope.row, scope.row.entrustCompanyName, 1)">
+              {{propInfo(scope.row, scope.row.entrustCompanyName, 1) || '-'}}
+            </div>
+            <!-- 海关合同 -->
+            <div v-else class="text-over-hid" :title="propInfo(scope.row, scope.row.entrustCompanyName, 2)">
+              {{propInfo(scope.row, scope.row.entrustCompanyName, 2) || '-'}}
             </div>
           </template>
         </el-table-column>
@@ -148,8 +166,8 @@
                 <el-button v-if="scope.row.createUserId ===$store.state.userLoginInfo.userId" v-permissions="'SAASOM0501050000'" type="text" @click="creatContract('conedit',scope.row.pkSeqNo)" title="编辑" class="table-icon list-icon-edit"><i></i></el-button>
                 <el-button v-if="scope.row.status=='1' && scope.row.createUserId == $store.state.userLoginInfo.userId" v-permissions="'SAASOM0501020000'" type="text" @click="deleteContract(scope.row)" title="删除" class="table-icon list-icon-delete"><i></i></el-button> -->
                 <el-button type="text" @click="gotoDetail(scope.row,'view')" title="查看" class="table-icon list-icon-look"><i></i></el-button>
-                <el-button v-if="scope.row.createUserId == $store.state.userLoginInfo.userId && (scope.row.status == '1' || scope.row.status == '3')" type="text" @click="creatContract('edit',scope.row.pkSeqNo)" title="续签" class="table-icon list-icon-declare"><i></i></el-button>
-                 <el-button v-if="scope.row.createUserId == $store.state.userLoginInfo.userId && (scope.row.status == '1' || scope.row.status == '2')" type="text" @click="creatContract('conedit',scope.row.pkSeqNo)" title="编辑" class="table-icon list-icon-edit"><i></i></el-button>
+                <el-button v-if="scope.row.createUserId == $store.state.userLoginInfo.userId && (scope.row.status == '1' || scope.row.status == '3')" type="text" @click="creatContract('edit',scope.row.pkSeqNo, '续签')" title="续签" class="table-icon list-icon-declare"><i></i></el-button>
+                 <el-button v-if="scope.row.createUserId == $store.state.userLoginInfo.userId && (scope.row.status == '1' || scope.row.status == '2')" type="text" @click="creatContract('conedit',scope.row.pkSeqNo, '编辑')" title="编辑" class="table-icon list-icon-edit"><i></i></el-button>
                 <el-button v-if="scope.row.createUserId == $store.state.userLoginInfo.userId && (scope.row.status == '1' || scope.row.status == '2')" type="text" @click="deleteContract(scope.row)" title="删除" class="table-icon list-icon-delete"><i></i></el-button>
               </div>
             </template>
@@ -213,6 +231,19 @@ export default {
     search () {
       this.queryTablelist(this.$store.state.pagination)
     },
+    // 处理个人或海关字段显示
+    propInfo (row, hasValue, type) {
+      if (hasValue) return hasValue
+      if (type === 1) { // 个人
+        if (!row.payName || !row.payCard) return ''
+        let beforeTxt = row.payCard.substr(0, 6)
+        let endTxt = row.payCard.substr(-4, 4)
+        return row.payName + beforeTxt + '********' + endTxt
+      }
+      if (type === 2) { // 海关
+        return row.plcCuscd + '-' + row.plcCuscdValue
+      }
+    },
     // 查询列表
     queryTablelist (pagination) {
       this.QueryForm.contractBeginDate = util.dateFormat(this.dates[0], 'yyyy-MM-dd')
@@ -266,12 +297,14 @@ export default {
       })
     },
     // 创建合同
-    creatContract (type, value) {
+    creatContract (type, value, title) {
       this.$router.push({
         name: 'contract-add',
         params: {
           flag: type,
-          pkSeqNo: value
+          pkSeqNo: value,
+          setTitle: title + '合同-' + value,
+          setId: 'contract-add' + type + value
         }
       })
     },

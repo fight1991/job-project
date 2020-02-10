@@ -41,8 +41,8 @@ Vue.prototype.messageTips = (message, type = 'warning') => {
     Vue.prototype.$message({
       dangerouslyUseHTMLString: true,
       message: message,
-      customClass: `messagep-tips-${type}`,
-      iconClass: `tips-icon-${type}`,
+      customClass: `list-icon-warning-tips`,
+      iconClass: `list-icon-warning-tips`,
       type: type
     })
   } else {

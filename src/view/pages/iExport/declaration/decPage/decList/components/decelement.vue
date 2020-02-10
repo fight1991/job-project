@@ -352,13 +352,15 @@ export default {
       //  else if (enti.element === 'CAS') {
       //   this.rules[a + ''] = [{validator: this.casCheck, trigger: 'blur'}]
       // }
-      if (enti.element === 'GTIN') {
-        this.rules[a + ''] = [{validator: this.gtinCheck, trigger: 'blur'}]
-      } else if (enti.elementNull === '1') {
+      if (enti.elementNull === '1') {
         this.rules[a + ''] = [{validator: this.reqdatacheck, message: '不能为空', trigger: 'blur'}]
         this.requireInput.push(true)
       } else {
         this.requireInput.push(false)
+      }
+      if (enti.element === 'GTIN') {
+        this.rules[a + ''] = this.rules[a + ''] ? this.rules[a + ''] : []
+        this.rules[a + ''] = [...this.rules[a + ''], {validator: this.gtinCheck, trigger: 'blur'}]
       }
     }
     // 初始化 gMode 和 申报要素

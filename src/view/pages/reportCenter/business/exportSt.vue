@@ -123,6 +123,15 @@
                 </el-autocomplete>
               </el-form-item>
             </el-col>
+            <el-col :md="12" :lg="6">
+              <el-form-item size="mini" label="有无登账">
+                <el-select v-model="QueryForm.outBill" filterable>
+                  <el-option key="all" label="全部" value=""></el-option>
+                  <el-option key="1" label="已登账" value="1"></el-option>
+                  <el-option key="2" label="未登账" value="0"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row style="text-align:center;">
             <el-button size="mini" type="primary" @click="search()">统计</el-button>
@@ -158,6 +167,12 @@
               <el-table-column label="委托客户" min-width="210" prop="company" align="left" v-if="thList.company.value"></el-table-column>
               <el-table-column label="客户业务号" min-width="120" prop="ref1" align="left" v-if="thList.ref1.value"></el-table-column>
               <el-table-column label="海关编号" min-width="160" prop="entryId" align="center" v-if="thList.entryId.value"></el-table-column>
+              <el-table-column label="有无登账" min-width="100" prop="outBill" align="center" v-if="thList.outBill.value">
+                <template slot-scope="scope">
+                  <el-link type="primary" v-if="scope.row.outBill===1" @click="goToExpense(scope.row)">已登账</el-link>
+                  <span class="unRegister" v-else>未登账</span>
+                </template>
+              </el-table-column>
               <el-table-column label="境内收发货人" min-width="210" prop="tradeName" align="left" v-if="thList.tradeName.value"></el-table-column>
               <el-table-column label="境外收发货人" min-width="210" prop="overseasConsigneeEname" align="left" v-if="thList.overseasConsigneeEname.value"></el-table-column>
               <el-table-column label="生产销售单位" min-width="210" prop="ownerName" align="left" v-if="thList.ownerName.value"></el-table-column>
@@ -243,6 +258,7 @@ export default {
       vies: [], // 监管方式
       selectGoodsName: [],
       QueryForm: {
+        outBill: '',
         declTrnrel: '0',
         dateFlag: 'DAY',
         startDate: '',
@@ -550,6 +566,9 @@ export default {
     compareFieldList (orig, compare) {
       if (orig.length === compare.length) {
         for (let i in orig) {
+          if (!compare[i]) {
+            return false
+          }
           if (orig[i].fieldName !== compare[i].fieldName) {
             return false
           }
@@ -571,6 +590,21 @@ export default {
     // 关闭弹窗
     handleClose () {
       this.downloadVisable = false
+    },
+    // 跳转到财务费用项详情
+    goToExpense (row) {
+      let {href} = this.$router.resolve({
+        name: 'expense-detail',
+        query: {
+          type: 'look',
+          iEFlag: row.iEFlag === 'I' ? 0 : row.iEFlag === 'E' ? 1 : 2,
+          expenseBillId: row.feePid,
+          businessType: 1,
+          setTitle: '台账详情',
+          setId: 'expense-detail' + 'look' + row.feePid
+        }
+      })
+      window.open(href, '_blank')
     }
   }
 }
@@ -603,5 +637,8 @@ export default {
   .sys-fr{
     float: none;
   }
+}
+.unRegister {
+  color: #999;
 }
 </style>
