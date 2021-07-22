@@ -20,7 +20,7 @@
     "qrcodejs2": "0.0.2",
     "vue-baidu-map": "^0.21.20",
     "webpack-spritesmith": "^1.0.2",
-    "xlsx": "^0.15.1"
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.5",
